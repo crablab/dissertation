@@ -1,9 +1,11 @@
 ---
-title: "Project Proposal"
+title: "Project Plan"
 author: "Hugh Wells - 864564"
 date: "11th of September 2019"
 papersize: a4
 geometry: margin=3cm
+bibliography: project_plan.bib
+csl: 
 ---
 
 # Abstract
@@ -17,7 +19,7 @@ The aim of this research is to investigate existing attendance monitoring soluti
 
 The system will need to be user friendly and satisfy Royal Holloway's requirements whilst also not becoming burdensome on lecturers, students and administrative staff. 
 
-In 2003 Jones and Rickenbacker applied for a patent relating to an attendance monitoring system for employers. 
+In 2003 Jones and Rickenbacker applied for a patent relating to an attendance monitoring system for employers.[@jones_attendance_2003]
 
 # First Term Milestones 
 ## Reports
