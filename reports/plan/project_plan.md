@@ -5,7 +5,7 @@ date: "11th of September 2019"
 papersize: a4
 geometry: margin=3cm
 bibliography: project_plan.bib
-csl: 
+csl: ieee.csl
 ---
 
 # Abstract
@@ -15,11 +15,36 @@ Royal Holloway keeps track of attendance in lectures both to ensure that student
 
 In the past attendance has been tracked using signatures on registers. More recently, due to the lack of scalability of this former approach, a system of clickers has been employed. This latter system has proved to be non-optimal and insecure. 
 
-The aim of this research is to investigate existing attendance monitoring solutions and existing academic research into the problem to determine a more optimal solution for Royal Holloway. An MVP (Minimum Viable Product) will be built to test assumptions and demonstrate the core ideas of the proposed solution. 
+The aim of this research is to investigate existing attendance monitoring solutions and existing academic research into the problem to determine a more optimal solution for Royal Holloway. An MVP (Minimum Viable Product) will be built to test assumptions and demonstrate the core ideas of the proposed solution. The system will need to be user friendly and satisfy Royal Holloway's requirements whilst also not becoming burdensome on lecturers, students and administrative staff. 
 
-The system will need to be user friendly and satisfy Royal Holloway's requirements whilst also not becoming burdensome on lecturers, students and administrative staff. 
+The signed registers as in Figure 1 <!-- TODO --> consist of a dossier of pages circulated throughout the class during a lecture. These pages are printed in advance by the departmental office based on the course registration list subsequent timetables. The two columns are reserved for the printed student name and their signature which is added during the lecture as proof of their attendance. The registers are collected by the lecturer at the end of a session, certified and returned to the office where they are analysed. 
 
-@jones_attendance_2003 applied for a patent relating to an attendance monitoring system for employers.
+Several complications have arisen with this system. Some lectures are big enough that at least two registers are required for them to circulate throughout the session and avoid a rush to sign at the end of a lecture - this of course creates added complication as to where the register needs to be passed next. It then also requires at least double the effort in correlating and combining the signatures by the administrative staff and there is no guarantee that both sections will remain together! 
+
+Of course, there are rather more obvious issues such as the environmental impact of reams of paper each day and forging of signatures. {insert research about forgeries and how they are detected, and how often}. 
+
+For the 2018 intake of first year undergraduates it was decided that due to the class size, paper registers were infeasible. The clicker systems was proposed and developed. This uses a Turning Technologies "Response Card", <!-- TODO: image --> typically used to respond to interactive questionnaires as part of a slideshow. <!-- image maybe --> The device communicates with a base station connected to a computer via USB (Universal Serial Bus) when a key option is pressed (eg. "1/A") and transmits the unique ID of the device and the key press. The message is acknowledged by the base station and the user is given visual affirmation on the device that their response was counted. The results are then stored in a semi-proprietary format attached to the slideshow which is decoded, processed and analysed by the department using a collection of scripts and custom software. 
+
+It may be obvious that entirely custom decoding and data processing is due to the device being used outside its intended purpose. Turing Technologies [-@noauthor_lcd_nodate] advertise its use purely as a device for polling students as they interact with a slideshow during a class. The device level data appears to have been intended to prevent duplication and to allow scoring across multiple questions. Several problems have been reported with processing the data saved by the slideshow; the most interesting of which relates to the unique identifies for each device which are a hexadecimal string. For certain combinations (eg. "100000"), the spreadsheet program used for data processing parses this as an integer and will "helpfully" rectify it to the exponential form, $\begin{equation} 1E^6 $\end{equation}. This then requires manual correction for each row affected. 
+
+However, this research stems from a much larger flaw the author discovered when reading a blog [@goodspeed_travis_2010] on a similar device by Turning Technologies. The blogger writes "It can be seen from the code that the 0x1A IRAM byte holds the channel number. That is, if 0x20 is stored at 0x1A, the radio will be configured to 2,432 MHz. The other configuration bytes reveal that the MAC addresses are 24 bits, the checksum is 16 bits, and the device broadcasts at maximum power sourced from a 16MHz crystal". Whilst this analysis might seem innocuous the crucial discovery made in that blog post is the entire register is sent directly to the radio chip - there is no encryption. As stated later on "...packets could be broadcast by a reprogrammed Clicker or NHBadge to make a student in virtual attendance..." which is a very dangerous for a device intended to be used in Computer Science classes! 
+
+@goodspeed_travis_2010 concentrates on the earlier and less advanced "Response Card" which does not have an LCD screen, as opposed to the device in Figure 1. His work was referenced and expanded in another blog by @killian_turning_2012 for which the code (now no longer directly available) was modified and re-worked by @mooney_nickmooney/turning-clicker_2019. This software emulates the base station connected to the computer and outputs the results:
+
+```{.c++ .numberLines startFrom="89"}
+Serial.print(F("incoming: "));
+for (int i = 0; i < BUFSIZE; i++) {
+    printf("%02x", incomingData[i]);
+}
+printf(" --> %c", incomingData[ADDR_WIDTH]);
+Serial.println();
+```
+
+In order to produce a working proof of concept attack on the attendance system I will first verify the @mooney_nickmooney/turning-clicker_2019 work with my personal clicker before developing software on another Arduino to work with the emulated base station to spoof multiple clickers on demand. I will then test my attack on an actual base station to prove the results of the sign in slideshow can still be processed by the department. 
+
+<!-- Not sure where this is going -->
+
+@jones_attendance_2003 applied for a patent relating to an attendance monitoring system for employers. They write "While the invention is particularly directed to the art of attendance monitoring in a paid labor environment, and will be thus described with specific reference thereto, it will be appreciated that the invention may have usefulness in other fields and applications". This is particularly important to note as attendance monitoring and timekeeping solutions have existed in industry for some time, indeed the first recognized patent for a mechanical device using punch cards to track employee hours was made in 1901 [@bundy_workmans_1901]. When further considering @jones_attendance_2003 they describe a system containing "...instant Visual representation of an employee's daily attendance (including that for the present day), attendance history..." which coupled with "
 
 # First Term Milestones 
 ## Reports
