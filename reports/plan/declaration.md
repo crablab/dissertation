@@ -1,4 +1,4 @@
-\begin{declaration}
+\begin{titlepage}
     \begin{center}
 
         This report has been prepared on the basis of my own work. Where other published and unpublished source materials have been used, these have been acknowledged.
@@ -19,5 +19,7 @@
 
         Signature:
 
+        \vfill
+
     \end{center}
-\end{declaration}
+\begin{titlepage}

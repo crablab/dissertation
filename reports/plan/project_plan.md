@@ -1,9 +1,4 @@
----
-papersize: a4
-geometry: margin=3cm
-bibliography: project_plan.bib
-csl: ieee.csl
----
+<!-- TODO: fix inline citations -->
 
 # Abstract
 ### An overview of the aims and objectives for the project;
