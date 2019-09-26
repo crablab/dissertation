@@ -1,4 +1,5 @@
-<!-- TODO: fix inline citations -->
+<!-- TODO: fix inline citations --
+<!-- TODO: add acknowledgements -->
 
 # Abstract
 ### An overview of the aims and objectives for the project;
@@ -35,15 +36,42 @@ Serial.println();
 
 In order to produce a working proof of concept attack on the attendance system I will first verify the @mooney_nickmooney/turning-clicker_2019 work with my personal clicker before developing software on another Arduino to work with the emulated base station to spoof multiple clickers on demand. I will then test my attack on an actual base station to prove the results of the sign in slideshow can still be processed by the department. 
 
-I will then turn to developing a functional solution to the problem, solving the aforementioned issues. In doing so, it is helpful to look at the origins of attendance monitoring and prior inventions. @jones_attendance_2003 applied for a patent relating to an attendance monitoring system for employers. They write "While the invention is particularly directed to the art of attendance monitoring in a paid labor environment, and will be thus described with specific reference thereto, it will be appreciated that the invention may have usefulness in other fields and applications". This is particularly important to note as attendance monitoring and timekeeping solutions have existed in industry for some time, indeed the first recognized patent for a mechanical device using punch cards to track employee hours was made in 1901 [@bundy_workmans_1901]. When further considering @jones_attendance_2003 they describe a system containing "...instant Visual representation of an employee's daily attendance (including that for the present day), attendance history..." which coupled with "
+<!-- need to expand -->
+
+I will then turn to developing a functional solution to the problem, solving the aforementioned issues. In doing so, it is helpful to look at the origins of attendance monitoring and prior inventions. @jones_attendance_2003 applied for a patent relating to an attendance monitoring system for employers. They write "While the invention is particularly directed to the art of attendance monitoring in a paid labor environment, and will be thus described with specific reference thereto, it will be appreciated that the invention may have usefulness in other fields and applications". This is particularly important to note as attendance monitoring and timekeeping solutions have existed in industry for some time, indeed the first recognized patent for a mechanical device using punch cards to track employee hours was made in 1901 [@bundy_workmans_1901]. When further considering @jones_attendance_2003 they describe a system containing "...instant Visual representation of an employee's daily attendance (including that for the present day), attendance history..." which coupled with ""
 
 # First Term Milestones 
 ## Reports
+
+- **Week 3**
+A report detailing analysis of the existing clicker system compared to the register system exploring security and usability issues with both systems. 
+- **Week 5**
+A report looking at effective means for attendance monitoring covering existing solutions and technical methods to ensure trustworthiness and security.  This will cover analysis of technologies such as smartcards, magstripe, on-device authentication etc.  to present an overview of the landscape and potential cryptographic solutions.
+- **Week 6** 
+A report examining communication technologies between devices looking particularly at ease of use, ease of association (with a base station), security and flexibility (is custom hardware required). This will augment the previous weeks' report and provisionally look at the Bluetooth standards and Web Bluetooth API. 
+- **Week 12**
+A draft document utilizing findings from the aforementioned reports and proof of concept programs, describing the proposed overall solution, the user stories it solves as well as a full design description of the proposed system including UML. This will explain the design choices for the functional parts of the system, the technology chosen and any specific software or hardware requirements required - with justification. It is not expected it will expand in great depth into the User Experience and visual design elements.
+
 ## Programs
+- **Week 3**
+Accompanying the report, a proof of concept program demonstrating how to manipulate the clicker system using cheap, off the shelf hardware.
+- **Week 8** 
+A proof of concept program using the selected communication technology to allow a device to connect to another device and transmit data from one webpage to the other. 
+- **Week 10** 
+A proof of concept program of confirming attendance utilizing the previous communication proof of concept and the learnings from the report into cryptographic methods of verifying attendance. This will be a functional prototype, although it is not expected it will be very useable. 
 
 # Second Term Milestones 
 ## Reports 
+- **Week 18**
+Expansion of the draft specification of the system. Minor clarifications to the core functionality will be made but greater emphasis will be placed on the User Interface design and proposed design sketches. This will include references to relevant Human Computer Interaction concepts to justify the design decisions and resulting User Experience for both student and staff users. It is anticipated that the data analytics functionality of the final system will be limited (it is not the main goal of the project) but the extent of this will be documented. The document will be complete enough for the system to be built independently from the author.  
+- **Week 23** 
+A full draft of the complete project report encompassing all the previous reports, proof of concept programs and research (the interim project report).
+
 ## Programs
+- **Week 22**
+Substantially working system as laid out in the aforementioned documentation which is broadly complete and can be tested and demonstrated. Minor bugs are present, small features are incomplete and stretch goals are being planned. 
+- **Week 25**
+Complete and working system which has been tested against the specification. All required features have been implemented and some stretch goals have been achieved. 
 
 # Risk Assessment 
 
