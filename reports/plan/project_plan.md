@@ -1,4 +1,3 @@
-<!-- TODO: fix inline citations --
 <!-- TODO: add acknowledgements -->
 
 # Abstract
