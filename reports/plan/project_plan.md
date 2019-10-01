@@ -32,15 +32,19 @@ printf(" --> %c", incomingData[ADDR_WIDTH]);
 Serial.println();
 ```
 
-In order to produce a working proof of concept attack on the attendance system I will first verify the @mooney_nickmooney/turning-clicker_2019 work with my personal clicker before developing software on another Arduino to work with the emulated base station to spoof multiple clickers on demand. I will then test my attack on an actual base station to prove the results of the sign in slideshow can still be processed by the department. 
+In order to produce a working proof of concept attack on the attendance system I will first verify the @mooney_nickmooney/turning-clicker_2019 works with my personal clicker before developing software on another Arduino to work with the emulated base station to spoof multiple clickers on demand. I will then test my attack on an actual base station to prove the results of the sign in slideshow can still be processed by the department. 
 
-<!-- need to expand -->
+<!-- 
 
 I will then turn to developing a functional solution to the problem, solving the aforementioned issues. In doing so, it is helpful to look at the origins of attendance monitoring and prior inventions. @jones_attendance_2003 applied for a patent relating to an attendance monitoring system for employers. They write "While the invention is particularly directed to the art of attendance monitoring in a paid labor environment, and will be thus described with specific reference thereto, it will be appreciated that the invention may have usefulness in other fields and applications". This is particularly important to note as attendance monitoring and timekeeping solutions have existed in industry for some time, indeed the first recognized patent for a mechanical device using punch cards to track employee hours was made in 1901 [@bundy_workmans_1901]. When further considering @jones_attendance_2003 they describe a system containing "...instant Visual representation of an employee's daily attendance (including that for the present day), attendance history..." which coupled with ""
+
+-->
 
 # First Term Milestones 
 ## Reports
 
+- **Week 3**
+A short history of attendance monitoring and the solutions that have been proposed and implemented for various practical purposes. 
 - **Week 3**
 A report detailing analysis of the existing clicker system compared to the register system exploring security and usability issues with both systems. 
 - **Week 5**
