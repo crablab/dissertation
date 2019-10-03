@@ -16,13 +16,13 @@ It is therefore clear that a more streamlined, automated and secure system is a 
 
 # Introduction
 
-The signed registers as in Figure 1  consist of a dossier of pages circulated throughout the class during a lecture. These pages are printed in advance by the departmental office based on the course registration list subsequent timetables. The two columns are reserved for the printed student name and their signature which is added during the lecture as proof of their attendance. The registers are collected by the lecturer at the end of a session, certified and returned to the office where they are analysed. 
+The signed registers, as in Figure 1, consist of a dossier of pages circulated throughout the class during a lecture. These pages are printed in advance by the departmental office based on the course registration list and subsequent timetables. The four columns are reserved for the printed student ID number, printed student name and their signature which is added during the lecture as proof of their attendance. The registers are collected by the lecturer at the end of a session, certified and returned to the office where they are analysed. 
 
 ![A redacted sign in sheet for a lecture](assets/figure1.jpg)
 
-Several complications have arisen with this system. Some lectures are big enough that at least two registers are required for them to circulate throughout the session and avoid a rush to sign at the end of a lecture - this of course creates added complication as to where the register needs to be passed next. It then also requires at least double the effort in correlating and combining the signatures by the administrative staff and there is no guarantee that both sections will remain together! 
+Several complications have arisen with this system. Some lectures are big enough that at least two registers are required for them to circulate throughout the session and avoid a rush to sign at the end of a lecture - this of course creates added complication as to where the register needs to be passed next. It then also requires at least double the effort in correlating and combining the signatures by the administrative staff and there is no guarantee that both sections will remain together in transit!
 
-Of course, there are rather more obvious issues such as the environmental impact of reams of paper each day and forging of signatures. 
+Of course, there are rather more obvious issues such as the environmental impact of reams of paper each day and forging of signatures; the latter is explicitly mentioned in the departmental handbook "You must not sign the attendance register for anyone else, or allow someone else to sign the register on your behalf...These behaviours are fraudulent and will result in disciplinary action being taken." [@royal_holloway_department_of_computer_science_department_2018]. 
 
 For the 2018 intake of first year undergraduates it was decided that due to the class size, paper registers were infeasible. The clicker systems was proposed and developed. This uses a Turning Technologies "Response Card" (Figure 2) typically used to respond to interactive questionnaires as part of a slideshow. The device communicates with a base station connected to a computer via USB (Universal Serial Bus) when a key option is pressed (eg. "1/A") and transmits the unique ID of the device and the key press. The message is acknowledged by the base station and the user is given visual affirmation on the device that their response was counted. The results are then stored in a semi-proprietary format attached to the slideshow which is decoded, processed and analysed by the department using a collection of scripts, Excel spreadsheets and custom software. 
 
@@ -33,7 +33,7 @@ This then requires manual correction for each row affected.
 
 However, this research stems from a much larger flaw the author discovered when reading a blog [@goodspeed_travis_2010] on a similar device by Turning Technologies. The blogger writes "It can be seen from the code that the 0x1A IRAM byte holds the channel number. That is, if 0x20 is stored at 0x1A, the radio will be configured to 2,432 MHz. The other configuration bytes reveal that the MAC addresses are 24 bits, the checksum is 16 bits, and the device broadcasts at maximum power sourced from a 16MHz crystal". Whilst this analysis might seem innocuous the crucial discovery made in that blog post is the entire register is sent directly to the radio chip - there is no encryption. As stated later on "...packets could be broadcast by a reprogrammed Clicker or NHBadge to make a student in virtual attendance..." which is a very dangerous for a device intended to be used in Computer Science classes! 
 
-@goodspeed_travis_2010 concentrates on the earlier and less advanced "Response Card" which does not have an LCD screen, as opposed to the device in Figure 1. His work was referenced and expanded in another blog by @killian_turning_2012 for which the code (now no longer directly available) was modified and re-worked by @mooney_nickmooney/turning-clicker_2019. This software emulates the base station connected to the computer and outputs the results:
+@goodspeed_travis_2010 concentrates on the earlier and less advanced "Response Card" which does not have an LCD screen, as opposed to the device in Figure 1. Their work was referenced and expanded in another blog by @killian_turning_2012 for which the code (now no longer directly available) was modified and re-worked by @mooney_nickmooney/turning-clicker_2019. This software emulates the base station connected to the computer and outputs the results:
 
 ``` {.numberLines startFrom="89"}
 Serial.print(F("incoming: "));
@@ -44,7 +44,7 @@ printf(" --> %c", incomingData[ADDR_WIDTH]);
 Serial.println();
 ```
 
-In order to produce a working proof of concept attack on the attendance system I will first verify the @mooney_nickmooney/turning-clicker_2019 works with my personal clicker before developing software on another Arduino to work with the emulated base station to spoof multiple clickers on demand. I will then test my attack on an actual base station to prove the results of the sign in slideshow can still be processed by the department. 
+In order to produce a working proof of concept attack on the attendance system I will first verify that @mooney_nickmooney/turning-clicker_2019 works with my personal clicker before developing software on another Arduino to work with the emulated base station to spoof multiple clickers on demand. I will then test my attack on an actual base station to prove the results of the sign in slideshow can still be processed by the department. 
 
 <!-- 
 
@@ -67,7 +67,7 @@ A report looking at effective means for attendance monitoring covering existing 
 - **Week 6** 
 A report examining communication technologies between devices looking particularly at ease of use, ease of association (with a base station), security and flexibility (is custom hardware required). This will augment the previous weeks' report and provisionally look at the Bluetooth standards and Web Bluetooth API. 
 - **Week 12**
-A draft document utilizing findings from the aforementioned reports and proof of concept programs, describing the proposed overall solution, the user stories it solves as well as a full design description of the proposed system including UML. This will explain the design choices for the functional parts of the system, the technology chosen and any specific software or hardware requirements required - with justification. It is not expected it will expand in great depth into the User Experience and visual design elements.
+A draft document utilizing findings from the aforementioned reports and proof of concept programs describing the proposed overall solution, the user stories it solves as well as a full design description of the proposed system including UML. This will explain the design choices for the functional parts of the system, the technology chosen and any specific software or hardware requirements required - with justification. It is not expected it will expand in great depth into the User Experience and visual design elements.
 
 ## Programs
 - **Week 3**
@@ -99,7 +99,7 @@ Complete and working system which has been tested against the specification. All
 - **Likelihood:** Possible
 - **Impact:** Medium 
 
-Previously in the project proposal it was stated that the Web Bluetooth API would be used. I have decided to carry out additional research into the various communications technologies available to determine the most appropriate for this project. It is possible that there will be no good solution for direct device to device communication (this is intended to provide the "presence" factor of the authentication) in which case a more traditional challenge-response protocol with rotating codes displayed to students, may be appropriate. This reduces security but the ultimate aim is for this to be possible to implement. It is not envisioned this will be a "showstopper", but it would require additional research and analysis to determine an appropriate way forward. 
+Previously in the project proposal it was stated that the Web Bluetooth API would be used. I have decided to carry out additional research into the various communications technologies available to determine the most appropriate for this project. It is possible that there will be no good solution for direct device to device communication (this is intended to provide the "presence" factor of the authentication) in which case a more traditional challenge-response protocol with rotating codes displayed to students, may be appropriate. This reduces security but the ultimate aim is for this to be practical to implement. It is not envisioned this will be a "showstopper", but it would require additional research and analysis to determine an appropriate way forward. 
 
 ### Analysis of clicker system
 - **Likelihood:** Unlikely
@@ -120,7 +120,10 @@ There are always additional risks relating to slipping deadlines, general time m
 
 # Acknowledgements 
 
-Thanks to @tom_pollard_template_2016 for the front cover template which I have adapted and {reference} for the Gantt chart example in \LaTeX.
+Thanks to @tom_pollard_template_2016 for the front cover template which I have adapted and "corentin" for the Gantt chart example in \LaTeX [@noauthor_pgfgantt_nodate].
+
+\pagebreak 
+\onecolumn 
 
 # Bibiography 
 
