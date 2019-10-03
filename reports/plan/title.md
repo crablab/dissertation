@@ -4,7 +4,9 @@
         \vspace*{2.5cm}
         
         \huge
-        TBC
+        An investigation into attendance monitoring systems 
+
+        \subsubsection[]{Working Title}
         
         \vspace{1.5cm}
         
