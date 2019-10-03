@@ -10,13 +10,17 @@ The aim of this research is to investigate existing attendance monitoring soluti
 
 The signed registers as in Figure 1 <!-- TODO --> consist of a dossier of pages circulated throughout the class during a lecture. These pages are printed in advance by the departmental office based on the course registration list subsequent timetables. The two columns are reserved for the printed student name and their signature which is added during the lecture as proof of their attendance. The registers are collected by the lecturer at the end of a session, certified and returned to the office where they are analysed. 
 
+![A redacted sign in sheet for a lecture](assets/figure1.jpg)
+
 Several complications have arisen with this system. Some lectures are big enough that at least two registers are required for them to circulate throughout the session and avoid a rush to sign at the end of a lecture - this of course creates added complication as to where the register needs to be passed next. It then also requires at least double the effort in correlating and combining the signatures by the administrative staff and there is no guarantee that both sections will remain together! 
 
-Of course, there are rather more obvious issues such as the environmental impact of reams of paper each day and forging of signatures. {insert research about forgeries and how they are detected, and how often}. 
+Of course, there are rather more obvious issues such as the environmental impact of reams of paper each day and forging of signatures. 
 
-For the 2018 intake of first year undergraduates it was decided that due to the class size, paper registers were infeasible. The clicker systems was proposed and developed. This uses a Turning Technologies "Response Card", <!-- TODO: image --> typically used to respond to interactive questionnaires as part of a slideshow. <!-- TODO: image maybe --> The device communicates with a base station connected to a computer via USB (Universal Serial Bus) when a key option is pressed (eg. "1/A") and transmits the unique ID of the device and the key press. The message is acknowledged by the base station and the user is given visual affirmation on the device that their response was counted. The results are then stored in a semi-proprietary format attached to the slideshow which is decoded, processed and analysed by the department using a collection of scripts and custom software. 
+For the 2018 intake of first year undergraduates it was decided that due to the class size, paper registers were infeasible. The clicker systems was proposed and developed. This uses a Turning Technologies "Response Card" (Figure 2) typically used to respond to interactive questionnaires as part of a slideshow. The device communicates with a base station connected to a computer via USB (Universal Serial Bus) when a key option is pressed (eg. "1/A") and transmits the unique ID of the device and the key press. The message is acknowledged by the base station and the user is given visual affirmation on the device that their response was counted. The results are then stored in a semi-proprietary format attached to the slideshow which is decoded, processed and analysed by the department using a collection of scripts, Excel spreadsheets and custom software. 
 
-It may be obvious that entirely custom decoding and data processing is due to the device being used outside its intended purpose. Turing Technologies [-@noauthor_lcd_nodate] advertise its use purely as a device for polling students as they interact with a slideshow during a class. The device level data appears to have been intended to prevent duplication and to allow scoring across multiple questions. Several problems have been reported with processing the data saved by the slideshow; the most interesting of which relates to the unique identifies for each device which are a hexadecimal string. For certain combinations (eg. "100000"), the spreadsheet program used for data processing parses this as an integer and will "helpfully" rectify it to the exponential form, $$ 1E^6 $$ 
+![A Turning Technologies "Response Card"](assets/figure2.jpg)
+
+The entirely custom decoding and data processing is due to the device being used outside its intended purpose. Turing Technologies [-@noauthor_lcd_nodate] advertise its use purely as a device for polling students as they interact with a slideshow during a class. The device level data appears to have been intended to prevent duplication and to allow scoring across multiple questions. Several problems have been reported with processing the data saved by the slideshow; the most interesting of which relates to the unique identifies for each device which are a hexadecimal string. For certain combinations (eg. "100000"), the spreadsheet program used for data processing parses this as an integer and will "helpfully" rectify it to the exponential form, $$ 1E^6 $$ 
 This then requires manual correction for each row affected. 
 
 However, this research stems from a much larger flaw the author discovered when reading a blog [@goodspeed_travis_2010] on a similar device by Turning Technologies. The blogger writes "It can be seen from the code that the 0x1A IRAM byte holds the channel number. That is, if 0x20 is stored at 0x1A, the radio will be configured to 2,432 MHz. The other configuration bytes reveal that the MAC addresses are 24 bits, the checksum is 16 bits, and the device broadcasts at maximum power sourced from a 16MHz crystal". Whilst this analysis might seem innocuous the crucial discovery made in that blog post is the entire register is sent directly to the radio chip - there is no encryption. As stated later on "...packets could be broadcast by a reprogrammed Clicker or NHBadge to make a student in virtual attendance..." which is a very dangerous for a device intended to be used in Computer Science classes! 
@@ -41,11 +45,14 @@ I will then turn to developing a functional solution to the problem, solving the
 -->
 
 # First Term Milestones 
+
+Please see Appendix 1 for a Gantt chart overview. 
+
 ## Reports
 
-- **Week 3**
+- **Week 3** 
 A short history of attendance monitoring and the solutions that have been proposed and implemented for various practical purposes. 
-- **Week 3**
+- **Week 3** 
 A report detailing analysis of the existing clicker system compared to the register system exploring security and usability issues with both systems. 
 - **Week 5**
 A report looking at effective means for attendance monitoring covering existing solutions and technical methods to ensure trustworthiness and security.  This will cover analysis of technologies such as smartcards, magstripe, on-device authentication etc.  to present an overview of the landscape and potential cryptographic solutions.
@@ -63,6 +70,9 @@ A proof of concept program using the selected communication technology to allow 
 A proof of concept program of confirming attendance utilizing the previous communication proof of concept and the learnings from the report into cryptographic methods of verifying attendance. This will be a functional prototype, although it is not expected it will be very useable. 
 
 # Second Term Milestones 
+
+Please see Appendix 1 for a Gantt chart overview. 
+
 ## Reports 
 - **Week 18**
 Expansion of the draft specification of the system. Minor clarifications to the core functionality will be made but greater emphasis will be placed on the User Interface design and proposed design sketches. This will include references to relevant Human Computer Interaction concepts to justify the design decisions and resulting User Experience for both student and staff users. It is anticipated that the data analytics functionality of the final system will be limited (it is not the main goal of the project) but the extent of this will be documented. The document will be complete enough for the system to be built independently from the author.  
@@ -72,7 +82,7 @@ A full draft of the complete project report encompassing all the previous report
 ## Programs
 - **Week 22**
 Substantially working system as laid out in the aforementioned documentation which is broadly complete and can be tested and demonstrated. Minor bugs are present, small features are incomplete and stretch goals are being planned. 
-- **Week 25**
+- **Week 24**
 Complete and working system which has been tested against the specification. All required features have been implemented and some stretch goals have been achieved. 
 
 # Key Risks
@@ -102,6 +112,12 @@ There are always additional risks relating to slipping deadlines, general time m
 
 # Acknowledgements 
 
-Thanks to @tom_pollard_template_2016 for the front cover template which I have adapted. 
+Thanks to @tom_pollard_template_2016 for the front cover template which I have adapted and {reference} for the Gantt chart example in \LaTeX.
 
 # Bibiography 
+
+Due to the nature of this project, available references on the subject are limited and will be confined to more general information security concepts as well as attendance monitoring. In this report the available references are provided by those who have investigated these devices beforehand. 
+
+---
+
+<div id="refs"></div>

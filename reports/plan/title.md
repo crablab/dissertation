@@ -25,7 +25,7 @@
 
         \vspace{0.8cm}
 
-        \includegraphics[width=0.4\textwidth]{logo.pdf}
+        \includegraphics[width=0.4\textwidth]{assets/logo.pdf}
         
         \normalsize
         Department of Computer Science\\

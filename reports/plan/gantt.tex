@@ -1,0 +1,42 @@
+\begin{figure}[h]
+    \onecolumn
+    \appendix
+    \appendixpage
+    \addappheadtotoc 
+
+    \subsubsection[]{Appendix 1} 
+
+    \scalebox{.8}{
+    \begin{ganttchart}[vgrid, hgrid]{1}{24}
+        \gantttitle{Term 1}{12} 
+        \gantttitle{Term 2}{12}\\
+        \gantttitlelist{1,...,24}{1}\\
+
+        %First Group
+        \ganttgroup{Term 1 Reports}{1}{12} \\
+        \ganttbar{History of attendence monitoring}{1}{3} \\
+        \ganttbar{Analysis of clicker system}{1}{3} \\
+        \ganttbar{Technical means of authenticating attendence}{3}{5} \\
+        \ganttbar{Technical means of device comunication}{3}{6} \\
+        \ganttbar{Interim Project Report}{6}{12} \\
+
+        %Second Group
+        \ganttgroup{Term 1 Programs}{1}{12} \\
+        \ganttbar{Existing Clicker Comprimise POC}{1}{3} \\
+        \ganttbar{Device Comunication POC}{3}{8} \\
+        \ganttbar{Authentication POC}{3}{10}\\
+
+        %Third Group
+        \ganttgroup{Term 2 Reports}{13}{24} \\
+        \ganttbar{Updated interim report}{13}{18} \\
+        \ganttbar{Final report}{18}{24} \\
+        \ganttlink{elem11}{elem12}
+    
+        %Third Group
+        \ganttgroup{Term 2 Programs}{13}{24} \\
+        \ganttbar{Substantially complete final system}{13}{22} \\
+        \ganttbar{Complete final system}{22}{24} \\
+    \end{ganttchart}
+    }
+
+\end{figure}
