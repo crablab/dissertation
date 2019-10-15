@@ -23,7 +23,7 @@
  */
 
 #include <SPI.h>
-#include "RF24.h"
+#include <RF24.h>
 #include <printf.h>
 #include <FastCRC.h>
 #include <FastCRC_cpu.h>
