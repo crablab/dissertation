@@ -11,14 +11,17 @@ Adapted to remove MIDI logic
 import serial
 import serial.tools.list_ports
 import sys
-import re
-import subprocess
-import time
+import argparse
 
+
+parser = argparse.ArgumentParser(description='Base station emulation for Response Card')
+parser.add_argument('--verbose', action='store_true',
+                    help='Set logging verbosity')
 INPUT_LENGTH = 60
 INCOMING_RE = r"^incoming: (.{12}) --> (.)"
 
 if __name__ == "__main__":
+    args = parser.parse_args()
     ports = serial.tools.list_ports.comports()
     
     if len(ports) == 0:
@@ -35,5 +38,9 @@ if __name__ == "__main__":
         if port.inWaiting():
             from_board = port.read(INPUT_LENGTH)
             lines = from_board.split(b"\n")
+            decoded = []
             for line in lines:
-                print(line.decode("utf-8"))
+                line_decoded = line.decode("utf-8")
+                if(args.verbose):
+                    print(line_decoded)
+                decoded.append(line_decoded)
