@@ -33,7 +33,7 @@ FastCRC16 CRC16;
 byte incomingData[BUFSIZE];
 byte outgoingData[BUFSIZE];
 byte crcBuffer[BUFSIZE + 3];
-String readString;
+int counter = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -70,20 +70,38 @@ void loop() {
   // While the Serial connection is open
   while (Serial.available()) {
     // Get data from Serial until newline
-    readString = Serial.readStringUntil('\r');
-    
-    // Check does not exceed null-terminated buffer
-    if(readString.length() > BUFSIZE){
+    if(Serial.available() > 0 && counter != BUFSIZE){
+      char incoming = Serial.read();
+      Serial.print(incoming);
+      if(incoming == '\r'){
+        Serial.print("line break");
+      }
+      // If we got a line break and the radio is active
+      if (radio.available() && incoming == '\r') {
+        Serial.println("SENDING ALL THE DATAS");
+        // Do something with that address
+        incomingData[0] == 0xA0;
+        incomingData[1] == 0x80;
+        incomingData[2] == 0xF3;
+
+        quickWrite(0x06, incomingData);
+        // Reset buffer
+        memset(incomingData, 0, BUFSIZE);
+        counter = 0;
+        Serial.println(F("sent"));
+      } else {
+        // Otherwise, keep filling the buffer
+        incomingData[counter] = incoming;
+        counter++;
+      }
+      
+      // Allow data to perculate 
+      delay(3);
+    } else if (counter == BUFSIZE){
       Serial.println("overflow");
-      break;
-    } else if (radio.available()) {
-      // Do something with that address
-      readString.getBytes(incomingData, BUFSIZE);
-      quickWrite(0x06, incomingData);
-      // Reset buffers
-      readString = "";
+      // Reset
+      counter = 0;
       memset(incomingData, 0, BUFSIZE);
-      Serial.println(F("sent"));
     }
   }
 }
@@ -130,4 +148,3 @@ void quickWrite(byte b, uint8_t *address) {
   }
   radio.startListening();
 }
-
