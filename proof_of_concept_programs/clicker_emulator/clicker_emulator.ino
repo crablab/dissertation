@@ -80,9 +80,9 @@ void loop() {
       if (radio.available() && incoming == '\r') {
         Serial.println("SENDING ALL THE DATAS");
         // Do something with that address
-        incomingData[0] == 0xA0;
-        incomingData[1] == 0x80;
-        incomingData[2] == 0xF3;
+        incomingData[0] = 0xA0;
+        incomingData[1] = 0x80;
+        incomingData[2] = 0xF3;
 
         quickWrite(0x06, incomingData);
         // Reset buffer
@@ -94,9 +94,6 @@ void loop() {
         incomingData[counter] = incoming;
         counter++;
       }
-      
-      // Allow data to perculate 
-      delay(3);
     } else if (counter == BUFSIZE){
       Serial.println("overflow");
       // Reset
