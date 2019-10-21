@@ -73,13 +73,14 @@ void loop() {
     if(Serial.available() > 0 && counter != BUFSIZE){
       char incoming = Serial.read();
       Serial.print(incoming);
-      if(incoming == '\r'){
-        Serial.print("line break");
-      }
+
       // If we got a line break and the radio is active
       if (radio.available() && incoming == '\r') {
         Serial.println("SENDING ALL THE DATAS");
+        // Null terminate 
+        incomingData[BUFSIZE] = '\n';
         // Do something with that address
+
         incomingData[0] = 0xA0;
         incomingData[1] = 0x80;
         incomingData[2] = 0xF3;
@@ -90,8 +91,9 @@ void loop() {
         counter = 0;
         Serial.println(F("sent"));
       } else {
-        // Otherwise, keep filling the buffer
+        // Otherwise, keep filling the buffer 
         incomingData[counter] = incoming;
+        Serial.println(incomingData[counter], HEX);
         counter++;
       }
     } else if (counter == BUFSIZE){
