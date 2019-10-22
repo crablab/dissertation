@@ -31,12 +31,13 @@ def serial_read(sread):
         print(sread.readline())
 
 def serial_send():
-    if(input()):
-        # conn.write(str.encode("160"))
-        # conn.write(str.encode("160"))
-        # conn.write(str.encode("160"))
-        conn.write(str.encode("\r"))
-        print("sent data")
+    while True:
+        if(input() == "a"):
+            conn.write(str.encode("160"))
+            conn.write(str.encode("160"))
+            conn.write(str.encode("160"))
+            conn.write(str.encode("\r"))
+            print("sent data")
 
 if __name__ == "__main__":
     sread = ReadLine(conn)

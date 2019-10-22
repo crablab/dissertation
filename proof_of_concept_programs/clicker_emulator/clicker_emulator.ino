@@ -81,11 +81,11 @@ void loop() {
         incomingData[BUFSIZE] = '\n';
         // Do something with that address
 
-        incomingData[0] = 0xA0;
-        incomingData[1] = 0x80;
-        incomingData[2] = 0xF3;
+        crcBuffer[0] = 0xA0;
+        crcBuffer[1] = 0x80;
+        crcBuffer[2] = 0xF3;
 
-        quickWrite(0x06, incomingData);
+        quickWrite(0x06, baseAddress);
         // Reset buffer
         memset(incomingData, 0, BUFSIZE);
         counter = 0;
@@ -140,10 +140,8 @@ void quickWrite(byte b, uint8_t *address) {
   Serial.println();
 
   // Stop listening long enough to write our response
-  radio.stopListening();
   radio.openWritingPipe(address);
   for (int i = 0; i < OUTGOING_COPIES; i++) {
     radio.write(outgoingData, BUFSIZE);
   }
-  radio.startListening();
 }
