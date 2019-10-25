@@ -49,8 +49,40 @@ The pinout I used is as follows:
 | MISO | 7       | D12     |
 | SCK  | 5       | D13     |
 
+With the addition of a mini USB cable to connect the Arduino to your computer, the hardware setup is complete. It is important to note that the hardware required for the base station emulator is identical to that required for the clicker emulator. 
 
+## Installation
 
+The setup of the software environment on the computer is relatively simple and is based around the Arduino IDE which is available from: https://www.arduino.cc/en/main/software. It appears there is now an online version, but this has not been tested with this project. 
+
+Once the Arduino IDE is installed you should try flashing the Arduino with the example "blink" code, available from File \rightarrow Examples \rightarrow Basic. 
+
+Assuming you have installed the IDE correctly and have specified the serial port and Arduino type, you should be rewarded with a blinking status LED. 
+
+You can also compile and upload code from within other IDEs using plugins. VSCode has various plugins for this, setup of which is beyond the scope of this document. However, since it took me a while to discover this - it is important that you set up a VSCode Workspace so the Arduino Sketch file (containing running preferences such as the serial port, baud rate etc.) can be created and saved. Otherwise, you cannot upload any code. 
+
+To run the project code, two libraries are required - RF24 (a library to handle communication with the nRF24E1) and FastCRC (to calculate the CRC checksums). 
+For the former, Sparkfun have published a guide on installation the RF24 library into the correct folder in your filesystem: https://learn.sparkfun.com/tutorials/nrf24l01-transceiver-hookup-guide/arduino-code
+The FastCRC library is installed in a similar fashion.
+
+You should then be able to verify and upload the project code! If you get library errors, ensure the libraries have been imported correctly and the IDE shows them in the GUI. 
+
+It is also important to note that the baud rate used in the project is 115200 - without that set correctly it will not be possible to communicate with the Arduino via the IDE's serial console. 
+
+The Python scripts to manage serial communication with the Arduinos are designed to be run in Python3. No libraries not available via Pip are used, but what is installed by default varies per system so it is advised to try running the code and install any missing libraries as required. 
+
+### Frequent Issues
+
+`avrdude: stk500_getsync() attempt 1 of 10: not in sync: resp=0x00` 
+
+This error occurs when either:
+- The Arduino is disconnected or cannot be connected to: check the USB
+- The wrong Arduino type is selected: check the board configuration and the type of CPU used 
+
+`Cannot upload: device/resource busy`
+
+This occurs when the serial connection to the serial port is already in use. Ensure you don't have any serial consoles open, or any of the Python scripts running. 
+If that doesn't work, you may be specifying the wrong serial port. 
 
 # Acknowledgements 
 
