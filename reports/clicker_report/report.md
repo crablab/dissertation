@@ -12,8 +12,6 @@ Secondly, there is no encryption. As @goodspeed_travis_2010 writes "...it is cle
 
 CRC's are a method of error checking that are widely used in serial communications[@borrelli_ieee_2001]. Parity bits, which indicate whether the expected value is even or odd, have been commonly used to detect communication errors however, these suffer from two major flaws. Firstly, it is not possible for you to determine where the corruption has ocurred in a piece of data - it is (usually) not possible to repair the message and it has to be discarded and resent. Secondly, if two corruptions occur then the data may end up passing the parity check but still be invalid. Additional measures (such as length checking, strict processing validation etc.) can be included to reduce the risks of bad data being processed, but these remain significant flaws. 
 
-There is research into error correction based on the result of CRC checksums which... {TODO AS NEED PAPER}
-
 CRCs works using modulo arithmetic on some generated polynomials. The general formula to calculate a CRC is: 
 
 $CRC = remainder of \left[ M(x) \times \frac{ x^n }{ G(x) } \right]$
@@ -36,7 +34,7 @@ It is possible to use any Arduino and nRF24E1 breakout board for this project - 
 
 As always, this can be a somewhat complex operation and it did require consultation of not only the nRF24E1's advertised pin layout[@noauthor_1/2/3/5/10_nodate] but also a setup guide for a similar, but not identical product from Sparkfun [@noauthor_nrf24l01+_nodate].
 
-The pinout I used is as follows:
+The pinout I used is listed in Table {@tbl:table1}
 
 | Name | nRF24E1 | Arduino |
 |------|---------|---------|
@@ -49,13 +47,15 @@ The pinout I used is as follows:
 | MISO | 7       | D12     |
 | SCK  | 5       | D13     |
 
+Table: The chosen pinout. {#tbl:table1}
+
 With the addition of a mini USB cable to connect the Arduino to your computer, the hardware setup is complete. It is important to note that the hardware required for the base station emulator is identical to that required for the clicker emulator. 
 
 ## Installation
 
 The setup of the software environment on the computer is relatively simple and is based around the Arduino IDE which is available from: https://www.arduino.cc/en/main/software. It appears there is now an online version, but this has not been tested with this project. 
 
-Once the Arduino IDE is installed you should try flashing the Arduino with the example "blink" code, available from File \rightarrow Examples \rightarrow Basic. 
+Once the Arduino IDE is installed you should try flashing the Arduino with the example "blink" code, available from File $\rightarrow$ Examples $\rightarrow$ Basic. 
 
 Assuming you have installed the IDE correctly and have specified the serial port and Arduino type, you should be rewarded with a blinking status LED. 
 
@@ -83,6 +83,36 @@ This error occurs when either:
 
 This occurs when the serial connection to the serial port is already in use. Ensure you don't have any serial consoles open, or any of the Python scripts running. 
 If that doesn't work, you may be specifying the wrong serial port. 
+
+## Clicker Basestation
+
+The script to emulate the basestation of the clicker system is made up of two parts, the Arduino code and Python script. The former is essentially an unmodified version of the @mooney_nickmooney/turning-clicker_2019 file, which was developed a number of years ago. The interesting point here is that his work was developed on an entirely different device, and shows how widely this system has been deployed and the range of different devices available all using the same protocol. 
+The Arduino code listens for a transmission on the configured channel and then checks the CRC (discussed above). It then prints out the received packet to the serial console and returns the "accepted" message to the clicker. This doesn't really do anything except cause the clicker to flash a green LED instead of a red one (as it does without proper acknowledgement to a message). 
+The Python script is substantially modified from the original @mooney_nickmooney/turning-clicker_2019 code and provides a basic serial program to interact with the basestation emulator. It connects to the serial port and parses the aforementioned outputs, before saving them to a specified output file in a CSV format. Because of the way the serial printing is formatted, regex is required - the expression is the work of @mooney_nickmooney/turning-clicker_2019. 
+
+An example output from the Python script:
+```
+address_from,address_to,button
+a080f3,31e600,1
+a080f3,35a684,5
+a080f3,396708,9
+a080f3,396708,9
+a080f3,387729,8
+a08167,35459b,5
+a08167,35459b,5
+a08167,35459b,5
+a08167,35459b,5
+a08167,35459b,5
+a08167,35459b,5
+a08167,35459b,5
+a08167,35459b,5
+```
+
+As you can see, the from address (the clicker address), the to address (the hardcoded basestation address) and the button pressed are included. This is a significant improvement on the output from the current solution, I am led to believe. 
+
+The output on the serial console is shown in Figure 3. 
+
+![Clicker basestation serial console](assets/figure3.png)
 
 # Acknowledgements 
 
