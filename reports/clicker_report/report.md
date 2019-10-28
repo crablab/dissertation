@@ -115,6 +115,60 @@ The output on the serial console is shown in Figure 3.
 
 ![Clicker basestation serial console](assets/figure3.png)
 
+## Clicker emulator 
+
+The hardware for the emulation of a clicker is exactly the same as that required for a basestation - the difference is purely in the code and associated processing of data. My high level plan was: 
+
+- Modify Arduino script to send to the hardcoded basestation address
+- Modify Arduino script to take input of "sent from" addresses over serial 
+- Write a Python utility script to feed the Arduino with clicker addresses to emulate 
+
+I first decided to tackle getting addresses into the Arduino over a serial connection - it seems deceptively simple! I intially planned to use the `String` components of the Arduino `Serial` library - `Serial.readStringUntil`[@noauthor_arduino_nodate], for example. This had the advantage of avoiding having to worry about lower level buffer constructs and also allowed abstraction from having to handle reading from the Serial buffer until a certain point (end of string etc.). Sadly, this did not work for a few reasons. The addresses being sent are actually binary values, usually represented in hexadecimal, and the String library cannot deal with this raw data. The "until" also proved to be somewhat unreliable and would not terminate necessarily on a line feed. This may well have been the product of other issues, however. 
+
+If you cannot use the String abstraction, you have to handle raw `Chars` - these are individual bytes that you place into a buffer of suitable length. Arduinos use Harvard rather than Von Neumann CPU architectures so the data and system memory (RAM) are on different buses - this makes a buffer overflow exploit difficult, but not impossible. You do therefore need to be careful when handling buffers to ensure you do not deliberately overflow a buffer. 
+
+The basic code (encapsulated in a loop) is as follows:
+
+```
+if(Serial.available() > 0 && counter != BUFSIZE){
+    char incoming = Serial.read();
+
+    if (incoming == '\r') {
+        
+    } else {
+        incomingData[counter] = incoming;
+        counter++;
+    }
+}
+```
+
+- When the Serial port is available and the counter has not reached the buffer size
+    - Read a single character from the Serial port 
+    - If it is a `\r` (line feed) then handle that case
+    - Otherwise, place it in the buffer and increment the counter 
+
+This is all well and good but you need to get an address over the Serial connection in the first place! Sadly, you cannot just send `OxA0` - by doing so you are sending the literal ASCII codes for each individual char (eg. `A` = 65) you need to send the "hex values" for each byte, which is then a single char. One way to get a hex ASCII value is via `echo -ne "OxA0` which will print out the char you want. Sadly, when I sent this to the Arduino (using Screen) I ended up filling the buffer several times over with values that were completely unrelated. I still do not understand the cause of this issue - I suspect it may have been triggering some Screen escape codes. 
+
+I then moved to using a Python script which was more easily rerun. In order to both read and send data over the Serial connection I had two threads - one to receive data using code from StackOverflow (which works excellently) and another to send characters as required:
+
+```
+conn.write(str.encode("160"))
+conn.write(str.encode("160"))
+conn.write(str.encode("160"))
+conn.write(str.encode("\r"))
+```
+ 
+This more predictably populated the buffer at the other end, as shown in Figure 4. In the clicker basestation you can see one packet received - this is from other (presumably IoT) devices that use the same channel and addressing structure. You can also see the attempt to send data on the right with the various interesting echos back with different values to that which are sent, from the Arduino. The one outgoing packet shown to be sent was actually hardcoded and exposed another bug. 
+
+![Clicker basestation serial console on the left, clicker emulator Python Script on the right](assets/figure4.png)
+
+It turns out that although the outgoing packet is correctly formatted (when compared to incoming packets from a clicker as received by the emulator basestation) no packet is actually sent, or at least received at the other end. This is a fairly critical error and I think may stem from my misunderstanding over how the code works (which address is which). I have not yet resolved this and I may not - I am quickly going down a rabbit hole of ASCII encoding already. 
+
+## Conclusion 
+
+I have successfully implemented (using code from @mooney_nickmooney/turning-clicker_2019 file) a clicker basestation and associated Python script which I believe actually has a practical use, to replace the current PowerPoint slide system. 
+The emulation of the clickers themselves has proved more tricky and the adaptation of the code has been somewhat tricky - I am looking at how to resolve this but I think it will require rewriting a substantial portion of the original code. The encoding issue over serial is a problem, but not a huge disaster at the moment. I am unlikely to expend significant effort on this now, until I can guarantee I can actually send packets between the two Arduinos. 
+
 # Acknowledgements 
 
 Thanks to @tom_pollard_template_2016 for the front cover template which I have adapted, @marco_torchiano_how_2015 for the Pandoc table preamble and @cohen_third_2013 for the Final Year Project guide and suggested layouts. 
