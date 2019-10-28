@@ -142,7 +142,7 @@ if(Serial.available() > 0 && counter != BUFSIZE){
 }
 ```
 
-- When the Serial port is available and the counter has not reached the buffer size
+When the Serial port is available and the counter has not reached the buffer size
     - Read a single character from the Serial port 
     - If it is a `\r` (line feed) then handle that case
     - Otherwise, place it in the buffer and increment the counter 
@@ -166,8 +166,8 @@ It turns out that although the outgoing packet is correctly formatted (when comp
 
 ## Conclusion 
 
-I have successfully implemented (using code from @mooney_nickmooney/turning-clicker_2019 file) a clicker basestation and associated Python script which I believe actually has a practical use, to replace the current PowerPoint slide system. 
-The emulation of the clickers themselves has proved more tricky and the adaptation of the code has been somewhat tricky - I am looking at how to resolve this but I think it will require rewriting a substantial portion of the original code. The encoding issue over serial is a problem, but not a huge disaster at the moment. I am unlikely to expend significant effort on this now, until I can guarantee I can actually send packets between the two Arduinos. 
+I have successfully implemented (using code from @mooney_nickmooney/turning-clicker_2019) a clicker basestation and associated Python script which I believe actually has a practical use, to replace the current PowerPoint slide system. 
+The emulation of the clickers themselves has proved more tricky and the adaptation of the code has been difficult - I am looking at how to resolve this but I think it will require rewriting a substantial portion of the original code. The encoding issue over serial is a problem, but not a huge disaster at the moment. I am unlikely to expend significant effort on this now, until I can guarantee I can actually send packets between the two Arduinos. 
 
 # Acknowledgements 
 
