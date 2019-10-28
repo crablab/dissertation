@@ -76,6 +76,7 @@ The Python scripts to manage serial communication with the Arduinos are designed
 `avrdude: stk500_getsync() attempt 1 of 10: not in sync: resp=0x00` 
 
 This error occurs when either:
+
 - The Arduino is disconnected or cannot be connected to: check the USB
 - The wrong Arduino type is selected: check the board configuration and the type of CPU used 
 
