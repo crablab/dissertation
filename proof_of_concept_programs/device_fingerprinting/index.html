@@ -2,16 +2,18 @@
 
 <head>
     <title>Device Fingerprinting</title>
-
+    <script type="text/javascript" src="fingerprint2.js"></script>
+    <script src="client.min.js"></script>
 </head>
 
 <body>
-    <h1>Your fingerprint Fingerprint2 is: <code id="fp"></code></h1>
+    <h1>Your Fingerprint2 is: <code id="fp1"></code></h1>
+    <h1>Your ClientJS fingerprint is: <code id="fp2"></code></h1>
 </body>
 
-<script type="text/javascript" src="fingerprint2.js"></script>
 <script>
     setTimeout(function() {
+        // Fingerprint 2
         var options = {
             excludes: {
                 userAgent: true,
@@ -24,8 +26,16 @@
             })
             var murmur = Fingerprint2.x64hash128(values.join(''), 31)
 
-            document.getElementById("fp").innerHTML = murmur;
+            document.getElementById("fp1").innerHTML = murmur;
         })
+
+        // ClientJS
+        var client = new ClientJS();
+
+        var fingerprint = client.getFingerprint();
+
+        document.getElementById("fp2").innerHTML = fingerprint;
+
     }, 500)
 </script>
 
