@@ -1,0 +1,32 @@
+<html>
+
+<head>
+    <title>Device Fingerprinting</title>
+
+</head>
+
+<body>
+    <h1>Your fingerprint Fingerprint2 is: <code id="fp"></code></h1>
+</body>
+
+<script type="text/javascript" src="fingerprint2.js"></script>
+<script>
+    setTimeout(function() {
+        var options = {
+            excludes: {
+                userAgent: true,
+                language: true
+            }
+        }
+        Fingerprint2.get(options, function(components) {
+            var values = components.map(function(component) {
+                return component.value
+            })
+            var murmur = Fingerprint2.x64hash128(values.join(''), 31)
+
+            document.getElementById("fp").innerHTML = murmur;
+        })
+    }, 500)
+</script>
+
+</html>
