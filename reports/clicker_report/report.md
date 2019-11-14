@@ -1,4 +1,10 @@
-# Investigation into Turning Point Clickers
+---
+title: "Investigation into Turning Point Clickers"
+author: "Hugh Wells - 864564"
+date: "28th October 2019"
+papersize: a4
+geometry: margin=3cm
+---
 
 At Royal Holloway, for the 2018 intake of first year undergraduates it was decided that due to the class size, paper registers were infeasible. The clicker systems was proposed and developed. This uses a Turning Technologies "Response Card" (Figure 1) typically used to respond to interactive questionnaires as part of a slideshow. The device communicates with a base station connected to a computer via USB (Universal Serial Bus) when a key option is pressed (eg. "1/A") and transmits the unique ID of the device and the key press. The message is acknowledged by the base station and the user is given visual affirmation on the device that their response was counted. The results are then stored in a semi-proprietary format attached to the slideshow which is decoded, processed and analysed by the department using a collection of scripts, Excel spreadsheets and custom software. 
 
