@@ -60,6 +60,8 @@ I will then turn to developing a functional solution to the problem, solving the
 
 # Professional Issues 
 
+A key part of my solution uses what is known as browser fingerprinting. At a high level, this takes various attributes available from your web browser and underlying operating system that may not be immediately obvious or visible, and uses these to gradually whittle down your particular configuration into a smaller and smaller subset of individual systems. Some examples of attributes used include:
+
 # Acknowledgements 
 
 Thanks to @tom_pollard_template_2016 for the front cover template which I have adapted and "corentin" for the Gantt chart example in \LaTeX [@noauthor_pgfgantt_nodate].
