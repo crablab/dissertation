@@ -15,11 +15,12 @@
     setTimeout(function() {
         // Fingerprint 2
         var options = {
-            excludes: {
-                userAgent: true,
-                language: true
+                excludes: {
+                    userAgent: true,
+                    language: true
+                }
             }
-        }
+            // Based off https://github.com/Valve/fingerprintjs2#usage
         Fingerprint2.get(options, function(components) {
             var values = components.map(function(component) {
                 return component.value
