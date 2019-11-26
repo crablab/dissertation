@@ -27,6 +27,18 @@ In the context of a lecture there are several key problems faced:
 
 A number of user stories have been written to illustrate the user journey and clarify the key focus of a solution. These are included in Appendix 1. 
 
+# General Description
+
+The proposed solution is to have a Bluetooth Lite device that a lecturer will configure with an online gateway prior to the lecture, and will be plugged in to a power source for the duration of the lecture in the lecture theatre. No networking or connection to a PC will be required for this device. 
+Students will log in to a website and request to register for the lecture. The website will, using the Bluetooth API, connect to the Bluetooth device in the lecture and will request that the device signs a blob of data provided by the server. This will provide proof that the student was in, at least the vicinity, of the lecture. 
+
+## Issues with the solution
+
+- There is nothing to stop someone signing in and then simply walking out; or indeed standing just inside the range of Bluetooth Light but outside the lecture theatre. This is not a risk mitigated by either the register or the clickers. It could be possible to have the student device poll for signatures throughout the lecture, however this would potentially have technical constraints around student device battery life, the capacity of the Bluetooth signing device and running background processes in a web browser. Ultimately, Bluetooth Light is not designed for these kind of constant connections so Bluetooth Classic (which is more difficult to implement) would be a more appropriate communication medium.  
+- It is conceivable that students might attempt a relay attack by generating their data blob remotely and then passing it to another student to transmit it for signing, before they submit the signed data back to the server without ever having been near the lecture. There are two ways this could be solved:
+    - Firstly, including the student Bluetooth MAC address in the blob signed by the server and validating it with the source MAC address of the transmission on the Bluetooth device would allow you to ensure the device that sent the message also generated the message. This then requires the Bluetooth device to carry a certificate used by the server to validate the message it has sent - this isn't a bad idea regardless, although having the Bluetooth device blindly sign messages regardless isn't a huge security concern as a brute force attack is infeasible. Technically, Bluetooth devices are supposed to have a fixed and unique MAC address which will not change - plus a configurable MAC that does. However, device manufacturers have begun to randomize even the supposedly fixed MAC addresses for privacy reasons, so these may not be a reliable identifier. [@kalantar_analyzing_2018]
+    - Secondly, implementing timing based controls to detect the round trip time of a message to ensure it does not exceed a certain value. This is the method used in EMV payment cards (In the specification known as Relay Resistance Protocol) and is vulnerable to attack should a rogue card reader not carry out the timing checks correctly. Our security model here is different, as we make the assumption that both the server and the Bluetooth device are not compromised and as any modification of the data would be detected (as the signatures would no longer match) it would not be possible for the student device to alter the timestamp to carry out such an attack. [@chothia_making_nodate] This is the solution that will be implemented, subject to time constraints. 
+
 # Functional Requirements 
 
 1. Student
@@ -78,7 +90,7 @@ A number of user stories have been written to illustrate the user journey and cl
     1.3.2) The processing capability will be provided by a Raspberry Pi
     1.3.2) The provisioning of the device will be carried out by copying a file to the SD card of the device 
 
-## UML Sequence Diagram
+# UML Sequence Diagram
 
 Included in Appendix 2
 
