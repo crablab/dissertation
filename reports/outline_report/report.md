@@ -102,7 +102,7 @@ Included in Appendix 3.
 
 # Acknowledgements 
 
-Thanks to @tom_pollard_template_2016 for the front cover template which I have adapted, @marco_torchiano_how_2015 for the Pandoc table preamble and @cohen_third_2013 for the Final Year Project guide and suggested layouts. The Data-Flow Diagram was based on a StackOverflow example: @noauthor_tikz_nodate.
+Thanks to @tom_pollard_template_2016 for the front cover template which I have adapted, @marco_torchiano_how_2015 for the Pandoc table preamble and @cohen_third_2013 for the Final Year Project guide and suggested layouts. 
 
 \pagebreak 
 \onecolumn 
@@ -115,9 +115,9 @@ Due to the nature of this project, available references on the subject are limit
 
 <div id="refs"></div>
 
-# Appendix 
-
 \pagebreak  
+
+# Appendix 
 
 ## Appendix 1
 
@@ -150,6 +150,8 @@ Due to the nature of this project, available references on the subject are limit
 1) "As the Home Office I want to be assured that Tier 4 visa students are meeting attendance requirements" 
 2) "As the Home Office I want to audit the Universities process to ensure it is compliant" 
 3) "As the Home Office I want the system to be trustworthy and not open to abuse" 
+
+\pagebreak  
 
 ## Appendix 2
 
