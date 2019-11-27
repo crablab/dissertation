@@ -1,4 +1,12 @@
-# Communication methods for attendance monitoring 
+---
+title: "Communication methods for attendance monitoring"
+author: "Hugh Wells - 864564"
+date: "20th November 2019"
+papersize: a4
+geometry: margin=3cm
+---
+
+# Abstract
 
 At Royal Holloway, for the 2018 intake of first year undergraduates it was decided that due to the class size, paper registers were infeasible. The clicker system was proposed and developed which has been discussed in previous reports; particularly with regard to the system security. The key advantage of the clicker system was that it did not rely on the signature of students (it used a wireless electronic device) and therefore did not require the laborious administration overheard of transposing the signatures into an electronic database. Fundamentally, it was not more secure and this element of an improved system will be discussed in a future report. 
 
@@ -45,6 +53,24 @@ The `hop` is predetermined at the initial authentication with the Bluetooth devi
 Gaussian Frequency Shift Keying (GFSK) is used as the modulation for transmitted signals. This is fairly common for devices operating on the 2.4GHz band and was filed for patent in 1998 @hsiang-te_ho_us6480553.pdf_nodate. When radio signals are transmitted they are modulated (mixed) with a carrier signal at the frequency of transmission. GSFK uses a filter based on the Gaussian function. The exact reasons for doing this are beyond the scope of this report, but they relate to reducing the effects of interference during transmission. 
 
 The Bluetooth 4.0 specification defined two actors: a master and a slave. During the asymmetric connection process, the slave advertises itself on the advertising channels with a 31 byte packet. It is possible to send an additional 31 byte packet with additional data upon interrogation by a Master (sending a Scan Request packet) - this is Active Scanning and Passive Scanning is merely monitoring the data sent on the advertising channels. 
+
+\begin{figure}
+
+  \centering
+  \begin{sequencediagram}
+
+    \newinst[1]{A}{Master}{}
+    \newinst[2]{B}{Slave}{}
+    \mess{call}{B}{Advertising Data}{A}{}
+    \end{call}
+
+    \postlevel
+    
+    \begin{call}{A}{Scan Request}{B}{Scan Response}
+    \end{call}
+
+  \end{sequencediagram}
+\end{figure}
 
 # Acknowledgements 
 
