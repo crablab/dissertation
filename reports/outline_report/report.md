@@ -14,14 +14,14 @@ The current systems at Royal Holloway to monitor student attendance at lectures 
 
 Royal Holloway keeps track of attendance in lectures both to ensure that students are regularly attending and also to satisfy legal requirements regarding the visas of overseas students [@home_office_uk_government_tier4_2019]. It is essential that this data is gathered and analysed efficiently and accurately.
 
-In the past attendance has been tracked using signatures on registers. More recently, due to the lack of scalability of this former approach, a system of clickers has been employed [@royal_holloway_department_of_computer_science_department_2018]. This latter system has proved to be non-optimal and insecure. 
+In the past attendance has been tracked using signatures on registers. More recently, due to the lack of scalability of this former approach, a system of clickers has been employed [@royal_holloway_department_of_computer_science_department_2018]. This latter system is non-optimal and insecurities have been discussed in another report. 
 
 In the context of a lecture there are several key problems faced:
 
 - **Circulation of a register**: In classes that range from 50 to 200 students it is infeasible to expect a paper register to have made a complete circuit of the room by the end of a class. Adding another register doesn't always solve this, as the paths of the two registers will often intersect and students are less interested in the optimal pathing of the register than the lecture content. There is often a "scrum" at the end of a lecture between those who did not sign to register their attendance and leave in time for their next class. 
-- **Data processing**: When discussing paper registers, it is obvious that significant administrative effort is required to process the written records and translate them to a digital medium for easy statistical analysis. This becomes more complex when there are multiple registers for a class, or when changes to the document in question are made. For instance, sometimes students have not been included on the sheet due to an oversight and they will then append their name to the end of the document to register their attendance in a non-standard fashion. Whilst with the digital clickers there is no need more manual transcription, the data from the Turning Point software is in a propitiatory format and requires conversion to a CSV and then further processing to be handled by the custom software used in the department for attendance monitoring. 
-- **Forgery**: Both the clicker and paper register systems are vulnerable to attack. The paper register can simply be signed by another person on behalf of an absentee. The way to prevent this is to carry out signature checking against a sample on record and random ID checks at lectures where forgery is suspected. The signature comparison is labour intensive and only catches bad forgeries. The attack on the clicker system has been described in more detail in another report. 
-- **Intrusiveness**: The paper register is relatively intrusive in a lecture, however more so to the students than to the lecturer. The clicker system, anecdotally, tends to cause more issues as the set up process is non-trivial, cutting into lecture time and lecturer patience, and data collection can be somewhat unreliable too. There is no real feedback for a student that their attendance has indeed been counted in the same way as there is on a paper register. The clicker system also requires you to remember a device that must be in your possession to verify your identity - a device is easy to forget, a signature less so. 
+- **Data processing**: When discussing paper registers, it is obvious that significant administrative effort is required to process the written records and translate them to a digital medium for easy statistical analysis. This becomes more complex when there are multiple registers for a class, or when changes to the document in question are made. For instance, sometimes students have not been included on the sheet due to an oversight and they will then append their name to the end of the document to register their attendance in a non-standard fashion. Whilst with the digital clickers there is no need more manual transcription, the data from the Turning Point software is in a proprietary format and requires conversion to a CSV and then further processing to be handled by the custom software used in the department for attendance monitoring. 
+- **Forgery**: Both the clicker and paper register systems are vulnerable to attack. The paper register can simply be signed by another person on behalf of an absentee. The way to prevent this is to carry out signature checking against a sample on record and random ID checks at lectures where forgery is suspected. The signature comparison is labour intensive and only catches bad forgeries. Student signatures also change over time and can be "gamed" to provide trivial samples which are easily forged. The attack on the clicker system has been described in more detail in another report. 
+- **Intrusiveness**: The paper register is relatively intrusive in a lecture, however more so to the students than to the lecturer. The clicker system, anecdotally, tends to cause more issues as the set up process is non-trivial cutting into lecture time and lecturer patience. There is no real feedback for a student that their attendance has indeed been counted in the same way as there is on a paper register. The clicker system also requires you to remember a device that must be in your possession to verify your identity - a device is easy to forget, a signature less so. 
 
 # User Stories 
 
@@ -29,15 +29,16 @@ A number of user stories have been written to illustrate the user journey and cl
 
 # General Description
 
-The proposed solution is to have a Bluetooth Lite device that a lecturer will configure with an online gateway prior to the lecture, and will be plugged in to a power source for the duration of the lecture in the lecture theatre. No networking or connection to a PC will be required for this device. 
-Students will log in to a website and request to register for the lecture. The website will, using the Bluetooth API, connect to the Bluetooth device in the lecture and will request that the device signs a blob of data provided by the server. This will provide proof that the student was in, at least the vicinity, of the lecture. 
+The proposed solution is to have a Bluetooth Lite device that a lecturer will configure via a website prior to the lecture, and will be plugged in to a power source for the duration of the lecture in the lecture theatre. No networking or connection to a PC will be required for this device. 
+Students will log in to a website and request to register for the lecture. The website will, using the Bluetooth API, connect to the Bluetooth device in the lecture and will request that the device signs a some data signed and provided by the server, as a challenge. This will provide proof that the student was in, at least the vicinity, of the lecture. 
 
 ## Issues with the solution
 
-- There is nothing to stop someone signing in and then simply walking out; or indeed standing just inside the range of Bluetooth Light but outside the lecture theatre. This is not a risk mitigated by either the register or the clickers. It could be possible to have the student device poll for signatures throughout the lecture, however this would potentially have technical constraints around student device battery life, the capacity of the Bluetooth signing device and running background processes in a web browser. Ultimately, Bluetooth Light is not designed for these kind of constant connections so Bluetooth Classic (which is more difficult to implement) would be a more appropriate communication medium.  
-- It is conceivable that students might attempt a relay attack by generating their data blob remotely and then passing it to another student to transmit it for signing, before they submit the signed data back to the server without ever having been near the lecture. There are two ways this could be solved:
-    - Firstly, including the student Bluetooth MAC address in the blob signed by the server and validating it with the source MAC address of the transmission on the Bluetooth device would allow you to ensure the device that sent the message also generated the message. This then requires the Bluetooth device to carry a certificate used by the server to validate the message it has sent - this isn't a bad idea regardless, although having the Bluetooth device blindly sign messages regardless isn't a huge security concern as a brute force attack is infeasible. Technically, Bluetooth devices are supposed to have a fixed and unique MAC address which will not change - plus a configurable MAC that does. However, device manufacturers have begun to randomize even the supposedly fixed MAC addresses for privacy reasons, so these may not be a reliable identifier. [@kalantar_analyzing_2018]
-    - Secondly, implementing timing based controls to detect the round trip time of a message to ensure it does not exceed a certain value. This is the method used in EMV payment cards (In the specification known as Relay Resistance Protocol) and is vulnerable to attack should a rogue card reader not carry out the timing checks correctly. Our security model here is different, as we make the assumption that both the server and the Bluetooth device are not compromised and as any modification of the data would be detected (as the signatures would no longer match) it would not be possible for the student device to alter the timestamp to carry out such an attack. [@chothia_making_nodate] This is the solution that will be implemented, subject to time constraints. 
+- There is nothing to stop someone signing in and then simply walking out; or indeed standing just inside the range of Bluetooth Light but outside the lecture theatre. This is not a risk mitigated by either the register or the clickers. It could be possible to have the student device poll for signatures throughout the lecture, however this would potentially have technical constraints around student device battery life, the capacity of the Bluetooth signing device and running background processes in a web browser. Ultimately, Bluetooth Light is not designed for these kind of constant connections so Bluetooth Classic (which is more difficult to implement) would be a more appropriate communication medium. An alternative would be to randomly poll devices, however the Web Bluetooth implementation requires the user to knowingly acknowledge a connection each time [@webbluetoothcg_web_2019] and the proposed implementation is designed to accommodate that, so this potential solution is beyond the scope of this project. 
+- It is conceivable that students might attempt a relay attack by generating the data to be signed remotely and then passing it to another student to transmit it for signing, before they submit the signed data back to the server without ever having been near the lecture. There are two ways this could be solved:
+    - Firstly, including the student Bluetooth MAC address in the data signed by the server and validating it with the source MAC address of the transmission on the Bluetooth device would allow you to ensure the device that sent the message also generated the message. This then requires the Bluetooth device to carry a certificate used by the server to validate the message it has sent - this isn't a bad idea regardless, although having the Bluetooth device blindly sign messages regardless isn't a huge security concern as a brute force attack is infeasible. Technically, Bluetooth devices are supposed to have a fixed and unique MAC address which will not change - plus a configurable MAC that does. However, device manufacturers have begun to randomize even the supposedly fixed MAC addresses for privacy reasons, so these may not be a reliable identifier. [@kalantar_analyzing_2018]
+    - Secondly, implementing timing based controls to detect the round trip time of a message to ensure it does not exceed a certain value. This is the method used in EMV payment cards [@emvco_emv_2016], known in the specifications as "Relay Resistance Protocol"). This is vulnerable to attack should a rogue card reader not carry out the timing checks correctly. [@chothia_making_nodate] Our security model here is different, as we make the assumption that both the server and the Bluetooth device are not compromised and as any modification of the data would be detected (as the signatures would no longer match) it would not be possible for the student device to alter the timestamp to carry out such an attack. This is the solution that will be implemented, subject to time constraints. 
+- The proposed implementation will use simple username/password authentication and if any user/password management is provided it will be basic. This is not within the scope of the project and it is likely that if this were ever to be used it would be necessary to integrate this with existing user accounts; such as via the LDAP (Lightweight Directory Access Protocol). 
 
 # Functional Requirements 
 
@@ -77,18 +78,19 @@ Students will log in to a website and request to register for the lecture. The w
     g) Administrators to be able to view browser fingerprinting data 
         1. Ability to see when a fingerprint is used across multiple students
         2. Ability to see fingerprint consistency per student 
-    h) Arbitrary data export for all previous views
+    h) Arbitrary data export as CSV for all previous views
+        1. This in particular concerns a format the College can process - student ID against a boolean attendance value for each class in a CSV. 
 
 # Constraints 
 
 ## Design constraints 
 
-1.1) The website will be hosted on a Python Flask application backed by a MySQL database 
-1.2) The frontend will be based on the Bootstrap framework 
-1.3) The wireless device will be a Bluetooth Low Energy device compatible with the Bluetooth 4.1 specification
-    1.3.1) This is currently planned to be a HM-10; further details are available in other reports 
-    1.3.2) The processing capability will be provided by a Raspberry Pi
-    1.3.2) The provisioning of the device will be carried out by copying a file to the SD card of the device 
+1) The website will be hosted on a Python Flask application backed by a MySQL database 
+2) The frontend will be based on the Bootstrap framework 
+3) The wireless device will be a Bluetooth Low Energy device compatible with the Bluetooth 4.1 specification
+    a) This is currently planned to be a HM-10; further details are available in other reports 
+    b) The processing capability will be provided by a Raspberry Pi
+    c) The provisioning of the device will be carried out by copying a file to the SD card of the device 
 
 # UML Sequence Diagram
 
@@ -144,12 +146,6 @@ Due to the nature of this project, available references on the subject are limit
 2) "As an administrator I want to be able to easily identify students who have not reached minimum attendance levels"
 3) "As an administrator I want to easily identify cases of fraud or forgery" 
 4) "As an administrator I want to generate reports on attendance and export raw data" 
-
-#### Home Office
-
-1) "As the Home Office I want to be assured that Tier 4 visa students are meeting attendance requirements" 
-2) "As the Home Office I want to audit the Universities process to ensure it is compliant" 
-3) "As the Home Office I want the system to be trustworthy and not open to abuse" 
 
 \pagebreak  
 
