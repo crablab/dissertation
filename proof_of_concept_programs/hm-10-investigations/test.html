@@ -1,11 +1,36 @@
+<!-- 
+    PoC based on the Google Developers guide: https://developers.google.com/web/updates/2015/07/interact-with-ble-devices-on-the-web
+-->
+
 <html>
 
 <head>
-    <title>Web Bluetooth/title>
+    <title>Web Bluetooth</title>
 </head>
 
 <body>
-
+    <button id="button" onclick="makeBLE()" type="button">Make BLE</button>
 </body>
+
+<script>
+    function makeBLE() {
+        console.log("Connecting");
+        navigator.bluetooth.requestDevice({
+                filters: [{
+                    services: [0x484D536F6674]
+                }]
+            })
+            .then(device => {
+                // Human-readable name of the device.
+                console.log(device.name);
+
+                // Attempts to connect to remote GATT Server.
+                return device.gatt.connect();
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+</script>
 
 </html>
