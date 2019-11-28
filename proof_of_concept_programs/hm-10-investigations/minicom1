@@ -1,0 +1,60 @@
+--- Miniterm on /dev/ttyAMA0  9600,8,N,1 ---
+--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H ---
+
+--- pySerial (3.4) - miniterm - help
+---
+--- Ctrl+]   Exit program
+--- Ctrl+T   Menu escape key, followed by:
+--- Menu keys:
+---    Ctrl+T  Send the menu character itself to remote
+---    Ctrl+]  Send the exit character itself to remote
+---    Ctrl+I  Show info
+---    Ctrl+U  Upload file (prompt will be shown)
+---    Ctrl+A  encoding
+---    Ctrl+F  edit filters
+--- Toggles:
+---    Ctrl+R  RTS   Ctrl+D  DTR   Ctrl+B  BREAK
+---    Ctrl+E  echo  Ctrl+L  EOL
+---
+--- Port settings (Ctrl+T followed by the following):
+---    p          change port
+---    7 8        set data bits
+---    N E O S M  change parity (None, Even, Odd, Space, Mark)
+---    1 2 3      set stop bits (1, 2, 1.5)
+---    b          change baud rate
+---    x X        disable/enable software flow control
+---    r R        disable/enable hardware flow control
+
+--- Settings: /dev/ttyAMA0  9600,8,N,1
+--- RTS: active    DTR: active    BREAK: inactive
+--- CTS: active    DSR: inactive  RI: inactive  CD: inactive
+--- software flow control: inactive
+--- hardware flow control: inactive
+--- serial input encoding: UTF-8
+--- serial output encoding: UTF-8
+--- EOL: CRLF
+--- filters: default
+--- local echo active ---
+AT
+ABCABCABCABCABCABCABCABCABCABCABCABCABCABCABCABCABCABCABCABCABCABCABCABCABCABCABCABCABCABC
+
+--- Settings: /dev/ttyAMA0  9600,8,N,1
+--- RTS: active    DTR: active    BREAK: inactive
+--- CTS: active    DSR: inactive  RI: inactive  CD: inactive
+--- software flow control: inactive
+--- hardware flow control: inactive
+--- serial input encoding: UTF-8
+--- serial output encoding: UTF-8
+--- EOL: CRLF
+--- filters: default
+
+--- Settings: /dev/ttyAMA0  9600,8,N,1
+--- RTS: active    DTR: active    BREAK: inactive
+--- CTS: active    DSR: inactive  RI: inactive  CD: inactive
+--- software flow control: inactive
+--- hardware flow control: inactive
+--- serial input encoding: UTF-8
+--- serial output encoding: UTF-8
+--- EOL: CRLF
+--- filters: default
+
