@@ -14,57 +14,58 @@ The primary motivation is to offer a more secure and convenient system for stude
 
 It is therefore clear that a more streamlined, automated and secure system is a clear benefit to both the University and Higher Education sector alike, as well as to students. 
 
-# Introduction
+## First Term Progress
 
-The signed registers, as in Figure 1, consist of a dossier of pages circulated throughout the class during a lecture. These pages are printed in advance by the departmental office based on the course registration list and subsequent timetables. The four columns are reserved for the printed student ID number, printed student name and their signature which is added during the lecture as proof of their attendance. The registers are collected by the lecturer at the end of a session, certified and returned to the office where they are analysed. 
+Work in the first time hasn't gone entirely as planned, however some interesting discoveries were made in the reports and I have made significant progress on my understanding of the overall Bluetooth standards and clarified how my proposed implementation will work in practice. 
 
-![A redacted sign in sheet for a lecture](assets/figure1.jpg)
+The hardware elements of the project have taken longer than expected, in both the clicker research and Bluetooth implementation. This has mainly been due to communication issues between the BLE/Nordic devices and the various microcontrollers. The delays here have been disappointing, especially in the BLE case where a simple move to a different version of the device fixed the issues. The work to get the devices to communicate has allowed considerable research into troubleshooting techniques for UART and I learned a lot about flow control, which I hadn't come across before. 
 
-Several complications have arisen with this system. Some lectures are big enough that at least two registers are required for them to circulate throughout the session and avoid a rush to sign at the end of a lecture - this of course creates added complication as to where the register needs to be passed next. It then also requires at least double the effort in correlating and combining the signatures by the administrative staff and there is no guarantee that both sections will remain together in transit!
+The clicker project remains unfinished at the moment. I intend to try and eliminate the encoding issues with the Arduino by connecting directly to the NRF chip from a Raspberry Pi. This will also require working on a basic library for the NRF chip, based on the code already in use on the clicker basestation, by @mooney_nickmooney/turning-clicker_2019. I hope to achieve this over Christmas to complete that report.
 
-Of course, there are rather more obvious issues such as the environmental impact of reams of paper each day and forging of signatures; the latter is explicitly mentioned in the departmental handbook "You must not sign the attendance register for anyone else, or allow someone else to sign the register on your behalf...These behaviours are fraudulent and will result in disciplinary action being taken." [@royal_holloway_department_of_computer_science_department_2018]. 
+The BLE work has been delayed by the issues with the clicker, and then extensive issues with the BLE device itself as described in the report. However, once working there has been good progress and work will now continue on developing a working Web Bluetooth PoC for integration with the overall system. 
 
-For the 2018 intake of first year undergraduates it was decided that due to the class size, paper registers were infeasible. The clicker systems was proposed and developed. This uses a Turning Technologies "Response Card" (Figure 2) typically used to respond to interactive questionnaires as part of a slideshow. The device communicates with a base station connected to a computer via USB (Universal Serial Bus) when a key option is pressed (eg. "1/A") and transmits the unique ID of the device and the key press. The message is acknowledged by the base station and the user is given visual affirmation on the device that their response was counted. The results are then stored in a semi-proprietary format attached to the slideshow which is decoded, processed and analysed by the department using a collection of scripts, Excel spreadsheets and custom software. 
+Work on the cryptography report was pushed back, although the PoC program was completed and is ready to be implemented. As the signing mechanism isn't the most crucial part of the project (as long as it works and uses an established and peer reviewed algorithm) the report here was likely to contain less information that the aforementioned research. 
 
-![A Turning Technologies "Response Card"](assets/figure2.jpg)
+Overall design work on the system continues on track as the user stories and functional requirements have been defined. The full design with appropriate schemas, UML and mock user interfaces is to be developed for the draft report. 
 
-The entirely custom decoding and data processing is due to the device being used outside its intended purpose. Turing Technologies [-@noauthor_lcd_nodate] advertise its use purely as a device for polling students as they interact with a slideshow during a class. The device level data appears to have been intended to prevent duplication and to allow scoring across multiple questions. Several problems have been reported with processing the data saved by the slideshow; the most interesting of which relates to the unique identifies for each device which are a hexadecimal string. For certain combinations (eg. "100000"), the spreadsheet program used for data processing parses this as an integer and will "helpfully" rectify it to the exponential form, $$ 1E^6 $$ 
-This then requires manual correction for each row affected. 
+An additional report on browser fingerprinting was added as this was discovered to be a bigger part of the project than originally envisioned. This did take up additional time however was extremely useful research and yielded an interesting PoC program. 
 
-However, this research stems from a much larger flaw the author discovered when reading a blog [@goodspeed_travis_2010] on a similar device by Turning Technologies. The blogger writes "It can be seen from the code that the 0x1A IRAM byte holds the channel number. That is, if 0x20 is stored at 0x1A, the radio will be configured to 2,432 MHz. The other configuration bytes reveal that the MAC addresses are 24 bits, the checksum is 16 bits, and the device broadcasts at maximum power sourced from a 16MHz crystal". Whilst this analysis might seem innocuous the crucial discovery made in that blog post is the entire register is sent directly to the radio chip - there is no encryption. As stated later on "...packets could be broadcast by a reprogrammed Clicker or NHBadge to make a student in virtual attendance..." which is a very dangerous for a device intended to be used in Computer Science classes! 
+In summary, although there have been significant challenges in several areas, the identification of these risks early on allowed mitigation within the project by rescheduling other workstreams and running parts in parallel to allow for greater flexibility whilst troubleshooting. Background research has gone well and provided additional context when troubleshooting issues and also when designing the overall system, to ensure constraints are observed. 
 
-@goodspeed_travis_2010 concentrates on the earlier and less advanced "Response Card" which does not have an LCD screen, as opposed to the device in Figure 1. Their work was referenced and expanded in another blog by @killian_turning_2012 for which the code (now no longer directly available) was modified and re-worked by @mooney_nickmooney/turning-clicker_2019. This software emulates the base station connected to the computer and outputs the results:
+## Continued Risks
 
-``` {.numberLines startFrom="89"}
-Serial.print(F("incoming: "));
-for (int i = 0; i < BUFSIZE; i++) {
-    printf("%02x", incomingData[i]);
-}
-printf(" --> %c", incomingData[ADDR_WIDTH]);
-Serial.println();
-```
+There are continued risks in the project, and additional risks have been identified. 
 
-In order to produce a working proof of concept attack on the attendance system I will first verify that @mooney_nickmooney/turning-clicker_2019 works with my personal clicker before developing software on another Arduino to work with the emulated base station to spoof multiple clickers on demand. I will then test my attack on an actual base station to prove the results of the sign in slideshow can still be processed by the department. 
+### Clicker emulator encoding
+- **Impact:** Medium
 
-<!-- 
+This risk currently exists and is being mitigated. It is not a crucial part of the project and although it serves as a useful demonstration and makes for an interesting report, lack of a fully working system is not critical to success of the project. The plan is to attempt a different approach, however this will be timeboxed to ensure excessive time is not wasted. 
 
-I will then turn to developing a functional solution to the problem, solving the aforementioned issues. In doing so, it is helpful to look at the origins of attendance monitoring and prior inventions. @jones_attendance_2003 applied for a patent relating to an attendance monitoring system for employers. They write "While the invention is particularly directed to the art of attendance monitoring in a paid labor environment, and will be thus described with specific reference thereto, it will be appreciated that the invention may have usefulness in other fields and applications". This is particularly important to note as attendance monitoring and timekeeping solutions have existed in industry for some time, indeed the first recognized patent for a mechanical device using punch cards to track employee hours was made in 1901 [@bundy_workmans_1901]. When further considering @jones_attendance_2003 they describe a system containing "...instant Visual representation of an employee's daily attendance (including that for the present day), attendance history..." which coupled with ""
+### Web Bluetooth API 
+- **Impact:** High
 
--->
+The Web Bluetooth API is less mature and less well supported than originally hoped. On the one hand, this does make a more interesting and relevant project (as there are few applications that use the API) however support is limited both in browsers and in documentation. Currently, although the API works on a specific Chromium set-up there are driver issues on Linux. Workarounds are being investigated and anecdotal research suggests that Google Chrome on Windows 10 may provide a more stable development environment. This has not yet been tested on any smartphones - this is an area to investigate.
 
-# Theory 
+Should the API fail to work with any software combination, it will be necessary to seek another solution. The implementation would be possible using standard HTTP client/server architecture on a dedicated wireless network; however this is not ideal for various reasons. There may also be other communication mediums commonly supported on smartphones, for example NFC, that could be investigated should the need arise. 
 
-# Software Engineering
+The current plan is to continue working towards a Web Bluetooth implementation, but should this not prove possible more mature technologies are available and there is valuable research in looking at the current usability of Web Bluetooth. 
 
-# Self-Evaluation
+## Literature Survey 
 
-# Professional Issues 
+?? not sure what to write
 
-A key part of my solution uses what is known as browser fingerprinting. At a high level, this takes various attributes available from your web browser and underlying operating system that may not be immediately obvious or visible, and uses these to gradually whittle down your particular configuration into a smaller and smaller subset of individual systems. Some examples of attributes used include:
+## Reports
+
+Reports are included in the following order, at the end of this document: 
+
+- Clicker Report
+- Browser Fingerprinting Report
+- Communication Report
+- Outline System Design 
 
 # Acknowledgements 
 
-Thanks to @tom_pollard_template_2016 for the front cover template which I have adapted and "corentin" for the Gantt chart example in \LaTeX [@noauthor_pgfgantt_nodate].
+Thanks to @tom_pollard_template_2016 for the front cover template which I have adapted, @marco_torchiano_how_2015 for the Pandoc table preamble and @cohen_third_2013 for the Final Year Project guide and suggested layouts. 
 
 \pagebreak 
 \onecolumn 
