@@ -173,7 +173,7 @@ The Web Bluetooth API requires user interaction on the page before scanning can 
 
 Web Bluetooth is so experimental that it requires enabling a Chromium feature flag [@noauthor_web_nodate] and on Linux, enabling an experimental flag for Bluez [@acassis_how_2016]. 
 
-At the moment issues with Chromium detecting available Bluetooth cards via Bluez persist (Figure 10) and it has not been able to properly test the solution. Trials with other operating systems may be necassry to have a working Proof of Concept. 
+At the moment issues with Chromium detecting available Bluetooth cards via Bluez persist (Figure 10) and it has not been able to properly test the solution. Trials with other operating systems may be necessary to have a working Proof of Concept. 
 
 ![Web Bluetooth API issues with Linux Bluetooth drivers](assets/figure7.png)
 
