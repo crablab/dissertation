@@ -1,0 +1,8 @@
+This is a Python 3 script, it has been run on Linux (Ubuntu) with Python version 3.6. Instructions here assume a recent version of Ubuntu. They'll probably work on Debian, if you're on Windows I would recommend using the Windows subsystem for Linux. 
+
+1) Install Python3 and pip (the package manager) for your operating system: `sudo apt install python3 python3-pip`
+2) Use pip to install the `pyserial` library: `pip3 install pyserial` 
+3) Modify the `initial_test.py` script to use whichever port you have the HM-10 connected to (identified with `lsusb`)
+4) Execute the script with `python3 initial_test.py`
+
+If you get PATH errors, try reloading your terminal window. If you still have issues then you're likely missing something in your PATH and you will need to manually fix that. 
