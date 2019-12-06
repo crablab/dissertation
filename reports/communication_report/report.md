@@ -57,18 +57,19 @@ The Bluetooth 4.0 specification defined two actors: a master and a slave. During
 
 ```{=tex}
 \begin{figure}
-  \begin{sequencediagram}
+    \centering
+    \begin{sequencediagram}
 
     \newinst[1]{A}{Master}{}
     \newinst[2]{B}{Slave}{}
     \mess{B}{Advertising Data}{A}{}
 
     \postlevel
-    
+
     \begin{call}{A}{Scan Request}{B}{Scan Response}
     \end{call}
 
-  \end{sequencediagram}
+    \end{sequencediagram}
 \end{figure}
 ```
 
@@ -84,11 +85,11 @@ However, the security mechanisms provided are of interest especially given the w
 
 One module is the Security Manager which handles the mutual generation of keys for encrypted communications and interfaces with the L2CAP module and is only present in Low Energy devices (in Classic device it is integrated in the Controller). Using hardware modules it is able to provide various cryptographic functions for the key exchanges. 
 
-The security function used is an AES-128-bit block cipher. The Advanced Encryption Standard [@national_fips_2001] was chosen as a result of a RFP issued by the United States National Insitute of Standards and Technology looking to replace the then aging and provably broken Data Encryption Standard (DES), developed many years before. The algorithm chosen was Rijndael [@daemen_rijndael_1999] and operated on 128, 196 and 256 bit blocks and is a symmetric cipher. AES works by applying a round function to the data input using the expanded key as a state. On each round a byte substition, then row movement and finally column function is applied to the data. Each round the designed part of the key is XOR'd with the state. There are 10, 12 or 14 rounds dependant on key length and the last round does not mix the columns. Applying the algorithm in reverse is possible and allows decryption of the ciphertext.
+The security function used is an AES-128-bit block cipher. The Advanced Encryption Standard [@national_fips_2001] was chosen as a result of a RFP issued by the United States National Institute of Standards and Technology looking to replace the then aging and provably broken Data Encryption Standard (DES), developed many years before. The algorithm chosen was Rijndael [@daemen_rijndael_1999] and operated on 128, 196 and 256 bit blocks and is a symmetric cipher. AES works by applying a round function to the data input using the expanded key as a state. On each round a byte substitution, then row movement and finally column function is applied to the data. Each round the designed part of the key is XOR'd with the state. There are 10, 12 or 14 rounds dependant on key length and the last round does not mix the columns. Applying the algorithm in reverse is possible and allows decryption of the ciphertext.
 
 When Bluetooth devices are paired an STK (Short Term Key) is generated to encrypt data symetricall with AES in transit. Pairing is carried out via three methods: 
 
-- Just Works: values to generate STKs are exchanged with no encryption over the link offering no man-in-the-middle protection. Interception of the values allows an attacker to generate their own copy of the STK and decrypt and potentially spoof further comunications. 
+- Just Works: values to generate STKs are exchanged with no encryption over the link offering no man-in-the-middle protection. Interception of the values allows an attacker to generate their own copy of the STK and decrypt and potentially spoof further communications. 
 - Passkey: a 6 digit numeric code is assigned to the Slave device and on pairing the Master requires user input of this code which is then used to generate a key to encrypt exchanged values for the STK generation. 
 - Out of band: values are exchanged outside of the Bluetooth protocol to allow encryption of the values to generate the short term key. 
 
@@ -96,22 +97,22 @@ It should be noted that in the proposed implementation, Just Works pairing will 
 
 # BLE Device Investigations
 
-Investigations into practical applications and small projects with Bluetooth Low Energy yielded several articles mentioning the HM-10. [@loginov_how_2019] The HM-10 is based on a Texas Instrumnets BLE System On Chip mounted as a daughter board to breakout a serial UART connection. At this time only BLE devices are officially supported via the Web Bluetooth APIs. [@webbluetoothcg_web_2019]
+Investigations into practical applications and small projects with Bluetooth Low Energy yielded several articles mentioning the HM-10. [@loginov_how_2019] The HM-10 is based on a Texas Instruments BLE System On Chip mounted as a daughter board to breakout a serial UART connection. At this time only BLE devices are officially supported via the Web Bluetooth APIs. [@webbluetoothcg_web_2019]
 
 ![A HM-10 module](assets/figure2.jpg)
 
-As this device provides a serial interface, an additional microprocessor will be required to interface with the device and to recieve, process and then respond to data sent to the device. A Raspbery Pi was chosen over an Adrduino due to the increased processing power, onboard networking and full operating system. This also allows for higher level languages like Python to be used instead of C++, speeding up development. As no analogue inputs are required there is no real advantage to using an Arduino here. A Rasperry Pi Zero was configued to run in headless mode with a terminal over USB [@gbaman_simple_nodate] however it transpired that whilst the Raspberry Pi does have two UARTs available, one is used for the onboard Bluetooth and the UART used for the Linux console is shared with the UART exposed on the GPIO. [@noauthor_raspberry_nodate] It was therefore necassary to change approach and a Raspberry Pi 2B was proivisioned with SSH enabled (add an empty file: `/boot/ssh`) was configued such that direct a ethernet connection to the laptop was possible, with ethernet passthrough to the laptop's wireless connection. 
+As this device provides a serial interface, an additional microprocessor will be required to interface with the device and to receive, process and then respond to data sent to the device. A Raspbery Pi was chosen over an Arduino due to the increased processing power, onboard networking and full operating system. This also allows for higher level languages like Python to be used instead of C++, speeding up development. As no analogue inputs are required there is no real advantage to using an Arduino here. A Rasperry Pi Zero was configured to run in headless mode with a terminal over USB [@gbaman_simple_nodate] however it transpired that whilst the Raspberry Pi does have two UARTs available, one is used for the onboard Bluetooth and the UART used for the Linux console is shared with the UART exposed on the GPIO. [@noauthor_raspberry_nodate] It was therefore necessary to change approach and a Raspberry Pi 2B was provisioned with SSH enabled (add an empty file: `/boot/ssh`) was configured such that direct a ethernet connection to the laptop was possible, with ethernet passthrough to the laptop's wireless connection. 
 
 The HM-10 was then attached with Dupont leads to the GPIO of the Raspberry Pi using pinouts for the Pi and the markings on the HM-10 breakout board. [@noauthor_pi4j_nodate]
 
 ![Raspberry Pi 2B with an HM-1o breakout board attached](assets/figure3.jpg)
 
-Initially, the device was detected on the serial port and a connection could be established. However, there was no data sent by the device and no acknowledgement of data sent down the serial port. The HM-10 uses AT commands which are commonly found in GSM modules and the like - the HM-10 likely uses these given the industry crossover. The manual for the HM-10 [@jnhuamao_technology_company_hm-10-datasheet.pdf_2014] lists a few basic AT commands which can be used to interogate basic data such as the device status: 
+Initially, the device was detected on the serial port and a connection could be established. However, there was no data sent by the device and no acknowledgement of data sent down the serial port. The HM-10 uses AT commands which are commonly found in GSM modules and the like - the HM-10 likely uses these given the industry crossover. The manual for the HM-10 [@jnhuamao_technology_company_hm-10-datasheet.pdf_2014] lists a few basic AT commands which can be used to interrogate basic data such as the device status: 
 
 - `AT` should return the device status: `OK` or `OK/LOST`
 - `AT+ADDR?` should return the device MAC: `OK+ADDR:{MAC address}`
 
-The datasheet also describes that a string over 80 charactors should be sent to take the device out of standby. The string data is not relevant, just the length. 
+The datasheet also describes that a string over 80 characters should be sent to take the device out of standby. The string data is not relevant, just the length. 
 
 The manual states the serial parameters are:
 
@@ -120,13 +121,13 @@ The manual states the serial parameters are:
 - 1 stop bit 
 - 8 bit byte length 
 
-A few attempts were made using these settings and different serial programrs (Minicom, Screen) - no response was recieved. Appendix 2 contains an output from Minicom for one attempt (including configuration). 
+A few attempts were made using these settings and different serial decoders (Minicom, Screen) - no response was received. Appendix 2 contains an output from Minicom for one attempt (including configuration). 
 
 It transpired that AT commands are actually a time based command set. They do not rely on a carriage return or line feed to indicate the end of a command, but they do timeout - within 100ms usually. [@milosevich_at_2006] A timeout on a valid command will cause the command to be executed and the result returned - an invalid command may generate no response at all. 
 
-Looking at the Raspberry Pi forums identified a small number of questions relating to this, including a thread where a user had reported some working test code. [@noauthor_how_nodate] The code is actually very trivial - it opens a serial connection with the correct parameters and then sends data before listening. Because AT commands use a 100ms timeout it is not necassary to run two threads to send and recieve data - after sending a command it is simply necassary to wait for any data on the serial buffer for 100ms before continuing. I modified the script to: 
+Looking at the Raspberry Pi forums identified a small number of questions relating to this, including a thread where a user had reported some working test code. [@noauthor_how_nodate] The code is actually very trivial - it opens a serial connection with the correct parameters and then sends data before listening. Because AT commands use a 100ms timeout it is not necessary to run two threads to send and receive data - after sending a command it is simply necessary to wait for any data on the serial buffer for 100ms before continuing. I modified the script to: 
 
-- Send the long string (above 80 charectors)
+- Send the long string (above 80 characters)
 - Send the `AT` command and listen for a response 
 - Send the `AT+ADDR?` command and listen for a response 
 
@@ -140,7 +141,7 @@ Reading around the UART protocol, it transpired that flow control is sometimes r
 
 The Raspberry Pi does support hardware flow control, however enabling it is non-trivial and it was not possible to enable it in Minicom, after looking into several methods of enabling it. [@vince_deater_raspberry_nodate]
 
-Upon speaking with Dave Cohen and investigating further it was suggested that as the RX pin of the HM-10 was technically 3.3V, providing a 5V signal could cause issues. A potential dividor was tried but this also failed to resolve the issues. [@martyn_currey_hm-10_2017] It also appeared that later versions of firmware used the higher 15200 baud rate - this was also tested. 
+Upon speaking with Dave Cohen and investigating further it was suggested that as the RX pin of the HM-10 was technically 3.3V, providing a 5V signal could cause issues. A potential divider was tried but this also failed to resolve the issues. [@martyn_currey_hm-10_2017] It also appeared that later versions of firmware used the higher 15200 baud rate - this was also tested. 
 
 It was also observed that using a BLE Scanner Android application (Figure 5), it was possible to connect to the HM-10 and read out the GATT data - no acknowledgement of the connection was observed on the serial port as expected and documented. This suggested the device was, in part, functioning as expected. 
 
@@ -164,7 +165,7 @@ The support for the Web Bluetooth APIs is rather more limited than I had believe
 
 Based on a development guide from Google (written by a member of the Web Bluetooth Community Group) [@francois_beaufort_interact_2015] a very basic solution was developed (Appendix 4) and there are several items to note. 
 
-The Web Bluetooth API requires user interaction on the page before scanning can even take place, and in any event the user needs to explicitly provide consent to pair with a device via a prompt. In the solution, an `onClick` event from a button is used to call the function. Once called the function scans devices and looks for an explicit unique identifier for the specific HM-10 in use (transcribed from the BLE Scanner app): `0x484D536F6674`. It is possible to apply filters based on GATT charactorisitics however for simplicity this is avoided. The name of the device should then be logged, and the pairing sequence initiated (requiring user confirmation). 
+The Web Bluetooth API requires user interaction on the page before scanning can even take place, and in any event the user needs to explicitly provide consent to pair with a device via a prompt. In the solution, an `onClick` event from a button is used to call the function. Once called the function scans devices and looks for an explicit unique identifier for the specific HM-10 in use (transcribed from the BLE Scanner app): `0x484D536F6674`. It is possible to apply filters based on GATT characteristics however for simplicity this is avoided. The name of the device should then be logged, and the pairing sequence initiated (requiring user confirmation). 
 
 Web Bluetooth is so experimental that it requires enabling a Chromium feature flag [@noauthor_web_nodate] and on Linux, enabling an experimental flag for Bluez [@acassis_how_2016]. 
 
