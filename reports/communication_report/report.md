@@ -45,11 +45,9 @@ _Section with reference to @gomez_overview_2012, @heydon_bluetooth_2013, @townse
 
 In the 4th Edition of the Bluetooth Specification [@bluetooth_sig_specification_2010], issued by the Bluetooth Special Interest Group the Bluetooth Low Energy devices were introduced. These devices were to in addition to what is known as Bluetooth Classic - the most well known version of Bluetooth used in all manner of consumer accessories from headphones to keyboards, and now adopted in scientific and industrial applications. Three classes of devices were available: Bluetooth Classic (only), Bluetooth Low Energy and Bluetooth Smart Ready; the latter supporting both Classic and Low Energy protocols. The intention behind Low Energy was to go almost in the opposite direction to Classic - a very low bandwidth device which would not remain constantly connected designed around applications that issued sporadic commands to retrieve data or initiate control sequences. In comparison to Bluetooth Classic at the time, Bluetooth Low Energy has a theoretical bandwidth of 1MB/s vs 54 MB/s with Classic [@heydon_bluetooth_2013] [@gomez_overview_2012]. Low Energy operates on the 2.4GHz frequency band with a channel spacing of 2MHz (40 channels) with 3 channels dedicated for advertisement broadcasts - channels 37, 38 and 39 [@townsend_getting_2014]. In order to minimize interference with other Bluetooth devices and other standards on the same frequency (WiFi, Bluetooth Classic, ZigBee) frequency hopping is used where the channel is changed upon each interaction based on the following formula [@townsend_getting_2014]: 
 
-\begin{center}
 ```
 channel = (curr_channel + hop) mod 37
 ```
-\end{center}
 
 The `hop` is predetermined at the initial authentication with the Bluetooth device and remains constant throughout the life of the connection. 
 
@@ -57,13 +55,13 @@ Gaussian Frequency Shift Keying (GFSK) is used as the modulation for transmitted
 
 The Bluetooth 4.0 specification defined two actors: a master and a slave. During the asymmetric connection process, the slave advertises itself on the advertising channels with a 31 byte packet. It is possible to send an additional 31 byte packet with additional data upon interrogation by a Master (sending a Scan Request packet) - this is Active Scanning and Passive Scanning is merely monitoring the data sent on the advertising channels. 
 
+```{=tex}
 \begin{figure}
   \begin{sequencediagram}
 
     \newinst[1]{A}{Master}{}
     \newinst[2]{B}{Slave}{}
-    \mess{call}{B}{Advertising Data}{A}{}
-    \end{call}
+    \mess{B}{Advertising Data}{A}{}
 
     \postlevel
     
@@ -72,6 +70,7 @@ The Bluetooth 4.0 specification defined two actors: a master and a slave. During
 
   \end{sequencediagram}
 \end{figure}
+```
 
 In Bluetooth 4.0 the slave may be connected to one master device with master devices permitted to connect to a number of slave devices. This was updated in version 4.1 of the specification [@bluetooth_sig_specification_2013] to allow slaves to have multiple connections to a master at any one time, although slave to slave communication remains unsupported. Low Energy uses Time Division Multiplexing to achieve long periods with the radio off (to conserve power) transmitting and receiving packets only at pre-determined intervals. This can give a battery life measured in years, but does mean the bandwidth is limited, as previously discussed. 
 
@@ -109,12 +108,13 @@ The HM-10 was then attached with Dupont leads to the GPIO of the Raspberry Pi us
 
 Initially, the device was detected on the serial port and a connection could be established. However, there was no data sent by the device and no acknowledgement of data sent down the serial port. The HM-10 uses AT commands which are commonly found in GSM modules and the like - the HM-10 likely uses these given the industry crossover. The manual for the HM-10 [@jnhuamao_technology_company_hm-10-datasheet.pdf_2014] lists a few basic AT commands which can be used to interogate basic data such as the device status: 
 
-`AT` should return the device status: `OK` or `OK/LOST`
-`AT+ADDR?` should return the device MAC: `OK+ADDR:{MAC address}`
+- `AT` should return the device status: `OK` or `OK/LOST`
+- `AT+ADDR?` should return the device MAC: `OK+ADDR:{MAC address}`
 
 The datasheet also describes that a string over 80 charactors should be sent to take the device out of standby. The string data is not relevant, just the length. 
 
 The manual states the serial parameters are:
+
 - 9600 Baud 
 - No parity 
 - 1 stop bit 
