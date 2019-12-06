@@ -32,6 +32,8 @@ An additional report on browser fingerprinting was added as this was discovered 
 
 In summary, although there have been significant challenges in several areas, the identification of these risks early on allowed mitigation within the project by rescheduling other workstreams and running parts in parallel to allow for greater flexibility whilst troubleshooting. Background research has gone well and provided additional context when troubleshooting issues and also when designing the overall system, to ensure constraints are observed. 
 
+The reports collated document this work thus far. 
+
 ## Project Diary 
 
 ### October 21, 2019
@@ -139,10 +141,6 @@ Should the API fail to work with any software combination, it will be necessary 
 
 The current plan is to continue working towards a Web Bluetooth implementation, but should this not prove possible more mature technologies are available and there is valuable research in looking at the current usability of Web Bluetooth. 
 
-## Literature Survey 
-
-?? not sure what to write
-
 ## Directory Listing
 
 The repository has the following structure:
@@ -188,9 +186,5 @@ Thanks to @tom_pollard_template_2016 for the front cover template which I have a
 \onecolumn 
 
 # Bibiography 
-
-Due to the nature of this project, available references on the subject are limited and will be confined to more general information security concepts as well as attendance monitoring. In this report the available references are provided by those who have investigated these devices beforehand. 
-
----
 
 <div id="refs"></div>
