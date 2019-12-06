@@ -34,6 +34,14 @@ In summary, although there have been significant challenges in several areas, th
 
 The reports collated document this work thus far. 
 
+## Literature Survey
+
+In the research for the clicker report, it was noted that there is very little research on this area and the main citations are for blog posts and code written by others. Later references are also informal technical guides. This was expected and has been previously noted in the Project Plan. 
+
+The Browser Fingerprinting report has two important citations: "User Tracking on the Web via Cross-Browser Fingerprinting” and "Device Fingerprinting: Analysis of Chosen Fingerprinting Methods", the former of which presents the research related to the Fingerprint2 library also cited. These provide significant context, although other sources are cited for completeness and to give more practical examples (in the case of a newspaper article). 
+
+In the Communication report there are several areas. When investigating the MIFARE Classic attack, the Mayes and Cid article has an excellent overview and provides additional sources which are also cited to give further context. The Nohl and Plötz video (later paper) is the original research and cited extensively. The Bluetooth Low Energy section is essentially based on the Bluetooth Specification, with support from two textbooks "Getting Started with Bluetooth Low Energy: Tools and Techniques for Low-Power Networking" and "Bluetooth Low Energy the Developer’s Handbook.", the former is more theoretical and the latter more practical. A research paper is also cited but this refers to version 4.0 of the specification, and technology in 4.1 is current. The section on HM-10 investigations suffers from the same issue as the Clicker Report - as it is inherently practical, there are limited academic sources and indeed, the material out there at all is limited. Of particular interest will be the HM-10 specification (although in areas it is incorrect) plus the Web Bluetooth API specification. 
+
 ## Project Diary 
 
 Provided in Appendix 1.
@@ -103,6 +111,8 @@ Thanks to @tom_pollard_template_2016 for the front cover template which I have a
 # Bibiography 
 
 <div id="refs"></div>
+
+\pagebreak
 
 # Appendix 
 
