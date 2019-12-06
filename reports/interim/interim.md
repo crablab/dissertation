@@ -36,6 +36,78 @@ The reports collated document this work thus far.
 
 ## Project Diary 
 
+Provided in Appendix 1.
+
+## Continued Risks
+
+There are continued risks in the project, and additional risks have been identified. 
+
+### Clicker emulator encoding
+- **Impact:** Medium
+
+This risk currently exists and is being mitigated. It is not a crucial part of the project and although it serves as a useful demonstration and makes for an interesting report, lack of a fully working system is not critical to success of the project. The plan is to attempt a different approach, however this will be timeboxed to ensure excessive time is not wasted. 
+
+### Web Bluetooth API 
+- **Impact:** High
+
+The Web Bluetooth API is less mature and less well supported than originally hoped. On the one hand, this does make a more interesting and relevant project (as there are few applications that use the API) however support is limited both in browsers and in documentation. Currently, although the API works on a specific Chromium set-up there are driver issues on Linux. Workarounds are being investigated and anecdotal research suggests that Google Chrome on Windows 10 may provide a more stable development environment. This has not yet been tested on any smartphones - this is an area to investigate.
+
+Should the API fail to work with any software combination, it will be necessary to seek another solution. The implementation would be possible using standard HTTP client/server architecture on a dedicated wireless network; however this is not ideal for various reasons. There may also be other communication mediums commonly supported on smartphones, for example NFC, that could be investigated should the need arise. 
+
+The current plan is to continue working towards a Web Bluetooth implementation, but should this not prove possible more mature technologies are available and there is valuable research in looking at the current usability of Web Bluetooth. 
+
+## Directory Listing
+
+The repository has the following structure:
+
+- proof_of_concept_programs
+    - clicker_basestation
+    - clicker_emulator
+    - crytographic_signing
+    - device_fingerprinting
+    - hm-10-investigations
+- reports
+    - clicker_report
+    - communication_report
+    - fingerprinting_report
+    - interim 
+    - outline_report
+    - plan
+    - proposal 
+
+Reports are written in "Frankenstein" Markdown and \LaTeX. They are compiled using Pandoc via the Bash generation script in each directory. Compilation is non-trivial without all of the packages installed and thus it is recommended to refer to the end of this document for the outputs. Source is provided for reference. 
+
+Each proof of concept program directory contains source code and where not covered in a report, a README for installation and execution. 
+
+## Running Programs 
+
+It should be noted that most programs submitted require hardware which I am happy to provide to those assessing the programs should they require it.  
+
+## Reports
+
+Reports are included in the following order, at the end of this document: 
+
+- Project Plan (included for context)
+- Clicker Report
+- Browser Fingerprinting Report
+- Communication Report
+- Outline System Design 
+
+# Acknowledgements 
+
+Thanks to @tom_pollard_template_2016 for the front cover template which I have adapted, @marco_torchiano_how_2015 for the Pandoc table preamble and @cohen_third_2013 for the Final Year Project guide and suggested layouts. 
+
+\pagebreak 
+\onecolumn 
+
+# Bibiography 
+
+<div id="refs"></div>
+
+# Appendix 
+
+## Appendix 1
+
 ### October 21, 2019
 
 Monday:
@@ -122,69 +194,3 @@ Today:
 - Finally managed to get HM-10 devices working properly. This has been delayed by waiting for hardware to arrive in dribs and drabs. An HM-10 from a different supplier and manufacturer arrived and, with no changed settings, has “magically” started working.
 - I can now send data from a phone, through the HM-10 to a serial console and back again. My script to test AT commands works and various notifications are logged to the serial port when device changes take place (eg. disconnection). This is huge progress and I shall now be able to write a driver for the HM-10.
 - Started work on a Web Bluetooth implementation. Have discovered that browser support is *shocking*. I currently am running experimental versions of Chromium (with flags enabled) and bluez (flags enabled) and am still encountering errors. I shall need to look further into this but it may prove unfortunatly rather fatal if I cannot find some combination of hardware that has reasonable support. Will discuss with supervisor.
-
-## Continued Risks
-
-There are continued risks in the project, and additional risks have been identified. 
-
-### Clicker emulator encoding
-- **Impact:** Medium
-
-This risk currently exists and is being mitigated. It is not a crucial part of the project and although it serves as a useful demonstration and makes for an interesting report, lack of a fully working system is not critical to success of the project. The plan is to attempt a different approach, however this will be timeboxed to ensure excessive time is not wasted. 
-
-### Web Bluetooth API 
-- **Impact:** High
-
-The Web Bluetooth API is less mature and less well supported than originally hoped. On the one hand, this does make a more interesting and relevant project (as there are few applications that use the API) however support is limited both in browsers and in documentation. Currently, although the API works on a specific Chromium set-up there are driver issues on Linux. Workarounds are being investigated and anecdotal research suggests that Google Chrome on Windows 10 may provide a more stable development environment. This has not yet been tested on any smartphones - this is an area to investigate.
-
-Should the API fail to work with any software combination, it will be necessary to seek another solution. The implementation would be possible using standard HTTP client/server architecture on a dedicated wireless network; however this is not ideal for various reasons. There may also be other communication mediums commonly supported on smartphones, for example NFC, that could be investigated should the need arise. 
-
-The current plan is to continue working towards a Web Bluetooth implementation, but should this not prove possible more mature technologies are available and there is valuable research in looking at the current usability of Web Bluetooth. 
-
-## Directory Listing
-
-The repository has the following structure:
-
-- proof_of_concept_programs
-    - clicker_basestation
-    - clicker_emulator
-    - crytographic_signing
-    - device_fingerprinting
-    - hm-10-investigations
-- reports
-    - clicker_report
-    - communication_report
-    - fingerprinting_report
-    - interim 
-    - outline_report
-    - plan
-    - proposal 
-
-Reports are written in "Frankenstein" Markdown and \LaTeX. They are compiled using Pandoc via the Bash generation script in each directory. Compilation is non-trivial without all of the packages installed and thus it is recommended to refer to the end of this document for the outputs. Source is provided for reference. 
-
-Each proof of concept program directory contains source code and where not covered in a report, a README for installation and execution. 
-
-## Running Programs 
-
-It should be noted that most programs submitted require hardware which I am happy to provide to those assessing the programs should they require it.  
-
-## Reports
-
-Reports are included in the following order, at the end of this document: 
-
-- Project Plan (included for context)
-- Clicker Report
-- Browser Fingerprinting Report
-- Communication Report
-- Outline System Design 
-
-# Acknowledgements 
-
-Thanks to @tom_pollard_template_2016 for the front cover template which I have adapted, @marco_torchiano_how_2015 for the Pandoc table preamble and @cohen_third_2013 for the Final Year Project guide and suggested layouts. 
-
-\pagebreak 
-\onecolumn 
-
-# Bibiography 
-
-<div id="refs"></div>
