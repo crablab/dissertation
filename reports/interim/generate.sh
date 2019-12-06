@@ -1,0 +1,2 @@
+pandoc --filter pandoc-citeproc -B title.md interim.md -H preamble.tex --variable classoption=twocolumn --bibliography=interim.bib --output interim.md.pdf
+pdftk interim.md.pdf ../plan/project_plan.md.pdf ../clicker_report/report.md.pdf ../fingerprinting_report/report.md.pdf ../communication_report/report.md.pdf ../outline_report/report.md.pdf cat output zeac006.interim.pdf
