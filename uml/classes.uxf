@@ -1,0 +1,45 @@
+<diagram program="umletino" version="14.3.0"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>0</x><y>550</y><w>100</w><h>30</h></coordinates><panel_attributes>SimpleClass</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>300</x><y>150</y><w>230</w><h>200</h></coordinates><panel_attributes>registration::user
+--
+-id
+-name
+-email
+-password
+-type 
+-enabled
+-created
+-updated
+--
+load(id)
+update()
+create(name, email, password, type) </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>300</x><y>150</y><w>230</w><h>200</h></coordinates><panel_attributes>registration::user
+--
+-id
+-name
+-email
+-password
+-type 
+-enabled
+-created
+-updated
+--
+load(id)
+update()
+create(name, email, password, type) </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>620</x><y>150</y><w>230</w><h>120</h></coordinates><panel_attributes>registration::class
+--
+-id
+-course
+-datetime
+--
+load(id)
+update()
+create(course, datetime)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>690</x><y>340</y><w>230</w><h>120</h></coordinates><panel_attributes>registration::class
+--
+-id
+-course
+-datetime
+--
+load(id)
+update()
+create(course, datetime)
+</panel_attributes><additional_attributes></additional_attributes></element></diagram>
