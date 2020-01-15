@@ -1,4 +1,4 @@
-<diagram program="umletino" version="14.3.0"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>840</x><y>620</y><w>230</w><h>200</h></coordinates><panel_attributes>registration::user
+<diagram program="umletino" version="14.3.0"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>650</x><y>598</y><w>230</w><h>220</h></coordinates><panel_attributes>registration::user
 --
 -id
 -name
@@ -11,7 +11,8 @@
 --
 load(id)
 update()
-create(name, email, password, type) </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1150</x><y>700</y><w>230</w><h>120</h></coordinates><panel_attributes>registration::class
+create(name, email, password, type) 
+check_privileges(id, level) </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1240</x><y>458</y><w>230</w><h>120</h></coordinates><panel_attributes>registration::class
 --
 - id
 - course
@@ -20,7 +21,7 @@ create(name, email, password, type) </panel_attributes><additional_attributes></
 + load(id)
 + update()
 + create(course, datetime)
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>840</x><y>340</y><w>230</w><h>160</h></coordinates><panel_attributes>registration::browsers
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>650</x><y>318</y><w>230</w><h>160</h></coordinates><panel_attributes>registration::browsers
 --
 - id
 - user
@@ -31,24 +32,23 @@ create(name, email, password, type) </panel_attributes><additional_attributes></
 --
 + get_fingerprints(user)
 + get_fingerprint(fingerprint)
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>450</x><y>360</y><w>230</w><h>110</h></coordinates><panel_attributes>registration::fingerprints
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>360</x><y>338</y><w>230</w><h>110</h></coordinates><panel_attributes>registration::fingerprints
 --
 - self
 --
 + lookup(fingerprint) 
 + mark(fingerprint, user)
 + connections(fingerprint, 
-    max_generation)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>670</x><y>410</y><w>190</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;170;10</additional_attributes></element><element><id>Relation</id><coordinates><x>940</x><y>490</y><w>30</w><h>150</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;10;130</additional_attributes></element><element><id>UMLClass</id><coordinates><x>450</x><y>540</y><w>230</w><h>110</h></coordinates><panel_attributes>registration::cohesion
+    max_generation)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>580</x><y>388</y><w>90</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;70;10</additional_attributes></element><element><id>Relation</id><coordinates><x>750</x><y>468</y><w>30</w><h>150</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;10;130</additional_attributes></element><element><id>UMLClass</id><coordinates><x>360</x><y>508</y><w>230</w><h>110</h></coordinates><panel_attributes>registration::cohesion
 --
 - self
 --
 + get_factor(user, user)
-+ risk_score(user) </panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>670</x><y>410</y><w>190</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;170;10</additional_attributes></element><element><id>Relation</id><coordinates><x>550</x><y>460</y><w>30</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;80;10;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>0</x><y>610</y><w>140</w><h>70</h></coordinates><panel_attributes>Note..
-bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>190</x><y>550</y><w>180</w><h>70</h></coordinates><panel_attributes>Nb. ideally this would look 
++ risk_score(user) </panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>580</x><y>388</y><w>90</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;70;10</additional_attributes></element><element><id>Relation</id><coordinates><x>460</x><y>438</y><w>30</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;70;10;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>390</x><y>698</y><w>180</w><h>70</h></coordinates><panel_attributes>Nb. ideally this would look 
 at other factors and not just 
 the number of common 
 connections
-bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>360</x><y>570</y><w>110</w><h>40</h></coordinates><panel_attributes></panel_attributes><additional_attributes>90;20;10;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1150</x><y>450</y><w>230</w><h>180</h></coordinates><panel_attributes>registration::allocations
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>460</x><y>608</y><w>30</w><h>110</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>UMLClass</id><coordinates><x>960</x><y>428</y><w>230</w><h>180</h></coordinates><panel_attributes>registration::allocations
 --
 - id
 - course
@@ -61,7 +61,7 @@ bg=blue</panel_attributes><additional_attributes></additional_attributes></eleme
 + deallocate(user, course) 
 + next(user, missed) 
 + upcoming(user, limit)
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1020</x><y>520</y><w>150</w><h>120</h></coordinates><panel_attributes></panel_attributes><additional_attributes>130;20;10;20;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>1250</x><y>620</y><w>30</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1150</x><y>180</y><w>230</w><h>200</h></coordinates><panel_attributes>registration::attendance
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>830</x><y>498</y><w>150</w><h>120</h></coordinates><panel_attributes></panel_attributes><additional_attributes>130;20;10;20;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>1180</x><y>518</y><w>80</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;60;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>960</x><y>158</y><w>230</w><h>200</h></coordinates><panel_attributes>registration::attendance
 --
 - id
 - user
@@ -75,7 +75,7 @@ bg=blue</panel_attributes><additional_attributes></additional_attributes></eleme
 + complete(id) 
 + check(user, class)
 + list(user, class, start, end) 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1250</x><y>370</y><w>30</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1410</x><y>180</y><w>230</w><h>200</h></coordinates><panel_attributes>registration::challenge
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1060</x><y>348</y><w>30</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1260</x><y>158</y><w>230</w><h>200</h></coordinates><panel_attributes>registration::challenge
 --
 - id
 - value
@@ -86,4 +86,15 @@ bg=blue</panel_attributes><additional_attributes></additional_attributes></eleme
 + complete(id) 
 + check(user, class)
 + list(user, class, start, end) 
-</panel_attributes><additional_attributes></additional_attributes></element></diagram>
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>960</x><y>658</y><w>230</w><h>140</h></coordinates><panel_attributes>registration::devices
+--
+- id
+- key
+- class
+- generated
+--
++ generate(class)
++ sign(class, message) 
++ validate(class, message, signature)
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1060</x><y>600</y><w>30</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;60;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>870</x><y>688</y><w>110</w><h>40</h></coordinates><panel_attributes></panel_attributes><additional_attributes>90;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>1180</x><y>250</y><w>100</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;80;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1180</x><y>350</y><w>350</w><h>420</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>200;10;200;50;330;50;330;400;10;400</additional_attributes></element></diagram>
