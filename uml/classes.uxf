@@ -1,0 +1,109 @@
+<diagram program="umletino" version="14.3.0"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>531</x><y>598</y><w>230</w><h>220</h></coordinates><panel_attributes>registration::user
+--
+-id
+-name
+-email
+-password
+-type 
+-enabled
+-created
+-updated
+--
+load(id)
+update()
+create(name, email, password, type) 
+check_privileges(id, level) </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1121</x><y>458</y><w>230</w><h>120</h></coordinates><panel_attributes>registration::class
+--
+- id
+- course
+- datetime
+--
++ load(id)
++ update()
++ create(course, datetime)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>531</x><y>318</y><w>230</w><h>160</h></coordinates><panel_attributes>registration::browsers
+--
+- id
+- user
+- fingerprint
+- first_seen
+- last_seen
+- hits
+--
++ get_fingerprints(user)
++ get_fingerprint(fingerprint)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>241</x><y>338</y><w>230</w><h>110</h></coordinates><panel_attributes>registration::fingerprints
+--
+- self
+--
++ lookup(fingerprint) 
++ mark(fingerprint, user)
++ connections(fingerprint, 
+    max_generation)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>461</x><y>388</y><w>90</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;70;10</additional_attributes></element><element><id>Relation</id><coordinates><x>631</x><y>468</y><w>30</w><h>150</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;10;130</additional_attributes></element><element><id>UMLClass</id><coordinates><x>241</x><y>508</y><w>230</w><h>110</h></coordinates><panel_attributes>registration::cohesion
+--
+- self
+--
++ get_factor(user, user)
++ risk_score(user) </panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>461</x><y>388</y><w>90</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;70;10</additional_attributes></element><element><id>Relation</id><coordinates><x>341</x><y>438</y><w>30</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;70;10;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>271</x><y>698</y><w>180</w><h>70</h></coordinates><panel_attributes>Nb. ideally this would look 
+at other factors and not just 
+the number of common 
+connections
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>341</x><y>608</y><w>30</w><h>110</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>UMLClass</id><coordinates><x>841</x><y>428</y><w>230</w><h>180</h></coordinates><panel_attributes>registration::allocations
+--
+- id
+- course
+- user
+- allocated
+--
++ allocate(user, course)
++ check(user, course) 
++ allocations(course) 
++ deallocate(user, course) 
++ next(user, missed) 
++ upcoming(user, limit)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>711</x><y>498</y><w>150</w><h>120</h></coordinates><panel_attributes></panel_attributes><additional_attributes>130;20;10;20;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>1061</x><y>518</y><w>80</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;60;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>841</x><y>158</y><w>230</w><h>200</h></coordinates><panel_attributes>registration::attendance
+--
+- id
+- user
+- class
+- challenge
+- fingerprint
+- start 
+- complete
+--
++ attempt(user, class)
++ complete(id) 
++ check(user, class)
++ list(user, class, start, end) 
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>941</x><y>348</y><w>30</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1141</x><y>158</y><w>230</w><h>200</h></coordinates><panel_attributes>registration::challenge
+--
+- id
+- value
+- signature 
+- 
+--
++ attempt(user, class)
++ complete(id) 
++ check(user, class)
++ list(user, class, start, end) 
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>841</x><y>658</y><w>230</w><h>140</h></coordinates><panel_attributes>registration::devices
+--
+- id
+- key
+- class
+- generated
+--
++ generate(class)
++ sign(class, message) 
++ validate(class, message, signature)
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>751</x><y>688</y><w>110</w><h>40</h></coordinates><panel_attributes></panel_attributes><additional_attributes>90;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>1061</x><y>250</y><w>100</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;80;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1061</x><y>350</y><w>350</w><h>420</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>200;10;200;50;330;50;330;400;10;400</additional_attributes></element><element><id>UMLClass</id><coordinates><x>841</x><y>828</y><w>240</w><h>130</h></coordinates><panel_attributes>registration::crypto
+--
+- signature_key
+--
++ generate_key()
++ get_key()
++ set_key(key)
++ sign_message(message)
++ verify message(signature, message)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>941</x><y>600</y><w>30</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;60;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>941</x><y>788</y><w>30</w><h>60</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;10;40</additional_attributes></element></diagram>
