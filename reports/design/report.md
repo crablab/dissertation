@@ -133,6 +133,18 @@ The Bluetooth device will be based on the Python ECDSA wrapper proof of concept,
 
 For MVP purposes, the Bluetooth device will sign and return any data sent to it - this may be improved to perform some kind of validation, time permitting. 
 
+## Database
+
+The application data will be stored in a relational database - this type of database lends itself well to the structured nature of the application with indexed columns. 
+
+The database engine I shall use is MySQL given my familiarity with the technology, the relative ubiquity and good library support. MySQL does not scale or lend itself to replication well but this is not required for the MVP. The schema could be easily migrated with readily available tools to another engine, such as Postgres. MySQL version 8 is the most recent stable release and whilst there are no plans to use any of the 
+
+I have elected to use an ORM (Object Relationship Mapping) tool - SQLAlchemy - with PyMySQL as the database connector. 
+
+### Entity Relationship Diagram 
+
+This is not provided right now, since it essentially maps bijectivly to the UML class diagram by design. 
+
 # Acknowledgements 
 
 Thanks to @marco_torchiano_how_2015 for the Pandoc table preamble and @cohen_third_2013 for the Final Year Project guide and suggested layouts. 
