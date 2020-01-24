@@ -1,0 +1,34 @@
+\usepackage{graphicx}
+\usepackage{pgfgantt}
+\usepackage{lscape}
+\usepackage{rotating}
+\usepackage{appendix}
+
+
+\newganttchartelement*{mymilestone}{
+mymilestone/.style={
+shape=isosceles triangle,
+inner sep=0pt,
+draw=cyan,
+top color=white,
+bottom color=cyan!50
+},
+mymilestone incomplete/.style={
+/pgfgantt/mymilestone,
+draw=yellow,
+bottom color=yellow!50
+},
+mymilestone label font=\slshape,
+mymilestone left shift=0pt,
+mymilestone right shift=0pt
+}
+
+\newgantttimeslotformat{stardate}{%
+\def\decomposestardate##1.##2\relax{%
+\def\stardateyear{##1}\def\stardateday{##2}%
+}%
+\decomposestardate#1\relax%
+\pgfcalendardatetojulian{\stardateyear-01-01}{#2}%
+\advance#2 by-1\relax%
+\advance#2 by\stardateday\relax%
+}
