@@ -30,6 +30,42 @@ based on a software product then this may even be most of your report. -->
 
 # Professional Issues
 
+Ideas:
+- Ethics around attendance monitoring as a whole 
+- Ethics around asking people to carry phones and requiring them to do so 
+- The moral and ethical concerns around browser fingerprinting and how it is commonly used
+    - More general concern around digital and web privacy 
+
+---
+
+Privacy and freedom of expression is becoming an increasingly debated issue, especially online and in the digital world. As computing power and storage capacity have increased over the last few decades, it has become feasible for companies to collect large amounts of data at an individual level for analysis and data mining. Whilst often the data is claimed to be anonymised, studies such as @https://www.nature.com/articles/s41467-019-10933-3 have shown that it is possible to use modern machine learning techniques on large datasets to identify individuals. 
+
+This project advocates not only requiring students to prove their presence in an auditable way but the bulk collection of browser data to prevent fraud and deception. Taking the former as a given, is it proportionate to collect a uniquely identifiable hash of the student's browser each time they mark their attendance?
+
+One important consideration is data protection, specifically the requirements of the General Data Protection Regulation or GDPR. As this data can uniquely identify a browser, it is possible it could be used in conjunction with other information (for example, lectures attended) to identify an individual. It is therefore classed as Personally Identifiable Information. 
+
+In order to process the data we must have a lawful reason to do so - in this case we claim legitimate interest applies. We must therefore meet the following test: 
+
+> Identify a legitimate interest;
+> Show that the processing is necessary to achieve it; and
+> Balance it against the individual’s interests, rights and freedoms.
+
+https://ico.org.uk/for-organisations/guide-to-data-protection/guide-to-the-general-data-protection-regulation-gdpr/lawful-basis-for-processing/legitimate-interests/
+
+Our legitimate interest is in the prevention of fraud but we still need to show that our processing of the PII is necessary, proportionate and balances the individual freedoms of the person. 
+
+The https://ico.org.uk/for-organisations/guide-to-data-protection/guide-to-the-general-data-protection-regulation-gdpr/lawful-basis-for-processing/legitimate-interests/ continues: 
+
+> Does this processing actually help to further that interest?
+> Is it a reasonable way to go about it?
+> Is there another less intrusive way to achieve the same result?
+
+The processing of the PII does further the interest as we use it to measure connections between students and to identify suspicious patterns of behavior (eg. a single device signing in multiple students). We consider this to be a reasonable method of measuring this data points and that this is the least intrusive method - we do not store the raw data for example, just the irreversible fingerprint hash. 
+
+The ICO test around individual freedoms look mainly at the sensitivity of the data, disclosure of the processing and appropriate safeguards to minimize harm. The data is fairly sensitive - appropriate controls should be in place to limit and record access and it should be removed as soon as the legitimate interest ends. 
+
+Even though we can demonstrate that the data collection in this scenario is proportionate, there are a number of other uses for browser fingerprints which operate in a decidedly more grey area. 
+
 <!-- 2. A short section on professional issues (See Section 6) that raised concern during the
 year, particularly with respect to doing your project or the material contained in your
 project. -->
