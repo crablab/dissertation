@@ -1,1 +1,11 @@
-{% extends "bootstrap/base.html" %} {% import "bootstrap/wtf.html" as wtf %} {{ wtf.quick_form(form) }}
+{% extends "bootstrap/base.html" %} 
+{% import "bootstrap/wtf.html" as wtf %} 
+
+{% block content %}
+<form class="form form-horizontal" method="post" role="form">
+    {{ form.hidden_tag() }} 
+    {{ wtf.form_errors(form, hiddens="only") }} 
+    {{ wtf.form_field(form.field1) }} 
+    {{ wtf.form_field(form.field2) }}
+</form>
+{% endblock %}
