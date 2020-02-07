@@ -58,11 +58,11 @@ Django is a higher level more feature rich web framework. By default it provides
 
 For this proof of concept I will use Flask. This will provide a very simple base on which to integrate my classes and although it will require writing additional boilerplate (eg. for a login system), as this is a proof of concept scope creep can be avoided through a clear design from the outset. 
 
-### Webservice UML 
+#### Webservice UML 
 
 ![UML diagram. This does not include classes generated or required by Flask - only application classes. ](assets/uml.png)
 
-### Webservice Pages 
+#### Webservice Pages 
 
 The following pages will be provided at the following URLs as an HTML user interface, as discussed above. 
 
@@ -103,7 +103,7 @@ Only accessible to administrators, this allows a student to be assigned to a cou
 
 Only accessible to administrators, this allows a lecturer to be assigned to a course. 
 
-### API
+#### API
 
 A basic API will be provided to facilitate the frontend asynchronous requests. It may be useful to provide some other endpoints, but these are not in scope for now. 
 
@@ -123,7 +123,7 @@ A basic API will be provided to facilitate the frontend asynchronous requests. I
 
 For form submissions, session cookies will be checked upon submission to the endpoint at prefix **/api/forms/**. 
 
-### Design Patterns
+#### Design Patterns
 
 The modular unit tested design of the webservice codebase lends itself well to the use of standard design patterns. The choice of pattern for a number of components is discussed below, identifying the tradeoffs between different types of design. 
 
