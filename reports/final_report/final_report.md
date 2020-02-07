@@ -173,6 +173,30 @@ I have elected to use an ORM (Object Relationship Mapping) tool - SQLAlchemy - w
 
 This is not provided right now, since it essentially maps bijectivly to the UML class diagram by design. 
 
+## Building the webservice 
+
+The first step in building the webservice was to configure the Python environment and set up the database. For final delivery of the code, I have decided to Dockerise the entire webservice to aid running of the code in the future and ensure a watermarked version of packages and dependencies are stored, so breaking changes introduced later do not render the software unable to run. 
+
+I first created a very naive Flask webservice which could load a page from an individual "service". I then added a database integration with a single (again naive) unit test as a proof of concept - this allowed testing of the DBMS and local connection. Creating the first version of the schema required modelling various constraints on the database to avoid consistency and normalization issues later on. For example, some tables exist purely to map IDs to IDs to remain in 3NF - this approach is discussed later on. 
+
+Having a working database, I looked into using my ORM connection to run queries on the database. Initially I had planned to extend my existing class but I discovered there is actually a Flask plugin for SQLAlchemy and it's use is encouraged as part of usage with Flask Blueprints. @todd_birchard_organizing_2018
+
+### Flask Blueprints
+
+The naive way to build a Flask application is to have an `app.py` which serves as a kind of edge proxy - you import all of your services into this single file and bind instantiations to a URL handler. This becomes unmaintainable very quickly, can create circular import issues and makes it hard to reason about how you should deal with object classes lower down the call stack. 
+
+Flask Blueprints allow us to separate out groups of pages that go together into Pythonic modules - these share templates and associated business logic. Underlying classes and objects remain shared throughout the application as appropriate. The routing for a Blueprint works in a similar way to the naive approach, except we handle more of subsequent request handling in the module with the associated business logic. It also allows us to use the factory design pattern with the `create_app` functionality built into Flask, which will then orchestrate the creation of the required modules to serve the request - for free! This gets rid of a lot of boilerplate that would otherwise exist to route requests. 
+
+We also are able to simplify unit and integration testing with this approach by passing different parameters to the `create_app` call to set up different objects. This avoids the situation where we unit test underlying classes, but not business logic in the modules where it is intertwined with display logic. In this case, we'll continue using pytest but use the Flask plugin to simplify the testing by providing Flask specific functionality. 
+
+In this application we will split the application out into several modules:
+
+- `Login` to handle the login and session creation 
+- `Student` for all student pages and business logic 
+- `Lecturer` for all lecturer pages and logic
+- `Administrator` for the back office processing pages and logic
+- `API` for the basic API we'll be providing 
+
 # Professional Issues
 
 Privacy and freedom of expression is becoming an increasingly debated issue, especially online and in the digital world. As computing power and storage capacity have increased over the last few decades, it has become feasible for companies to collect large amounts of data at an individual level for analysis and data mining. Whilst often the data is claimed to be anonymised, studies such as @rocher_estimating_2019 have shown that it is possible to use modern machine learning techniques on large datasets to identify individuals. 
