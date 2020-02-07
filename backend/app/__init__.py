@@ -1,6 +1,8 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
 
+from app.login.routes import login
+
 bootstrap = Bootstrap()
 
 
@@ -12,6 +14,6 @@ def create_app():
 
     # Blueprints
     app.register_blueprint(login)
-    app.register_blueprint(api, url_prefix='/api')
-    
+    #app.register_blueprint(api, url_prefix='/api')
+
     return app
