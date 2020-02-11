@@ -10,9 +10,13 @@ bootstrap = Bootstrap()
 db = SQLAlchemy()
 flask_bcrypt = Bcrypt()
 
-def create_app():
+def create_app(config = None):
 
     app = Flask(__name__)
+
+    # Load a configuration if provided
+    if config is not None:
+        app.config.from_object(config)
 
     bootstrap.init_app(app)
     db.init_app(app)

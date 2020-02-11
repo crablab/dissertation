@@ -1,10 +1,10 @@
 import datetime
-from application import db, flask_bcrypt
-from sqlalchemy.hybrid import hybrid_property
+from .. import db, flask_bcrypt
+from sqlalchemy.ext.hybrid import hybrid_property
 
 __all__ = ['user']
 
-class User(db.Model):
+class user(db.Model):
     id = db.Column(db.String(255), primary_key=True)
     name = db.Column(db.Text(), nullable=False)
     email = db.Column(db.Text(), nullable=False)
