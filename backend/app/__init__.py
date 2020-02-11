@@ -14,9 +14,6 @@ def create_app():
 
     app = Flask(__name__)
 
-    # Should be in config/ENV
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://registration:4tpbeW7Ak2K9pete#@localhost/registration'
-
     bootstrap.init_app(app)
     db.init_app(app)
     flask_bcrypt.init_app(app)
