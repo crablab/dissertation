@@ -31,20 +31,18 @@ or even an interesting discussion on what you have achieved in a more global con
 
 At Royal Holloway, for the 2018 intake of first year undergraduates it was decided that due to the class size, paper registers were infeasible. The clicker systems was proposed and developed. This uses a Turning Technologies "Response Card" (Figure 1) typically used to respond to interactive questionnaires as part of a slideshow, or with other proprietary software. The device communicates with a base station connected to a computer via USB (Universal Serial Bus) when a key option is pressed (eg. "1/A") and transmits the unique ID of the device and the key press. The message is acknowledged by the base station and the user is given visual affirmation on the device that their response was counted. The results are then stored in a proprietary format attached to the slideshow which is decoded, processed and analysed by the department using a collection of scripts, Excel spreadsheets and custom software. 
 
-## Aims
-
-The aim of this report is to investigate the Turning Point clickers to learn more about how they work in practice and to see to what extent it is possible to reverse engineer, intercept and spoof communications between the clicker and the basestation. The report will look at the theoretical technical specifications of the clickers, including any technical methods to validate and verify data. It will also include a practical investigation into the clickers, building on research previously carried out. 
+The aim was to investigate the Turning Point clickers to learn more about how they work in practice and to see to what extent it is possible to reverse engineer, intercept and spoof communications between the clicker and the basestation. 
 
 ![A Turning Technologies "Response Card"](assets/figure1.jpg)
 
-## Background Research
+### Background Research
 
 Whilst researching the device I discovered the work of @goodspeed_travis_2010 who reverse engineered a similar, but older device. This was achieved by dumping the firmware of the device allowing analysis of the way the device operated and how packets were structured and sent. A number of important discoveries were made: the System on Chip is a Nordic nRF24E1 chip, which is a Intel MCS-51 (8051 microcontroller) with an nRF2401 radio transceiver. The nRF2401 is a 2.4GHz, serial radio transceiver.[@nordic_semiconductor_asa_single_2004] The datasheet lists a number of potential applications including telemetry, keyless entry and home security and automation. The chip also uses what the datasheet describes as a "3-wire serial interface." - this is otherwise know as SPI (Serial Peripheral Interface) and allows easy interface with devices such as a Raspberry Pi and Arduino. 
 Secondly, there is no encryption and in the aforementioned research it was noted through analysis of the firmware that the packets take the structure of three bytes target MAC, 3 bytes source MAC and then a single byte for the button selection. A CRC is calculated and added by the radio. 
 
 This means that the source, destination and the parameter (the button pressed) are transmitted in cleartext with the only validation being a CRC (Cyclic Redundancy Check). The message is not signed, so there is no way to verify that a message has indeed come from the advertised source - this allows an attacker to arbitrarily spoof messages purporting to come from any source MAC address. 
 
-## Cyclic Redundancy Check 
+### Cyclic Redundancy Check 
 
 CRCs are a method of error checking that are widely used in serial communications[@borrelli_ieee_2001]. Traditionally, parity bits have been used to ensure data integrity across a communication channel. These indicate whether the data value is expected to be even or odd, but suffers from two major flaws. Firstly, it is not possible for you to determine where the corruption has ocurred in a piece of data - it is not possible to repair the message and it has to be discarded and resent. Secondly, if two corruptions occur then the data may end up passing the parity check but still be invalid. Additional measures (such as length checking, strict processing validation etc.) can be included to reduce the risks of bad data being processed. Whilst a parity bit is technically a 1 bit CRC (CRC-1), greater check values are now used as the greater bit value allows you to determine reliably how many bits have been corrupted and therefore protects against corruptions that fail to modify the overall parity. 
 
@@ -62,7 +60,7 @@ This produces a value (the polynomial) when is then used to divide `M(x)`, with 
 
 In this particular situation, it is possible to calculate the CRC on the nRF24E1 in the ShockBurst\texttrademark configuration settings by setting the `CRC_EN` flag bit. This means the chip will calculate and append the CRC as well as strip and validate the CRC on messages received.[@nordic_semiconductor_asa_single_2004] In the @mooney_nickmooney/turning-clicker_2019 implementation, CRC is calculated on the Arduino not on the nRF24E1 due to technical issues getting this working. The CRC is instead calculated and checked using an alternative library.[@frank_frankboesing/fastcrc_2019]
 
-## Hardware
+### Hardware
 
 It is possible to use any Arduino and nRF24E1 breakout board for this project - I elected to use the Arduino Nano and the cheapest nRF24E1 board I could find on eBay. The Arduino is placed on a breadboard and the nRF24E1 connected via Dupont leads to the requisite pins. 
 
@@ -86,8 +84,9 @@ The pinout I used is listed in Table {@tbl:table1}
 Table: The chosen pinout. {#tbl:table1}
 
 With the addition of a mini USB cable to connect the Arduino to your computer, the hardware setup is complete. It is important to note that the hardware required for the base station emulator is identical to that required for the clicker emulator. 
-
-## Installation
+ 
+### Installation 
+<!-- potentially should go in user manual? -->
 
 The setup of the software environment on the computer is relatively simple and is based around the Arduino IDE which is available from: https://www.arduino.cc/en/main/software. It appears there is now an online version, but this has not been tested with this project. 
 
@@ -107,7 +106,7 @@ It is also important to note that the baud rate used in the project is 115200 - 
 
 The Python scripts to manage serial communication with the Arduinos are designed to be run in Python3. No libraries not available via Pip are used, but what is installed by default varies per system so it is advised to try running the code and install any missing libraries as required. 
 
-### Frequent Issues
+#### Frequent Issues
 
 Two issues encountered and which took significant effort to identify the root cause of are included with some basic debugging. 
 
@@ -125,7 +124,7 @@ If that doesn't work, you may be specifying the wrong serial port.
 
 It is possible to identify a process using a serial port with `lsof` and then terminate this process using `pkill`. 
 
-## Clicker Basestation
+### Clicker Basestation
 
 The script to emulate the basestation of the clicker system is made up of two parts, the Arduino code and Python script. The former is essentially an unmodified version of the @mooney_nickmooney/turning-clicker_2019 file, which was developed a number of years ago. The interesting point here is that his work was developed on an entirely different device, and shows how widely this system has been deployed and the range of different devices available all using the same protocol. 
 The Arduino code listens for a transmission on the configured channel and then checks the CRC (discussed above). It then prints out the received packet to the serial console and returns the "accepted" message to the clicker. This causes the clicker to flash a green LED instead of a red one to show  proper acknowledgement to a message by the basestation.
@@ -156,7 +155,7 @@ The output on the serial console is shown in Figure 3.
 
 ![Clicker basestation serial console](assets/figure3.png)
 
-## Clicker emulator 
+### Clicker emulator 
 
 The hardware for the emulation of a clicker is exactly the same as that required for a basestation - the difference is purely in the code and associated processing of data. My high level plan was: 
 
@@ -207,10 +206,10 @@ This more predictably populated the buffer at the other end, as shown in Figure 
 
 It turns out that although the outgoing packet is correctly formatted (when compared to incoming packets from a clicker as received by the emulator basestation) no packet is actually sent, or at least received at the other end. This is a fairly critical error and I think may stem from my misunderstanding over how the code works (which address is which). I have not yet resolved this and I may not - I am quickly going down a rabbit hole of ASCII encoding already. 
 
-## Conclusion 
+### Conclusion 
 
-I have successfully implemented (using code from @mooney_nickmooney/turning-clicker_2019) a clicker basestation and associated Python script which I believe actually has a practical use, to replace the current PowerPoint slide system. 
-The emulation of the clickers themselves has proved more tricky and the adaptation of the code has been difficult - I am looking at how to resolve this but I think it will require rewriting a substantial portion of the original code. The encoding issue over serial is a problem, but not a huge disaster at the moment. I am unlikely to expend significant effort on this now, until I can guarantee I can actually send packets between the two Arduinos. 
+I successfully implemented (using code from @mooney_nickmooney/turning-clicker_2019) a clicker basestation and associated Python script which I believe actually has a practical use, to replace the current PowerPoint slide system. 
+The emulation of the clickers themselves has proved more tricky and the adaptation of the code to spoof packets has been difficult. However, the reception and decoding of live packets has shown that the protocol is vulnerable to a programmatic attack in this way and, if nothing else, is vulnerable to a simple replay attack of a recorded transmission.  
 
 ## Browser Fingerprinting 
 
