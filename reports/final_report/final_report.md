@@ -37,7 +37,7 @@ The aim was to investigate the Turning Point clickers to learn more about how th
 
 ### Background Research
 
-Whilst researching the device I discovered the work of @goodspeed_travis_2010 who reverse engineered a similar, but older device. This was achieved by dumping the firmware of the device allowing analysis of the way the device operated and how packets were structured and sent. A number of important discoveries were made: the System on Chip is a Nordic nRF24E1 chip, which is a Intel MCS-51 (8051 microcontroller) with an nRF2401 radio transceiver. The nRF2401 is a 2.4GHz, serial radio transceiver.[@nordic_semiconductor_asa_single_2004] The datasheet lists a number of potential applications including telemetry, keyless entry and home security and automation. The chip also uses what the datasheet describes as a "3-wire serial interface." - this is otherwise know as SPI (Serial Peripheral Interface) and allows easy interface with devices such as a Raspberry Pi and Arduino. 
+Whilst researching the device I discovered the work of @goodspeed_travis_2010 who reverse engineered a similar, but older device. This was achieved by dumping the firmware of the device allowing analysis of the way the device operated and how packets were structured and sent. A number of important discoveries were made: the System on Chip is a Nordic nRF24E1 chip, which is a Intel MCS-51 (8051 microcontroller) with an nRF2401 radio transceiver. The nRF2401 is a 2.4GHz, serial radio transceiver.[@nordic_semiconductor_asa_single_004] The datasheet lists a number of potential applications including telemetry, keyless entry and home security and automation. The chip also uses what the datasheet describes as a "3-wire serial interface." - this is otherwise know as SPI (Serial Peripheral Interface) and allows easy interface with devices such as a Raspberry Pi and Arduino. 
 Secondly, there is no encryption and in the aforementioned research it was noted through analysis of the firmware that the packets take the structure of three bytes target MAC, 3 bytes source MAC and then a single byte for the button selection. A CRC is calculated and added by the radio. 
 
 This means that the source, destination and the parameter (the button pressed) are transmitted in cleartext with the only validation being a CRC (Cyclic Redundancy Check). The message is not signed, so there is no way to verify that a message has indeed come from the advertised source - this allows an attacker to arbitrarily spoof messages purporting to come from any source MAC address. 
@@ -58,7 +58,7 @@ $G(x) = (1 \times x^{16}) + (0 \times x^{15}) + (1 \times x^{2}) + 1$
 
 This produces a value (the polynomial) when is then used to divide `M(x)`, with the remainder used as the CRC. 
 
-In this particular situation, it is possible to calculate the CRC on the nRF24E1 in the ShockBurst\texttrademark configuration settings by setting the `CRC_EN` flag bit. This means the chip will calculate and append the CRC as well as strip and validate the CRC on messages received.[@nordic_semiconductor_asa_single_2004] In the @mooney_nickmooney/turning-clicker_2019 implementation, CRC is calculated on the Arduino not on the nRF24E1 due to technical issues getting this working. The CRC is instead calculated and checked using an alternative library.[@frank_frankboesing/fastcrc_2019]
+In this particular situation, it is possible to calculate the CRC on the nRF24E1 in the ShockBurst\texttrademark configuration settings by setting the `CRC_EN` flag bit. This means the chip will calculate and append the CRC as well as strip and validate the CRC on messages received.[@nordic_semiconductor_asa_single_004] In the @mooney_nickmooney/turning-clicker_2019 implementation, CRC is calculated on the Arduino not on the nRF24E1 due to technical issues getting this working. The CRC is instead calculated and checked using an alternative library.[@frank_frankboesing/fastcrc_2019]
 
 ### Hardware
 
@@ -237,21 +237,21 @@ In order to test both libraries I designed a simple HTML webpage with some basic
 
 It is important to note the timeout is set to allow a certain amount of time for the page to load, as partially loaded pages generate inconsistent fingerprints. 
 
-In Figure 1 you can see a demonstration: 
+In Figure 5 you can see a demonstration: 
 
-![The initial output of the fingerprint output test](assets/figure1.png)
+![The initial output of the fingerprint output test](assets/figure5.png)
 
-Upon a refresh in Figure 2 you will note that the ClientJS fingerprint remains static, whilst the Fingerprint2 example does not. The exact reasons for this will be down to the specific parameters each chooses to use in fingerprinting. There are many options - it would take a long time to fine tune these algorithms! 
+Upon a refresh in Figure 6 you will note that the ClientJS fingerprint remains static, whilst the Fingerprint2 example does not. The exact reasons for this will be down to the specific parameters each chooses to use in fingerprinting. There are many options - it would take a long time to fine tune these algorithms! 
 
-![The refreshed output of the fingerprint output test](assets/figure2.png)
+![The refreshed output of the fingerprint output test](assets/figure6.png)
 
-I also compared the outputs in an incognito window and  in Figure 3 again the Fingerprint2 results do not match, whilst the ClientJS fingerprint has correctly identified the browser - despite it being in incognito mode and therefore with no cookies and no tracking. 
+I also compared the outputs in an incognito window and  in Figure 7 again the Fingerprint2 results do not match, whilst the ClientJS fingerprint has correctly identified the browser - despite it being in incognito mode and therefore with no cookies and no tracking. 
 
-![Left: normal browser, Right: incognito mode](assets/figure3.png)
+![Left: normal browser, Right: incognito mode](assets/figure7.png)
 
-Finally in Figure 4, I compared the results across two browsers - Chrome and Firefox. Both Fingerprint2 and ClientJS identify them as different browsers, which is to be expected! 
+Finally in Figure 8, I compared the results across two browsers - Chrome and Firefox. Both Fingerprint2 and ClientJS identify them as different browsers, which is to be expected! 
 
-![Left: Chrome, Right: Firefox](assets/figure4.png)
+![Left: Chrome, Right: Firefox](assets/figure8.png)
 
 ## Bluetooth 
 
@@ -269,9 +269,9 @@ Considering the range of other wireless communication technologies:
 
 ### Student ID Cards
 
-![Screenshot of the tag read from the NXP "TagInfo" Android application](assets/figure1.png)
+![Screenshot of the tag read from the NXP "TagInfo" Android application](assets/figure9.png)
 
-At the beginning of the 2019 Winter Term, the College began issuing new student ID cards and reissuing older cards. The new cards were found to contain a MIFARE Classic chip (Figure 1). The MIFARE chip was originally released in 1994 by what became NXP [@mayes_mifare_2010] as a product primarily for mass transit cards, but also later for door key cards and the like. The MIFARE design was very proprietary with only the (48 bit) key length disclosed to the security community. For example, the chip used an undisclosed encryption algorithm developed by Phillips (who became NXP) that had not been researched or investigated by the wider security community. [@mayes_mifare_2010] As is well accepted in Kerckhoff's Principle [@kerckhoffs_cryptographie_nodate], we should always assume the attacker has the maximum knowledge of the system including details of the encryption algorithms used, nonce generation algorithms and other design features. The only item assumed not to be known by default is any private keys generated. This principle ensures that any tendency to default to "security by obscurity" is avoided as, as in the case of MIFARE, if your security model relies on design details being disclosed it is very vulnerable to espionage, reverse engineering or simply errors in parties disclosing too many details. 
+At the beginning of the 2019 Winter Term, the College began issuing new student ID cards and reissuing older cards. The new cards were found to contain a MIFARE Classic chip (Figure 9). The MIFARE chip was originally released in 1994 by what became NXP [@mayes_mifare_2010] as a product primarily for mass transit cards, but also later for door key cards and the like. The MIFARE design was very proprietary with only the (48 bit) key length disclosed to the security community. For example, the chip used an undisclosed encryption algorithm developed by Phillips (who became NXP) that had not been researched or investigated by the wider security community. [@mayes_mifare_2010] As is well accepted in Kerckhoff's Principle [@kerckhoffs_cryptographie_nodate], we should always assume the attacker has the maximum knowledge of the system including details of the encryption algorithms used, nonce generation algorithms and other design features. The only item assumed not to be known by default is any private keys generated. This principle ensures that any tendency to default to "security by obscurity" is avoided as, as in the case of MIFARE, if your security model relies on design details being disclosed it is very vulnerable to espionage, reverse engineering or simply errors in parties disclosing too many details. 
 
 In December 2007 at the Chaos Computer Conference [@nohl_mifare_nodate] [@nohl_reverse-engineering_nodate], a presentation was given where researchers presented analysis where it was demonstrated it was possible to generate the nonces used in the chip (as the randomness is determined by the number of clock cycles since the chip is initialized) and by analyzing 27 of mutual authentication captures repetition of the challenge response was observed. It was also shown by trial by error in bit flipping the unique identifier transmitted by the card was linked to the keys used and such there exists for each session key as a result of the mutual authentication, for a given key and unique identifier. This allows recovery of the key used based on the unique identifier presented by the chip and the challenge response sent.  
 
@@ -348,13 +348,13 @@ It should be noted that in the proposed implementation, Just Works pairing will 
 
 Investigations into practical applications and small projects with Bluetooth Low Energy yielded several articles mentioning the HM-10. [@loginov_how_2019] The HM-10 is based on a Texas Instruments BLE System On Chip mounted as a daughter board to breakout a serial UART connection. At this time only BLE devices are officially supported via the Web Bluetooth APIs. [@webbluetoothcg_web_2019]
 
-![A HM-10 module](assets/figure2.jpg)
+![A HM-10 module](assets/figure10.jpg)
 
 As this device provides a serial interface, an additional microprocessor will be required to interface with the device and to receive, process and then respond to data sent to the device. A Raspbery Pi was chosen over an Arduino due to the increased processing power, onboard networking and full operating system. This also allows for higher level languages like Python to be used instead of C++, speeding up development. As no analogue inputs are required there is no real advantage to using an Arduino here. A Rasperry Pi Zero was configured to run in headless mode with a terminal over USB [@gbaman_simple_nodate] however it transpired that whilst the Raspberry Pi does have two UARTs available, one is used for the onboard Bluetooth and the UART used for the Linux console is shared with the UART exposed on the GPIO. [@noauthor_raspberry_nodate] It was therefore necessary to change approach and a Raspberry Pi 2B was provisioned with SSH enabled (add an empty file: `/boot/ssh`) was configured such that direct a ethernet connection to the laptop was possible, with ethernet passthrough to the laptop's wireless connection. 
 
 The HM-10 was then attached with Dupont leads to the GPIO of the Raspberry Pi using pinouts for the Pi and the markings on the HM-10 breakout board. [@noauthor_pi4j_nodate]
 
-![Raspberry Pi 2B with an HM-1o breakout board attached](assets/figure3.jpg)
+![Raspberry Pi 2B with an HM-1o breakout board attached](assets/figure12.jpg)
 
 Initially, the device was detected on the serial port and a connection could be established. However, there was no data sent by the device and no acknowledgement of data sent down the serial port. The HM-10 uses AT commands which are commonly found in GSM modules and the like - the HM-10 likely uses these given the industry crossover. The manual for the HM-10 [@jnhuamao_technology_company_hm-10-datasheet.pdf_2014] lists a few basic AT commands which can be used to interrogate basic data such as the device status: 
 
@@ -382,9 +382,9 @@ Looking at the Raspberry Pi forums identified a small number of questions relati
 
 The script is provided in Appendix 3. 
 
-Running this script several times with different RX/TX pin configurations and baud rates did not yield any results and the only success was some null bytes, as in Figure 4. 
+Running this script several times with different RX/TX pin configurations and baud rates did not yield any results and the only success was some null bytes, as in Figure 11. 
 
-![Run one with null bytes, second run with nothing. The change between runs is swapping the TX/RX pins on the UART.](assets/figure3.1.png)
+![Run one with null bytes, second run with nothing. The change between runs is swapping the TX/RX pins on the UART.](assets/figure11.png)
 
 Reading around the UART protocol, it transpired that flow control is sometimes required for devices. [@mark_duncombe_is_nodate] Flow control is used to indicate to the other party when it is 'safe' to send data and when it is not. As UART is so ubiquitous it is likely there will be cases where the buffer size and the processing capabilities between devices is vastly different. To prevent more capable devices flooding low powered devices (either leading to lost data or exceptions) the crosscoupled `state` (RTS) and `enable` (CTS) supplement the data lines and when a device needs to inhibit further data it will bring the `state` line to Logic 0 (`enable` on the partner device). [@silicon_labs_an0059.0:_2017]
 
@@ -392,21 +392,21 @@ The Raspberry Pi does support hardware flow control, however enabling it is non-
 
 Upon speaking with Dave Cohen and investigating further it was suggested that as the RX pin of the HM-10 was technically 3.3V, providing a 5V signal could cause issues. A potential divider was tried but this also failed to resolve the issues. [@martyn_currey_hm-10_2017] It also appeared that later versions of firmware used the higher 15200 baud rate - this was also tested. 
 
-It was also observed that using a BLE Scanner Android application (Figure 5), it was possible to connect to the HM-10 and read out the GATT data - no acknowledgement of the connection was observed on the serial port as expected and documented. This suggested the device was, in part, functioning as expected. 
+It was also observed that using a BLE Scanner Android application (Figure 13), it was possible to connect to the HM-10 and read out the GATT data - no acknowledgement of the connection was observed on the serial port as expected and documented. This suggested the device was, in part, functioning as expected. 
 
-![Using the BLE Scanner Android application to connect to the HM-10](assets/figure4.1.png)
+![Using the BLE Scanner Android application to connect to the HM-10](assets/figure13.png)
 
 Up until this point, two HM-10 devices from the same source had been used. Due to the issues encountered another was procured from an alternative supplier. Upon swapping it like for like with the other HM-10, it worked first time with the script provided in Appendix 3. This does validate that this was a hardware issue rather than "user error" however the exact issue is unknown. 
 
-![The two HM-10s side by side. The new (and working) device has the LED illuminated](assets/figure4.jpg)
+![The two HM-10s side by side. The new (and working) device has the LED illuminated](assets/figure14.jpg)
 
-![The expected output of the script in Appendix 3 with a working HM-10](assets/figure5.1.png)
+![The expected output of the script in Appendix 3 with a working HM-10](assets/figure15.png)
 
-Using a BLE Terminal app it was then possible to send data via the HM-10 to a running screen session as in Figures 8 and 9:
+Using a BLE Terminal app it was then possible to send data via the HM-10 to a running screen session as in Figures 17 and 18:
 
-![The BLE Terminal Android application connected to the HM-10 and transmitting and receiving text.](assets/figure5.png)
+![The BLE Terminal Android application connected to the HM-10 and transmitting and receiving text.](assets/figure16.png)
 
-![The equivalent end with a screen session attached, showing the text and the AT messages when GATT changes take place.](assets/figure6.png)
+![The equivalent end with a screen session attached, showing the text and the AT messages when GATT changes take place.](assets/figure17.png)
 
 Focus is then on integrating this with the Web Bluetooth APIs to transmit data from a browser down to the Bluetooth device. 
 
@@ -418,9 +418,9 @@ The Web Bluetooth API requires user interaction on the page before scanning can 
 
 Web Bluetooth is so experimental that it requires enabling a Chromium feature flag [@noauthor_web_nodate] and on Linux, enabling an experimental flag for Bluez [@acassis_how_2016]. 
 
-At the moment issues with Chromium detecting available Bluetooth cards via Bluez persist (Figure 10) and it has not been able to properly test the solution. Trials with other operating systems may be necessary to have a working Proof of Concept. 
+At the moment issues with Chromium detecting available Bluetooth cards via Bluez persist (Figure 18) and it has not been able to properly test the solution. Trials with other operating systems may be necessary to have a working Proof of Concept. 
 
-![Web Bluetooth API issues with Linux Bluetooth drivers](assets/figure7.png)
+![Web Bluetooth API issues with Linux Bluetooth drivers](assets/figure18.png)
 
 # Design and Software Engineering
 
@@ -459,7 +459,7 @@ For this proof of concept I will use Flask. This will provide a very simple base
 
 #### Webservice UML 
 
-![UML diagram. This does not include classes generated or required by Flask - only application classes. ](assets/uml.png)
+![UML diagram. This does not include classes generated or required by Flask - only application classes. ](assets/design_uml.png)
 
 #### Webservice Pages 
 

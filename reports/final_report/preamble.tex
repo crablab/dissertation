@@ -1,34 +1,49 @@
 \usepackage{graphicx}
-\usepackage{pgfgantt}
-\usepackage{lscape}
-\usepackage{rotating}
-\usepackage{appendix}
+\usepackage{pgf-umlsd}
 
-
-\newganttchartelement*{mymilestone}{
-mymilestone/.style={
-shape=isosceles triangle,
-inner sep=0pt,
-draw=cyan,
-top color=white,
-bottom color=cyan!50
-},
-mymilestone incomplete/.style={
-/pgfgantt/mymilestone,
-draw=yellow,
-bottom color=yellow!50
-},
-mymilestone label font=\slshape,
-mymilestone left shift=0pt,
-mymilestone right shift=0pt
+% Re-defines longtable to work in 2-column with Pandoc
+% Solution from: https://tex.stackexchange.com/questions/161431/how-to-solve-longtable-is-not-in-1-column-mode-error
+\makeatletter
+\let\oldlt\longtable
+\let\endoldlt\endlongtable
+\def\longtable{\@ifnextchar[\longtable@i \longtable@ii}
+\def\longtable@i[#1]{\begin{figure}[t]
+\onecolumn
+\begin{minipage}{0.5\textwidth}
+\oldlt[#1]
 }
-
-\newgantttimeslotformat{stardate}{%
-\def\decomposestardate##1.##2\relax{%
-\def\stardateyear{##1}\def\stardateday{##2}%
-}%
-\decomposestardate#1\relax%
-\pgfcalendardatetojulian{\stardateyear-01-01}{#2}%
-\advance#2 by-1\relax%
-\advance#2 by\stardateday\relax%
+\def\longtable@ii{\begin{figure}[t]
+\onecolumn
+\begin{minipage}{0.5\textwidth}
+\oldlt
 }
+\def\endlongtable{\endoldlt
+\end{minipage}
+\twocolumn
+\end{figure}}
+\makeatother
+
+%% pandoc-tablenos: required package
+\usepackage{caption}
+
+%% pandoc-tablenos: environment to disable table caption prefixes
+\makeatletter
+\newcounter{tableno}
+\newenvironment{tablenos:no-prefix-table-caption}{
+    \caption@ifcompatibility{}{
+    \let\oldthetable\thetable
+    \let\oldtheHtable\theHtable
+    \renewcommand{\thetable}{tableno:\thetableno}
+    \renewcommand{\theHtable}{tableno:\thetableno}
+    \stepcounter{tableno}
+    \captionsetup{labelformat=empty}
+    }
+}{
+    \caption@ifcompatibility{}{
+    \captionsetup{labelformat=default}
+    \let\thetable\oldthetable
+    \let\theHtable\oldtheHtable
+    \addtocounter{table}{-1}
+    }
+}
+\makeatother
