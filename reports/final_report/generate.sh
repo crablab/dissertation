@@ -1,1 +1,1 @@
-pandoc --filter pandoc-citeproc -B title.md project_plan.md gantt.tex -H preamble.tex --variable classoption=twocolumn --bibliography=project_plan.bib --output project_plan.md.pdf
+pandoc --filter pandoc-citeproc -B title.md final_report.md appendix.md -H preamble.tex --variable classoption=twocolumn --bibliography=final_report.bib --output final_report.md.pdf
