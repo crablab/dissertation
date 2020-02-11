@@ -370,7 +370,7 @@ The manual states the serial parameters are:
 - 1 stop bit 
 - 8 bit byte length 
 
-A few attempts were made using these settings and different serial decoders (Minicom, Screen) - no response was received. Appendix 2 contains an output from Minicom for one attempt (including configuration). 
+A few attempts were made using these settings and different serial decoders (Minicom, Screen) - no response was received. Appendix 4 contains an output from Minicom for one attempt (including configuration). 
 
 It transpired that AT commands are actually a time based command set. They do not rely on a carriage return or line feed to indicate the end of a command, but they do timeout - within 100ms usually. [@milosevich_at_2006] A timeout on a valid command will cause the command to be executed and the result returned - an invalid command may generate no response at all. 
 
@@ -380,7 +380,7 @@ Looking at the Raspberry Pi forums identified a small number of questions relati
 - Send the `AT` command and listen for a response 
 - Send the `AT+ADDR?` command and listen for a response 
 
-The script is provided in Appendix 3. 
+The script is provided in Appendix 5. 
 
 Running this script several times with different RX/TX pin configurations and baud rates did not yield any results and the only success was some null bytes, as in Figure 11. 
 
@@ -396,11 +396,11 @@ It was also observed that using a BLE Scanner Android application (Figure 13), i
 
 ![Using the BLE Scanner Android application to connect to the HM-10](assets/figure13.png)
 
-Up until this point, two HM-10 devices from the same source had been used. Due to the issues encountered another was procured from an alternative supplier. Upon swapping it like for like with the other HM-10, it worked first time with the script provided in Appendix 3. This does validate that this was a hardware issue rather than "user error" however the exact issue is unknown. 
+Up until this point, two HM-10 devices from the same source had been used. Due to the issues encountered another was procured from an alternative supplier. Upon swapping it like for like with the other HM-10, it worked first time with the script provided in Appendix 5. This does validate that this was a hardware issue rather than "user error" however the exact issue is unknown. 
 
 ![The two HM-10s side by side. The new (and working) device has the LED illuminated](assets/figure14.jpg)
 
-![The expected output of the script in Appendix 3 with a working HM-10](assets/figure15.png)
+![The expected output of the script in Appendix 5 with a working HM-10](assets/figure15.png)
 
 Using a BLE Terminal app it was then possible to send data via the HM-10 to a running screen session as in Figures 17 and 18:
 
@@ -412,7 +412,7 @@ Focus is then on integrating this with the Web Bluetooth APIs to transmit data f
 
 The support for the Web Bluetooth APIs is rather more limited than I had believed and only Chromium and Opera offer any support for the APIs. [@mozilla_web_nodate] The officially updated development progress can be found [here](https://github.com/WebBluetoothCG/web-bluetooth/blob/master/implementation-status.md).
 
-Based on a development guide from Google (written by a member of the Web Bluetooth Community Group) [@francois_beaufort_interact_2015] a very basic solution was developed (Appendix 4) and there are several items to note. 
+Based on a development guide from Google (written by a member of the Web Bluetooth Community Group) [@francois_beaufort_interact_2015] a very basic solution was developed (Appendix 6) and there are several items to note. 
 
 The Web Bluetooth API requires user interaction on the page before scanning can even take place, and in any event the user needs to explicitly provide consent to pair with a device via a prompt. In the solution, an `onClick` event from a button is used to call the function. Once called the function scans devices and looks for an explicit unique identifier for the specific HM-10 in use (transcribed from the BLE Scanner app): `0x484D536F6674`. It is possible to apply filters based on GATT characteristics however for simplicity this is avoided. The name of the device should then be logged, and the pairing sequence initiated (requiring user confirmation). 
 
