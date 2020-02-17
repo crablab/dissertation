@@ -1,0 +1,41 @@
+====================================================== FAILURES =======================================================
+______________________________________________ test_create_student_user _______________________________________________
+
+user_class = <app.libraries.user.user object at 0x7f3b328d9950>
+
+    def test_create_student_user(user_class):
+        name = "Joe Bloggs"
+        email = "joe@live.rhul.ac.uk"
+        password = "test"
+        type = "student"
+    
+>       user_class.create_user(name, email, password, type)
+E       AttributeError: 'user' object has no attribute 'create_user'
+
+user_test.py:14: AttributeError
+================================================== warnings summary ===================================================
+/home/crablab/Documents/RHUL/year_3/FullUnit_1920_HughWells/backend/app/forms.py:8
+  /home/crablab/Documents/RHUL/year_3/FullUnit_1920_HughWells/backend/app/forms.py:8: DeprecationWarning: Required is going away in WTForms 3.0, use DataRequired
+    'Email address:', validators=[Required(), Email()])
+
+/home/crablab/Documents/RHUL/year_3/FullUnit_1920_HughWells/backend/app/forms.py:10
+  /home/crablab/Documents/RHUL/year_3/FullUnit_1920_HughWells/backend/app/forms.py:10: DeprecationWarning: Required is going away in WTForms 3.0, use DataRequired
+    'Password:', validators=[Required()])
+
+/home/crablab/Documents/RHUL/year_3/FullUnit_1920_HughWells/backend/app/forms.py:15
+  /home/crablab/Documents/RHUL/year_3/FullUnit_1920_HughWells/backend/app/forms.py:15: DeprecationWarning: Required is going away in WTForms 3.0, use DataRequired
+    name = StringField('Name:', validators=[Required()])
+
+/home/crablab/Documents/RHUL/year_3/FullUnit_1920_HughWells/backend/app/forms.py:16
+  /home/crablab/Documents/RHUL/year_3/FullUnit_1920_HughWells/backend/app/forms.py:16: DeprecationWarning: Required is going away in WTForms 3.0, use DataRequired
+    email = StringField('Email address:', validators=[Required(), Email()])
+
+/home/crablab/Documents/RHUL/year_3/FullUnit_1920_HughWells/backend/app/forms.py:17
+  /home/crablab/Documents/RHUL/year_3/FullUnit_1920_HughWells/backend/app/forms.py:17: DeprecationWarning: Required is going away in WTForms 3.0, use DataRequired
+    password = PasswordField('New Password', [Required(), EqualTo('passwordconfirm', message='Passwords must match')])
+
+/home/crablab/Documents/RHUL/year_3/FullUnit_1920_HughWells/backend/app/forms.py:19
+  /home/crablab/Documents/RHUL/year_3/FullUnit_1920_HughWells/backend/app/forms.py:19: DeprecationWarning: Required is going away in WTForms 3.0, use DataRequired
+    type = SelectField('User Type', choices = [('student','Student'), ('lecturer','Lecturer'), ('administrator','Administrator')], validators = [Required()])
+
+-- Docs: https://docs.pytest.org/en/latest/warnings.html
