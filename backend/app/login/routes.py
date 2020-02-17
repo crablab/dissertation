@@ -1,4 +1,4 @@
-from flask import render_template, url_for, redirect
+from flask import render_template, url_for, redirect, abort
 from ..forms import LoginForm, SignupForm
 from ..libraries import user
 
@@ -11,9 +11,12 @@ def index():
 
     if form.validate_on_submit():
         usr = user.user()
-        print(usr.check_login(form.email.data, form.password.data))
-        return redirect('/')
-        
+        if usr.check_login(form.email.data, form.password.data):
+            # We need to set a cookie here
+            return redirect('/student')
+        else:
+            abort(403)
+
     return render_template('login.html', form = form)
 
 @login.route('/signup', methods=['GET', 'POST'])
