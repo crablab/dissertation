@@ -11,11 +11,12 @@ class user():
         """
         Instantiates user object.
         """
-        # Instantiate Database
+        # Instantiate class
         self.__database = instance = db()
         self.__db = instance.getInstance()
         self.__ph = PasswordHasher()
         self.__id_gen = cuid.CuidGenerator()
+        self.__user = None
     
     def check_login(self, email, password):
         """
@@ -66,6 +67,9 @@ class user():
 
 
     def __get_email(self, email):
+        """
+        Finds a user by their email. If no matches returns False.
+        """
         cursor = self.__db.cursor()
         cursor.execute("SELECT * FROM `users` WHERE `email` = %s;", email)
 
@@ -77,5 +81,46 @@ class user():
             return [count]
         else:
             raise ValueError("Count of unexpected value", count)
+    
+    def __get_user_id(self, user_id):
+        """
+        Finds a user by their ID. If no matches returns False.
+        """
+        cursor = self.__db.cursor()
+        cursor.execute("SELECT * FROM `users` WHERE `id` = %s;", user_id)
 
+        count = cursor.rowcount
 
+        if count > 0:
+            return [count, cursor.fetchall()]
+        elif count == 0:
+            return [count]
+        else:
+            raise ValueError("Count of unexpected value", count)
+
+    def load_user(self, user_id):
+        """
+        Loads a user into the object. 
+        """
+        self.__user = None
+
+        try: 
+            user = self.__get_user_id(user_id)
+        except ValueError as e:
+            return False
+
+        if user[0] == 1:
+            self.__user = user[1][0]
+            return True
+        else:
+            return False
+    
+    def get_user(self):
+        """
+        Returns the current user object
+        """
+        if self.__user != None:
+            return self.__user
+        else:
+            return False
+        
