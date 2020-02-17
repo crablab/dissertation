@@ -15,7 +15,7 @@ class user():
         self.__database = instance = db()
         self.__db = instance.getInstance()
         self.__ph = PasswordHasher()
-        self._id_gen = cuid.CuidGenerator()
+        self.__id_gen = cuid.CuidGenerator()
     
     def check_login(self, email, password):
         """
@@ -44,7 +44,7 @@ class user():
         """
 
         # Check for another email 
-        if self.__check_email(email)[0] != 0:
+        if self.__get_email(email)[0] != 0:
             return False
     
         # Hash the password 
@@ -53,11 +53,23 @@ class user():
         # Generate an ID
         id = "user_" + self.__id_gen.cuid()
 
+        enabled = 1
+
+        # Insert into database
+        cursor = self.__db.cursor()
+        cursor.execute("INSERT INTO `users` (id, name, email, password, type, enabled) "
+            "VALUES (%s, %s, %s, %s, %s, %s);", 
+            (id, name, email, password, type, enabled)
+        )
+
+        return id
+
+
     def __get_email(self, email):
         cursor = self.__db.cursor()
         cursor.execute("SELECT * FROM `users` WHERE `email` = %s;", email)
 
-        count = cursor.rowcount()
+        count = cursor.rowcount
 
         if count > 0:
             return [count, cursor.fetchall()]
