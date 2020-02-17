@@ -32,9 +32,9 @@ class user():
         
         # Check the password
         try:
-            self.__ph.verify(user[1]['password'], password)
+            self.__ph.verify(user[1][0]['password'], password)
         except Exception as e:
-            return False 
+            return False         
         
         return True
     
@@ -59,7 +59,7 @@ class user():
         cursor = self.__db.cursor()
         cursor.execute("INSERT INTO `users` (id, name, email, password, type, enabled) "
             "VALUES (%s, %s, %s, %s, %s, %s);", 
-            (id, name, email, password, type, enabled)
+            (id, name, email, hash, type, enabled)
         )
 
         return id
