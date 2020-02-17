@@ -15,7 +15,6 @@ def create_app(config = None):
         app.config.from_object(config)
 
     bootstrap.init_app(app)
-    flask_bcrypt.init_app(app)
 
     # Blueprints
     app.register_blueprint(login)
