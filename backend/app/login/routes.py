@@ -1,5 +1,6 @@
 from flask import render_template, url_for, redirect
 from ..forms import LoginForm, SignupForm
+from ..libraries import user
 
 from . import login
 
@@ -9,6 +10,8 @@ def index():
     form = LoginForm()
 
     if form.validate_on_submit():
+        usr = user()
+        
         pass
 
     return render_template('login.html', form = form)

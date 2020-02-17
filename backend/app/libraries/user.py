@@ -1,4 +1,4 @@
-from database import db
+from .database import db
 from argon2 import PasswordHasher
 import datetime
 
