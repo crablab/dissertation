@@ -1,30 +1,30 @@
+from database import db
+from argon2 import PasswordHasher
 import datetime
-from .. import db, flask_bcrypt
-from sqlalchemy.ext.hybrid import hybrid_property
 
-__all__ = ['user']
+class user():
+    """
+    Provides an abstraction of a user as an object. 
+    """
 
-class user(db.Model):
-    id = db.Column(db.String(255), primary_key=True)
-    name = db.Column(db.Text(), nullable=False)
-    email = db.Column(db.Text(), nullable=False)
-    username = db.Column(db.Text(), nullable=False)
-    _password = db.Column(db.Text, nullable=False)
-    type = db.Column(db.Text(), nullable=False)
-    enabled = db.Column(db.Integer())
-    created = db.Column(db.DateTime,
-            default=datetime.datetime.utcnow)
-    updated = db.Column(db.DateTime,
-        default=datetime.datetime.utcnow)
-
-    @hybrid_property
-    def password(self):
-        return self._password
-
-    @password.setter
-    def password(self, password):
-        self._password = flask_bcrypt.generate_password_hash(
-            password)
-
-    def get_id(self):
-        return self.id
+    def __init__(self):
+        # Instantiate Database
+        self.__database = instance = db()
+        self.__db = instance.getInstance()
+    
+    def check_login(self, email, password):
+        cursor.execute("SELECT * FROM `users` WHERE `email` = %s;", email)
+        if cursor.rowcount == 1:
+            user = cursor.fetchone()
+        elif cursor.rowcount == 0:
+            return False
+        else:
+            raise Exception("Duplicate users")
+        
+        # Check the password
+        try:
+            ph.verify(user['password'], password)
+        except Exception as e:
+            return False 
+        
+        return True

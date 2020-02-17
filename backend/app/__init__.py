@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from libraries.database import db
-from flask_bcrypt import Bcrypt
 
 from app.login.routes import login
 from app.student.routes import student
