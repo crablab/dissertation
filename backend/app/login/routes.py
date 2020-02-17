@@ -10,10 +10,10 @@ def index():
     form = LoginForm()
 
     if form.validate_on_submit():
-        usr = user()
+        usr = user.user()
+        print(usr.check_login(form.email.data, form.password.data))
+        return redirect('/')
         
-        pass
-
     return render_template('login.html', form = form)
 
 @login.route('/signup', methods=['GET', 'POST'])

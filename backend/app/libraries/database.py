@@ -16,7 +16,7 @@ class db():
         self.__connectionObject = databaseClass.getInstance()
     """
     def __init__(self):
-        self.__db = pymysql.connect("localhost","registration","4tpbeW7Ak2K9pete#","registration", cursorclass=pymysql.cursors.DictCursor, charset='utf8', autocommit=True)
+        self.__db = pymysql.connect("localhost","registration","mgcMcYJ5jnrArYex?","registration", cursorclass=pymysql.cursors.DictCursor, charset='utf8', autocommit=True)
 
     def getInstance(self):
         """
