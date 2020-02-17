@@ -7,7 +7,6 @@ from app.student.routes import student
 
 bootstrap = Bootstrap()
 database = db()
-flask_bcrypt = Bcrypt()
 
 def create_app(config = None):
 
