@@ -1,12 +1,10 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
-from libraries.database import db
 
 from app.login.routes import login
 from app.student.routes import student
 
 bootstrap = Bootstrap()
-database = db()
 
 def create_app(config = None):
 
