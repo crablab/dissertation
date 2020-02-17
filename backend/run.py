@@ -1,7 +1,7 @@
 from app import create_app
 import os
 
-app = create_app("settings")
+app = create_app()
 
 # CSRF Key 
 SECRET_KEY = os.urandom(32)

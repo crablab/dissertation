@@ -6,13 +6,9 @@ from app.student.routes import student
 
 bootstrap = Bootstrap()
 
-def create_app(config = None):
+def create_app():
 
     app = Flask(__name__)
-
-    # Load a configuration if provided
-    if config is not None:
-        app.config.from_object(config)
 
     bootstrap.init_app(app)
 
