@@ -1,6 +1,6 @@
 from .database import db
 from argon2 import PasswordHasher
-import datetime
+import datetime, cuid
 
 class user():
     """
@@ -14,6 +14,8 @@ class user():
         # Instantiate Database
         self.__database = instance = db()
         self.__db = instance.getInstance()
+        self.__ph = PasswordHasher()
+        self._id_gen = cuid.CuidGenerator()
     
     def check_login(self, email, password):
         """
@@ -21,19 +23,47 @@ class user():
 
         Note: this is a temporary function for testing.
         """
-        cursor = self.__db.cursor()
-        cursor.execute("SELECT * FROM `users` WHERE `email` = %s;", email)
-        if cursor.rowcount == 1:
-            user = cursor.fetchone()
-        elif cursor.rowcount == 0:
+        user = self.__get_email(email)
+
+        if user[0] == 0:
             return False
-        else:
-            raise Exception("Duplicate users")
+        elif user[0] > 1:
+            raise ValueError("Duplicate users", email, user[0])
         
         # Check the password
         try:
-            ph.verify(user['password'], password)
+            self.__ph.verify(user[1]['password'], password)
         except Exception as e:
             return False 
         
         return True
+    
+    def create_user(self, name, email, password, type):
+        """
+        Creates a new user in the database.
+        """
+
+        # Check for another email 
+        if self.__check_email(email)[0] != 0:
+            return False
+    
+        # Hash the password 
+        hash = self.__ph.hash(password)
+
+        # Generate an ID
+        id = "user_" + self.__id_gen.cuid()
+
+    def __get_email(self, email):
+        cursor = self.__db.cursor()
+        cursor.execute("SELECT * FROM `users` WHERE `email` = %s;", email)
+
+        count = cursor.rowcount()
+
+        if count > 0:
+            return [count, cursor.fetchall()]
+        elif count == 0:
+            return [count]
+        else:
+            raise ValueError("Count of unexpected value", count)
+
+
