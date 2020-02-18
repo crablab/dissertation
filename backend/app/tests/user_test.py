@@ -12,6 +12,10 @@ def pytest_configure():
 def password():
     return "test"
 
+@pytest.fixture
+def type():
+    return "student"
+
 @pytest.fixture(scope='session')
 def email():
     id = cuid.CuidGenerator()
@@ -22,9 +26,8 @@ def user_class():
     from ..libraries import user
     return user.user()
 
-def test_create_student_user(user_class, email, password):
+def test_create_student_user(user_class, email, password, type):
     name = "Joe Bloggs"
-    type = "student"
 
     pytest.user_id = user_class.create_user(name, email, password, type)
 
@@ -71,3 +74,15 @@ def test_is_annon(user_class):
 def test_user_id(user_class, email):
     assert user_class.load_user(email=email) == True
     assert user_class.get_id() == pytest.user_id
+
+def test_broken_user_id(user_class):
+    assert user_class.load_user(email="adasd") == False
+    assert user_class.get_id() == False
+
+def test_user_permissions(user_class, email, type):
+    assert user_class.load_user(email=email) == True
+    assert user_class.get_permissions() == type
+
+def test_broken_user_permissions(user_class):
+    assert user_class.load_user(email="adasd") == False
+    assert user_class.get_permissions() == False

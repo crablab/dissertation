@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
+from flask_allows import Allows, Requirement
 
 from app.login.routes import login
 from app.student.routes import student
@@ -9,8 +10,6 @@ from app.libraries import user
 
 bootstrap = Bootstrap()
 login_manager = LoginManager()
-# For login manager handler 
-usr = user.user()
 
 def create_app():
 
@@ -18,6 +17,7 @@ def create_app():
 
     bootstrap.init_app(app)
     login_manager.init_app(app)
+    allows = Allows(app=app, identity_loader=lambda: current_user)
     login_manager.login_view = "login.index"
 
     # Blueprints
@@ -27,7 +27,11 @@ def create_app():
 
     return app
 
+# Application wide code to handle login and RBAC
+
+# Login manager user hook
 @login_manager.user_loader
 def load_user(user_id):
+    usr = user.user()
     usr.load_user(user_id)
     return usr

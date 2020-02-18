@@ -145,4 +145,13 @@ class user():
         return False
 
     def get_id(self):
-        return self.__user['object']['id']
+        try:
+            return self.__user['object']['id']
+        except TypeError as e:
+            return False
+
+    def get_permissions(self):
+        try:
+            return self.__user['object']['type']
+        except TypeError as e:
+            return False
