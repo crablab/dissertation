@@ -16,27 +16,29 @@ class user():
         self.__db = instance.getInstance()
         self.__ph = PasswordHasher()
         self.__id_gen = cuid.CuidGenerator()
-        self.__user = None
+        self.__user = {"object": None, "authenticated": False}
     
-    def check_login(self, email, password):
+    def check_login(self, password):
         """
-        Checks the email and password, returning True if they match. 
-
-        Note: this is a temporary function for testing.
+        Checks password against current user, returning True if they match. 
         """
-        user = self.__get_email(email)
 
-        if user[0] == 0:
-            return False
-        elif user[0] > 1:
-            raise ValueError("Duplicate users", email, user[0])
+        # Take a copy to prevent TOCTOU
+        user = self.__user
+        
+        if user['object'] == None:
+            raise Exception("No user loaded")
+        elif user["authenticated"] == True:
+            return True
         
         # Check the password
         try:
-            self.__ph.verify(user[1][0]['password'], password)
+            self.__ph.verify(user['object']['password'], password)
+            user['authentciated'] = True
         except Exception as e:
             return False         
         
+        self.__user = user
         return True
     
     def create_user(self, name, email, password, type):
@@ -75,8 +77,8 @@ class user():
 
         count = cursor.rowcount
 
-        if count > 0:
-            return [count, cursor.fetchall()]
+        if count == 1:
+            return [count, cursor.fetchone()]
         elif count == 0:
             return [count]
         else:
@@ -91,36 +93,52 @@ class user():
 
         count = cursor.rowcount
 
-        if count > 0:
-            return [count, cursor.fetchall()]
+        if count == 1:
+            return [count, cursor.fetchone()]
         elif count == 0:
             return [count]
         else:
             raise ValueError("Count of unexpected value", count)
 
-    def load_user(self, user_id):
+    def load_user(self, user_id=None, email=None):
         """
         Loads a user into the object. 
         """
         self.__user = None
 
-        try: 
+        if user_id != None and email == None:
             user = self.__get_user_id(user_id)
-        except ValueError as e:
-            return False
+        elif email != None and user_id == None:
+            user = self.__get_email(email)
+        else:
+            raise Exception("Ambiguous parameters")
 
-        if user[0] == 1:
-            self.__user = user[1][0]
+        if user[0] == 1 and user[1] != None:
+            self.__user = {"object": user[1], "authenticated": False}
             return True
         else:
             return False
     
     def get_user(self):
         """
-        Returns the current user object
+        Returns the current user object.
         """
-        if self.__user != None:
-            return self.__user
-        else:
+        try:
+            if self.__user['object'] != None:
+                return self.__user['object']
+            else:
+                return False
+        except TypeError as e:
             return False
         
+    def is_authenticated(self):
+        pass
+
+    def is_active(self):
+        pass
+
+    def is_anonymous(self):
+        pass
+
+    def get_id(self):
+        pass
