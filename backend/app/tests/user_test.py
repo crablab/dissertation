@@ -40,7 +40,7 @@ def test_login_student_user_id(user_class,password):
 
 @pytest.mark.dependency(depends=['test_login_student_user_id'])
 def test_authentication_value(user_class, email, password):
-    assert user_class.is_authenticated() == True
+    assert user_class.is_authenticated == True
 
 def test_load_user(user_class, email):
     user_class.load_user(user_id=pytest.user_id)
@@ -63,10 +63,10 @@ def test_premature_load_user(user_class):
 
 def test_is_active(user_class, email):
     assert user_class.load_user(email=email) == True
-    assert user_class.is_active() == True
+    assert user_class.is_active == True
 
 def test_is_annon(user_class):
-    assert user_class.is_anonymous() == False
+    assert user_class.is_anonymous == False
 
 def test_user_id(user_class, email):
     assert user_class.load_user(email=email) == True

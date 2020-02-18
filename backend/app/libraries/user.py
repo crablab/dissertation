@@ -130,13 +130,16 @@ class user():
                 return False
         except TypeError as e:
             return False
-        
+
+    @property
     def is_authenticated(self):
         return self.__user['authenticated']
 
+    @property
     def is_active(self):
         return self.__user['object']['enabled']
 
+    @property
     def is_anonymous(self):
         return False
 
