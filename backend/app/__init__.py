@@ -1,26 +1,24 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
-from flask_sqlalchemy import SQLAlchemy
-from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
 
 from app.login.routes import login
 from app.student.routes import student
 
-bootstrap = Bootstrap()
-db = SQLAlchemy()
-flask_bcrypt = Bcrypt()
+from app.libraries import user
 
-def create_app(config = None):
+bootstrap = Bootstrap()
+login_manager = LoginManager()
+# For login manager handler 
+usr = user.user()
+
+def create_app():
 
     app = Flask(__name__)
 
-    # Load a configuration if provided
-    if config is not None:
-        app.config.from_object(config)
-
     bootstrap.init_app(app)
-    db.init_app(app)
-    flask_bcrypt.init_app(app)
+    login_manager.init_app(app)
+    login_manager.login_view = "login.index"
 
     # Blueprints
     app.register_blueprint(login)
@@ -28,3 +26,8 @@ def create_app(config = None):
     #app.register_blueprint(api, url_prefix='/api')
 
     return app
+
+@login_manager.user_loader
+def load_user(user_id):
+    usr.load_user(user_id)
+    return usr
