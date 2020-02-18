@@ -34,7 +34,7 @@ class user():
         # Check the password
         try:
             self.__ph.verify(user['object']['password'], password)
-            user['authentciated'] = True
+            user['authenticated'] = True
         except Exception as e:
             return False         
         
@@ -132,13 +132,13 @@ class user():
             return False
         
     def is_authenticated(self):
-        pass
+        return self.__user['authenticated']
 
     def is_active(self):
-        pass
+        return self.__user['object']['enabled']
 
     def is_anonymous(self):
-        pass
+        return False
 
     def get_id(self):
-        pass
+        return self.__user['object']['id']
