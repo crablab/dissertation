@@ -17,7 +17,6 @@ def index():
         elif usr.check_login(form.password.data):
             # Login with flask_login
             login_user(usr)
-
             flash('Logged in successfully.')
 
             return redirect("/student")

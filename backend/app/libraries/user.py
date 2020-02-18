@@ -11,7 +11,7 @@ class user():
         """
         Instantiates user object.
         """
-        # Instantiate class
+
         self.__database = instance = db()
         self.__db = instance.getInstance()
         self.__ph = PasswordHasher()
@@ -21,6 +21,9 @@ class user():
     def check_login(self, password):
         """
         Checks password against current user, returning True if they match. 
+
+        :param password: The password the user has entered
+        :returns: True on success, False on failed login
         """
 
         # Take a copy to prevent TOCTOU
@@ -44,6 +47,13 @@ class user():
     def create_user(self, name, email, password, type):
         """
         Creates a new user in the database.
+
+        :param name: User's name
+        :param email: User's email
+        :param password: User's password
+        :param type: The type/role the user has 
+        :returns: The user ID on success, False on failure
+        :raises: PyMySQL exceptions if there is a database issue
         """
 
         # Check for another email 
@@ -70,7 +80,12 @@ class user():
 
     def __get_email(self, email):
         """
-        Finds a user by their email. If no matches returns False.
+        Finds a user by their email. 
+
+        :param email: The email address to look for
+        :returns: A list with the row count and user object as a dictionary 
+        :returns: A list with the row count if there are no rows
+        :raises: ValueError on multiple rows 
         """
         cursor = self.__db.cursor()
         cursor.execute("SELECT * FROM `users` WHERE `email` = %s;", email)
@@ -86,7 +101,12 @@ class user():
     
     def __get_user_id(self, user_id):
         """
-        Finds a user by their ID. If no matches returns False.
+        Finds a user by their ID. 
+
+        :param user_id: The user_id to look for
+        :returns: A list with the row count and user object as a dictionary 
+        :returns: A list with the row count if there are no rows
+        :raises: ValueError on multiple rows 
         """
         cursor = self.__db.cursor()
         cursor.execute("SELECT * FROM `users` WHERE `id` = %s;", user_id)
@@ -103,6 +123,11 @@ class user():
     def load_user(self, user_id=None, email=None):
         """
         Loads a user into the object. 
+
+        :param user_id: The user ID to load
+        :param email: The email to load 
+        :returns: True on success, False on failure
+        :raises: Exception if both parameters are provided
         """
         self.__user = None
 
@@ -122,6 +147,8 @@ class user():
     def get_user(self):
         """
         Returns the current user object.
+
+        :returns: Dictionary of the current user, or False if the user wasn't loaded 
         """
         try:
             if self.__user['object'] != None:
@@ -133,16 +160,46 @@ class user():
 
     @property
     def is_authenticated(self):
+        """
+        Whether `check_login` has been completed in the current session. 
+
+        Currently will always return True, due to flask_login issue.
+        """
         return True
         #return self.__user['authenticated']
 
     @property
     def is_active(self):
+        """
+        Whether the user has been enabled or not. 
+        """
         return self.__user['object']['enabled']
 
     @property
     def is_anonymous(self):
+        """
+        Always False - there are no anonymous users.
+        """
         return False
 
     def get_id(self):
-        return self.__user['object']['id']
+        """
+        Returns the current user ID. 
+
+        TODO: should be a property
+        """
+        try:
+            return self.__user['object']['id']
+        except TypeError as e:
+            return False
+
+    def get_permissions(self):
+        """
+        Returns the current user type. 
+    
+        TODO: should be a property
+        """
+        try:
+            return self.__user['object']['type']
+        except TypeError as e:
+            return False
