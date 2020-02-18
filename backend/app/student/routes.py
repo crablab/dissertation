@@ -5,5 +5,4 @@ from . import student
 @student.route('/student', methods=['GET', 'POST'])
 @login_required
 def index():
-
     return render_template('student.html')
