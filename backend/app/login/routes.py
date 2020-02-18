@@ -33,7 +33,15 @@ def signup():
     form = SignupForm()
 
     if form.validate_on_submit():
-        pass
+        usr = user.user()
+        id = usr.create_user(form.name.data, form.email.data, form.password.data, form.type.data)
+        print(id)
+        if id != False:
+            flash('Account created for ' + id)
+            return redirect('/')
+        else: 
+            flash('Error occurred: you\'re probably reusing an email')
+            return redirect('/signup')
 
     return render_template('signup.html', form = form)
 
