@@ -5,7 +5,7 @@
 
         \vspace{3em}
 
-        Word Count: ### TODO ### 
+        Word Count: 
 
         \vspace{3em}
 
@@ -22,4 +22,4 @@
         \vfill
 
     \end{center}
-\begin{titlepage}
+\end{titlepage}

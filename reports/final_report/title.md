@@ -6,8 +6,6 @@
         
         \huge
         An investigation into attendance monitoring systems and the Web Bluetooth API
-
-        \subsubsection[]{Working Title}
         
         \vspace{1.5cm}
         
