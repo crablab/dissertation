@@ -4,17 +4,19 @@
 This section must include a description of how you think that the work involved in your
 project will help in your future career. -->
 
-The aim of this research is to investigate existing attendance monitoring solutions and existing academic research into the problem to determine a more optimal solution for Royal Holloway. An MVP (Minimum Viable Product) will be built to test assumptions and demonstrate the core ideas of the proposed solution. The system will need to be user friendly and satisfy Royal Holloway's requirements whilst also not becoming burdensome on lecturers, students and administrative staff. 
+This project researches existing attendance monitoring solutions and conducts a security analysis of the existing solutions at Royal Holloway. It culminates in the design and build of an MVP (Minimum Viable Product) to test assumptions and demonstrate the core ideas of a proposed solution. 
 
 # Introduction 
 
 Royal Holloway keeps track of attendance in lectures both to ensure that students are regularly attending and also to satisfy legal requirements regarding the visas of overseas students [@home_office_uk_government_tier4_2019]. It is essential that this data is gathered and analysed efficiently and accurately.
 
-In the past attendance has been tracked using signatures on registers. More recently, due to the lack of scalability of this former approach, a system of clickers has been employed [@royal_holloway_department_of_computer_science_department_2018]. This latter system has proved to be non-optimal and insecure. 
+In the past attendance has been tracked using signatures on registers. More recently, due to the lack of scalability of this former approach, a system of clickers has been employed [@royal_holloway_department_of_computer_science_department_2018]. This latter system is proven to be non-optimal and insecure. 
+
+A new MVP and PoC (Proof of Concept) system for attendance monitoring is developed using ideas developed in the research phase, to solve issues identified with the previous solutions. This demonstrates key ideas, however is not a comprehensive solution. 
 
 ## Motivation 
 
-The primary motivation is to offer a more secure and convenient system for students. The author is well acquainted with both the paper based and clicker systems in use, and the associated merits and pitfalls. An improvement in the process not only allows less detractions from the lecture content but, as @universities_uk_student_2019 writes: "Attendance monitoring can also be perceived as unfair and harm international student experience." - a more low key and low effort system reduces the potential for discrimination as a result of the perception of international students imposing rules on domestic students, as a result of their presence. 
+The primary motivation is to offer a more secure and convenient system for students. The author is well acquainted with both the paper based and clicker systems in use, and the associated merits and pitfalls. An improvement in the process would allow less detractions from the lecture content but, as @universities_uk_student_2019 writes: "Attendance monitoring can also be perceived as unfair and harm international student experience." - a more low key and low effort system reduces the potential for discrimination as a result of the perception of international students imposing rules on domestic students, as a result of their presence. 
 
 @universities_uk_student_2019 continues, "The current system imposes a significant administrative burden on both institutions and the Home Office..." with a survey conducted by Universities UK concluding the the total cost of compliance with Tier 4 rules being £40 million to the UK Higher Education sector [@universities_uk_student_2019]. A separate study by @ey_challenges_2019 for the Russell Group noted "Attendance monitoring is particularly time consuming across such a large university with many different modes of study. Collating the data, analysing it and escalating cases for investigation/explanation has created an industry of work for very little tangible benefit given that HEI students are very low risk of visa abuse.". 
 
@@ -37,7 +39,7 @@ The aim was to investigate the Turning Point clickers to learn more about how th
 
 ### Background Research
 
-Whilst researching the device I discovered the work of @goodspeed_travis_2010 who reverse engineered a similar, but older device. This was achieved by dumping the firmware of the device allowing analysis of the way the device operated and how packets were structured and sent. A number of important discoveries were made: the System on Chip is a Nordic nRF24E1 chip, which is a Intel MCS-51 (8051 microcontroller) with an nRF2401 radio transceiver. The nRF2401 is a 2.4GHz, serial radio transceiver.[@nordic_semiconductor_asa_single_004] The datasheet lists a number of potential applications including telemetry, keyless entry and home security and automation. The chip also uses what the datasheet describes as a "3-wire serial interface." - this is otherwise know as SPI (Serial Peripheral Interface) and allows easy interface with devices such as a Raspberry Pi and Arduino. 
+Whilst researching the device I discovered the work of @goodspeed_travis_2010 who reverse engineered a similar, but older device. This was achieved by dumping the firmware of the device allowing analysis of the way the device operated and how packets were structured and sent. A number of important discoveries were made, firstly that the System on Chip is a Nordic nRF24E1 chip, which is a Intel MCS-51 (8051 microcontroller) with an nRF2401 radio transceiver. The nRF2401 is a 2.4GHz, serial radio transceiver.[@nordic_semiconductor_asa_single_004] The datasheet lists a number of potential applications including telemetry, keyless entry and home security and automation. The chip also uses what the datasheet describes as a "3-wire serial interface." - this is otherwise know as SPI (Serial Peripheral Interface) and allows easy interface with devices such as a Raspberry Pi and Arduino. 
 Secondly, there is no encryption and in the aforementioned research it was noted through analysis of the firmware that the packets take the structure of three bytes target MAC, 3 bytes source MAC and then a single byte for the button selection. A CRC is calculated and added by the radio. 
 
 This means that the source, destination and the parameter (the button pressed) are transmitted in cleartext with the only validation being a CRC (Cyclic Redundancy Check). The message is not signed, so there is no way to verify that a message has indeed come from the advertised source - this allows an attacker to arbitrarily spoof messages purporting to come from any source MAC address. 
@@ -206,11 +208,6 @@ This more predictably populated the buffer at the other end, as shown in Figure 
 
 It turns out that although the outgoing packet is correctly formatted (when compared to incoming packets from a clicker as received by the emulator basestation) no packet is actually sent, or at least received at the other end. This is a fairly critical error and I think may stem from my misunderstanding over how the code works (which address is which). I have not yet resolved this and I may not - I am quickly going down a rabbit hole of ASCII encoding already. 
 
-### Conclusion 
-
-I successfully implemented (using code from @mooney_nickmooney/turning-clicker_2019) a clicker basestation and associated Python script which I believe actually has a practical use, to replace the current PowerPoint slide system. 
-The emulation of the clickers themselves has proved more tricky and the adaptation of the code to spoof packets has been difficult. However, the reception and decoding of live packets has shown that the protocol is vulnerable to a programmatic attack in this way and, if nothing else, is vulnerable to a simple replay attack of a recorded transmission.  
-
 ## Browser Fingerprinting 
 
 Tracking a user within a website (or indeed across the internet) has been possible either by checking the IP address of the origin or by use of cookies for state management, the mechanism of which was described in the 1997 RFC [@kristol_http_nodate]. As part of the new clicker system it is envisioned that some method of identifying the device the student is signing in on will be required, to allow detection of one device signing multiple people in. The IP address is too general - those connected to college WiFi or using the same network and mobile phone mast would have identical IP addresses, session cookies can be set to have long expiries but a user can remove them from their browser regardless. In order to track devices with some degree of certainty, it is therefore necessary to look at alternative means of identification. 
@@ -253,9 +250,7 @@ Finally in Figure 8, I compared the results across two browsers - Chrome and Fir
 
 ![Left: Chrome, Right: Firefox](assets/figure8.png)
 
-## Bluetooth 
-
-In order to allow students to mark their attendance conveniently and efficiently, we look at potential wireless solutions including MIFARE Classic. 
+## Bluetooth  
 
 ### Overview 
 
@@ -694,9 +689,27 @@ accessibility etc., -->
 
 ## Outcomes
 
+In the project I looked at a wide range of topics within Computer Science, focussing on the hardware and design behind attendence monitoring solutions. Firstly, I successfully implemented (using code from @mooney_nickmooney/turning-clicker_2019) a clicker basestation and associated Python script which I believe actually has a practical use, to replace the current PowerPoint slide system. The emulation of the clickers themselves proved more tricky and the adaptation of the code to spoof packets has been difficult. However, the reception and decoding of live packets has shown that the protocol is vulnerable to a programmatic attack in this way and, if nothing else, is vulnerable to a simple replay attack of a recorded transmission. I then went on to explore the practicalities of browser fingerprinting, the libraries that are available and what attributes of a browser allow it to be uniquly identifiable. This aspect of my project was further explored in the Professional Issues section, looking at the legitimate interest test under GDPR for PII and changes that could be made to the project to further enhance the security of personal data. 
+
+A key part of my project looked a potential solutions for the clickers. One idea explored was the student ID cards, based on MIFARE Classic technology. The known flaws in the technology were discussed and a practical attack against the student ID cards demonstrated. Focus then turned to Bluetooth technology and specifically working with Bluetooth Low Energy devices and getting to work with the Web Bluetooth APIs. This has then extended to the development of a basic and scoped MVP to demonstrate the practical benefits of a solution designed based on the research in this project. 
+
+- More on what has actually been delivered 
+
 ## Issues encountered
 
+- Hardware
+    - Arduinos
+    - Stuff not following the spec properly
+    - Transient issues and OS/driver problems 
+- Immaturity of libraries/APIs
+- Problems in unit testing and ORM
+
 ## Self-evaluation 
+
+- Research went well 
+- Issues with hardware - should have asked Dave sooner
+- Started the software deliverable later in the project, should have started a PoC sooner 
+- Issues with immature libraries could be resolved with more time and more focus on the project 
 
 <!-- 3. Some sort of self-evaluation in the assessment section: How did the project go? Where
 next? What did you do right/wrong? What have you learnt about doing a project? -->
@@ -708,12 +721,13 @@ environmental requirements (Java version number, IOS version etc.,)
 User manual in appendix
 -->
 
-
+<!-- 
 8. Lastly there are some added extras you might want to include. Perhaps parts of a program
 listing. Perhaps some sample output or experimental results. Often you will include
 a user manual (though complete installation and operating instructions are mandatory).
 These extra documents may be put into an appropriate appendix so as not to count towards
 the word limit.
+--> 
 
 # Acknowledgements 
 
