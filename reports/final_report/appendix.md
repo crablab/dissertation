@@ -352,3 +352,24 @@ ser.close()
 
 </html>
 ```
+
+## Appendix 7: Plan Risk Assessment 
+
+### Device communication
+- **Likelihood:** Possible
+- **Impact:** Medium 
+
+Previously in the project proposal it was stated that the Web Bluetooth API would be used. I have decided to carry out additional research into the various communications technologies available to determine the most appropriate for this project. It is possible that there will be no good solution for direct device to device communication (this is intended to provide the "presence" factor of the authentication) in which case a more traditional challenge-response protocol with rotating codes displayed to students, may be appropriate. This reduces security but the ultimate aim is for this to be practical to implement. It is not envisioned this will be a "showstopper", but it would require additional research and analysis to determine an appropriate way forward. 
+
+### Analysis of clicker system
+- **Likelihood:** Unlikely
+- **Impact:** Medium
+
+This relies on the research of previous (cited) authors and it is not feasible for the investigation they carried out to be completed for this project. The intention of this section is to demonstrate a live proof of concept using their discoveries applied to the specific Royal Holloway situation - this will require developing software and a test environment. It is possible that Turning Technologies have changed the way their devices work - in this case reasonable efforts can be made to reverse engineer the devices further and research more up to date analysis. At the point firmware is needing to be dumped the benefits of including this in the report start to outweigh the time needed to complete this section, and it detracts from the rest of the project. 
+This section will produce useful learnings either way, but as with all penetration testing, the exact outcome cannot be predicted in advance. 
+
+### Frontloading functional design 
+- **Likelihood:** Likely
+- **Impact:**: Low
+
+The milestones above call for the functional design to be broadly complete by the end of the first term, based on the research and proof of concept programs already developed. It is envisioned that much of the code developed during that term will be reworked and make it's way into the final release. This creates the danger that when integrating the system and building the wireframes out as a frontend panels that the architecture may need to change as the result of either changed requirements or oversights in the design process. The only mitigation to this is to ensure the code is well designed and documented, such that it can be modified as required to adapt to changing requirements. The design process should also be robust and based on the research, but it is not reasonable to expect no changes to be made further down the line. 

@@ -206,7 +206,7 @@ This more predictably populated the buffer at the other end, as shown in Figure 
 
 ![Clicker basestation serial console on the left, clicker emulator Python Script on the right](assets/figure4.png)
 
-It turns out that although the outgoing packet is correctly formatted (when compared to incoming packets from a clicker as received by the emulator basestation) no packet is actually sent, or at least received at the other end. This is a fairly critical error and I think may stem from my misunderstanding over how the code works (which address is which). I have not yet resolved this and I may not - I am quickly going down a rabbit hole of ASCII encoding already. 
+It turns out that although the outgoing packet is correctly formatted (when compared to incoming packets from a clicker as received by the emulator basestation) no packet is actually sent, or at least received at the other end. This is a fairly critical error and I think may stem from my misunderstanding over how the code works (which address is which) and issues with hexadecimal encoding between various components. 
 
 ## Browser Fingerprinting 
 
@@ -693,16 +693,19 @@ In the project I looked at a wide range of topics within Computer Science, focus
 
 A key part of my project looked a potential solutions for the clickers. One idea explored was the student ID cards, based on MIFARE Classic technology. The known flaws in the technology were discussed and a practical attack against the student ID cards demonstrated. Focus then turned to Bluetooth technology and specifically working with Bluetooth Low Energy devices and getting to work with the Web Bluetooth APIs. This has then extended to the development of a basic and scoped MVP to demonstrate the practical benefits of a solution designed based on the research in this project. 
 
-- More on what has actually been delivered 
+The goal of the software MVP is to show a web based authentication system that allows students to securely register their attendance at a lecture. TODO: More to write here as I build said system... 
 
 ## Issues encountered
 
-- Hardware
-    - Arduinos
-    - Stuff not following the spec properly
-    - Transient issues and OS/driver problems 
-- Immaturity of libraries/APIs
-- Problems in unit testing and ORM
+Some of the earliest issues with the project have focused around the hardware. Working with hardware is always more challenging than with software - it introduces a level of complexity not limited to operating system drivers and hard to debug code running on microcontrollers. Some of the earliest issues I experienced were with the HM-10 devices and the correct pinout for the device - it is not just "plug and play". I later struggled with bugs in encoding in the interface between two languages and three devices. Ultimatly I did not succeed in getting this to work but I did learn a considerable amount about hexadecimal encoding in C++ and historical encoding problems in terminals and shells. 
+
+Again hardware issues were encountered with the Bluetooth Light devices which appeared not to follow the specification properly. Documentation was very limited and hampered troubleshooting for a number of weeks. It later transpired that the devices themselves did not follow the specification properly and by purchasing a new device from an alternative source, I very quickly got results. Orthagonally, I think this goes against much of the ingrained self-doubt around the quality of ones code and it is important to switch out all variables when debugging, instead of making the assumption that a commercially available black box is functioning as expected. 
+
+The Web Bluetooth API is another demonstration of the same. Although the documentation is well written and sets out a number of exciting features it suffers from a lack of W3C support and only having three maintainers. As such it only works in development mode in Google Chrome and not with any drivers I have tried. Although some of the contraints were known beforehand the full extent of the limitation was not clear until actually tested. I believe with another few months working full time on the project it would be possible to patch the library to a state where it is more usuable - this is an interesting future extension of the project as the wide applicability of the Web Bluetooth API is a compelling reason for future work on it. 
+
+Other issues stemmed from bad documentation. `flask_login` for example misreprented a property which if not permenantaly set to `True` results in no user being able to log in. This seems to actually be a bug in the implementation, but as it is a breaking change I have proposed a change to the documentation. @crablab_change_2020 I also experienced issues in using new technology with Flask. Whilst I wanted to make my Flask projects more scalable and use proper design patterns with Flask Blueprints I did have issues introducing a hollistic set of unit tests, including the ORM and database connection. The lesson learned here is to avoid using too much new and unfamilier technology - Flask Blueprints were already a big change and by trying to also use a new style of unit testing and a new ORM with dynamic configuration the risk of nothing working at the end dramatically increases. 
+
+When comparing these issues to the original risk assessment (Appendix 7) the risks identified did all come into play, to various degrees. Of course the risk that ocurred with the largest impact relates to the Bluetooth device comunication which ultimately has not worked reliably. TODO: talk about alternatives that have been developed instead. Other risks such as with the clicker analysis and functional design have manifested, but not to the same degree. Having these risk in mind has helped in planning the rest of the project around the issues and avoided large blockages. 
 
 ## Self-evaluation 
 
