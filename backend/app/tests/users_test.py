@@ -10,6 +10,7 @@ def test_users_load(users_class):
 
 def test_users_returns(users_class):
     assert users_class.load_users() == True
-    list = user_class.get_users()
+    list = users_class.users
 
-    assert list.count() > 0
+    assert list != False
+    assert len(list) > 0
