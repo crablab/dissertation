@@ -12,7 +12,7 @@
 load(id)
 update()
 create(name, email, password, type) 
-check_privileges(id, level) </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1121</x><y>458</y><w>230</w><h>120</h></coordinates><panel_attributes>registration::class
+check_privileges(id, level) </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1121</x><y>458</y><w>230</w><h>120</h></coordinates><panel_attributes>registration::lectures
 --
 - id
 - course
