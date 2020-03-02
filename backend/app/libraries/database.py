@@ -1,6 +1,8 @@
 # Written by myself previously, for the Team Project
 import pymysql
+from .singleton import Singleton
 
+@Singleton
 class db():
     """
     Encapsulation of database connection. 
@@ -16,16 +18,8 @@ class db():
         self.__connectionObject = databaseClass.getInstance()
     """
     def __init__(self):
-        self.__db = pymysql.connect("localhost","registration","mgcMcYJ5jnrArYex?","registration", cursorclass=pymysql.cursors.DictCursor, charset='utf8', autocommit=True)
-
-    def getInstance(self):
-        """
-        Getter for connection instance. 
-
-        :returns: PyMySQL connection object
-        """
-        return self.__db
+        self.db = pymysql.connect("localhost","registration","mgcMcYJ5jnrArYex?","registration", cursorclass=pymysql.cursors.DictCursor, charset='utf8', autocommit=True)
 
     def __del__(self):
         # Close connection on destruction
-        self.__db.close()
+        self.db.close()

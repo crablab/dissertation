@@ -11,8 +11,8 @@ class lecture():
         """ 
         Sets up the class and database objects.
         """
-        self.__database = instance = db()
-        self.__db = instance.getInstance()
+        self.__database = instance = db.Instance()
+        self.__db = instance.db
         self.__id_gen = cuid.CuidGenerator()
         self.__lecture = {}
 
