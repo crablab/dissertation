@@ -17,7 +17,53 @@ class user():
         self.__ph = PasswordHasher()
         self.__id_gen = cuid.CuidGenerator()
         self.__user = {"object": None, "authenticated": False}
-    
+    # PROPERTIES
+
+    @property
+    def is_authenticated(self):
+        """
+        Whether `check_login` has been completed in the current session. 
+
+        Currently will always return True, due to flask_login issue.
+        """
+        return True
+        #return self.__user['authenticated']
+
+    @property
+    def is_active(self):
+        """
+        Whether the user has been enabled or not. 
+        """
+        return self.__user['object']['enabled']
+
+    @property
+    def is_anonymous(self):
+        """
+        Always False - there are no anonymous users.
+        """
+        return False
+
+    @property
+    def get_id(self):
+        """
+        Returns the current user ID. 
+        """
+        try:
+            return self.__user['object']['id']
+        except TypeError as e:
+            return False
+    @property
+    def get_permissions(self):
+        """
+        Returns the current user type. 
+        """
+        try:
+            return self.__user['object']['type']
+        except TypeError as e:
+            return False
+
+    # METHODS
+
     def check_login(self, password):
         """
         Checks password against current user, returning True if they match. 
@@ -155,51 +201,5 @@ class user():
                 return self.__user['object']
             else:
                 return False
-        except TypeError as e:
-            return False
-
-    @property
-    def is_authenticated(self):
-        """
-        Whether `check_login` has been completed in the current session. 
-
-        Currently will always return True, due to flask_login issue.
-        """
-        return True
-        #return self.__user['authenticated']
-
-    @property
-    def is_active(self):
-        """
-        Whether the user has been enabled or not. 
-        """
-        return self.__user['object']['enabled']
-
-    @property
-    def is_anonymous(self):
-        """
-        Always False - there are no anonymous users.
-        """
-        return False
-
-    def get_id(self):
-        """
-        Returns the current user ID. 
-
-        TODO: should be a property
-        """
-        try:
-            return self.__user['object']['id']
-        except TypeError as e:
-            return False
-
-    def get_permissions(self):
-        """
-        Returns the current user type. 
-    
-        TODO: should be a property
-        """
-        try:
-            return self.__user['object']['type']
         except TypeError as e:
             return False
