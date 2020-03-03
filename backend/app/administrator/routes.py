@@ -20,7 +20,7 @@ def index():
         # Create the allocation 
         allocation_class = allocation.allocation()
 
-        if allocation_class.allocate(ass_form.user.data, ass_form.course.data) == True:
+        if allocation_class.allocate(ass_form.user.data, ass_form.course.data) != False:
             flash("Allocated successfully")
         else:
             flash("Allocation failed")
