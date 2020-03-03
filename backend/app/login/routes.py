@@ -5,7 +5,7 @@ from ..libraries import user
 
 from . import login
 
-@login.route('/', methods=['GET', 'POST'])
+@login.route("/", methods=["GET", "POST"])
 def index():
 
     form = LoginForm()
@@ -17,16 +17,18 @@ def index():
         elif usr.check_login(form.password.data):
             # Login with flask_login
             login_user(usr)
-            flash('Logged in successfully.')
+            flash("Logged in successfully.")
 
-            return redirect("/student")
-
+            if(usr.get_permissions == "student"):
+                return redirect("/student")
+            elif(usr.get_permissions == "administrator"):
+                return redirect("/administrator")
         else:
             failed_login()
 
-    return render_template('login.html', form = form)
+    return render_template("login.html", form = form)
 
-@login.route('/signup', methods=['GET', 'POST'])
+@login.route("/signup", methods=["GET", "POST"])
 def signup():
 
     form = SignupForm()
@@ -34,16 +36,15 @@ def signup():
     if form.validate_on_submit():
         usr = user.user()
         id = usr.create_user(form.name.data, form.email.data, form.password.data, form.type.data)
-        print(id)
         if id != False:
-            flash('Account created for ' + id)
-            return redirect('/')
+            flash("Account created for " + id)
+            return redirect("/")
         else: 
-            flash('Error occurred: you\'re probably reusing an email')
-            return redirect('/signup')
+            flash("Error occurred: you\"re probably reusing an email")
+            return redirect("/signup")
 
-    return render_template('signup.html', form = form)
+    return render_template("signup.html", form = form)
 
 def failed_login():
-    flash('Epic fail.')
-    return redirect('/')
+    flash("Epic fail.")
+    return redirect("/")
