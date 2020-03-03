@@ -23,6 +23,7 @@ def index():
                 return redirect("/student")
             elif(usr.get_permissions == "administrator"):
                 return redirect("/administrator")
+            
         else:
             failed_login()
 

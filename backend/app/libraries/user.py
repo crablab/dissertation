@@ -44,15 +44,6 @@ class user():
         return False
 
     @property
-    def get_id(self):
-        """
-        Returns the current user ID. 
-        """
-        try:
-            return self.__user['object']['id']
-        except TypeError as e:
-            return False
-    @property
     def get_permissions(self):
         """
         Returns the current user type. 
@@ -61,6 +52,16 @@ class user():
             return self.__user['object']['type']
         except TypeError as e:
             return False
+    
+    def get_id(self):
+        """
+        Returns the current user ID. 
+        """
+        try:
+            return self.__user['object']['id']
+        except TypeError as e:
+            return False
+
 
     # METHODS
 
