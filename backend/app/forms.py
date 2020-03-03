@@ -19,3 +19,9 @@ class SignupForm(FlaskForm):
     type = SelectField('User Type', choices = [('student','Student'), ('lecturer','Lecturer'), ('administrator','Administrator')], validators = [DataRequired()])
 
     submit = SubmitField('Submit')
+
+class AssignmentForm(FlaskForm):
+    user = SelectField('User', coerce=int, validators=[DataRequired()])
+    course = SelectField('Course', coerce=int, validators=[DataRequired()])
+
+    submit = SubmitField('Submit')
