@@ -73,16 +73,16 @@ def test_is_annon(user_class):
 
 def test_user_id(user_class, email):
     assert user_class.load_user(email=email) == True
-    assert user_class.get_id() == pytest.user_id
+    assert user_class.get_id == pytest.user_id
 
 def test_broken_user_id(user_class):
     assert user_class.load_user(email="adasd") == False
-    assert user_class.get_id() == False
+    assert user_class.get_id == False
 
 def test_user_permissions(user_class, email, type):
     assert user_class.load_user(email=email) == True
-    assert user_class.get_permissions() == type
+    assert user_class.get_permissions == type
 
 def test_broken_user_permissions(user_class):
     assert user_class.load_user(email="adasd") == False
-    assert user_class.get_permissions() == False
+    assert user_class.get_permissions == False

@@ -12,8 +12,8 @@ class users():
         Instantiates user object.
         """
 
-        self.__database = instance = db()
-        self.__db = instance.getInstance()
+        self.__database = instance = db.Instance()
+        self.__db = instance.db
         self.__users = {}
     
     @property

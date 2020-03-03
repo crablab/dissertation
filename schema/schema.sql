@@ -26,13 +26,15 @@ DROP TABLE IF EXISTS `allocations`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `allocations` (
   `id` varchar(250) NOT NULL,
-  `course` text NOT NULL,
+  `course` varchar(250) NOT NULL,
   `user` varchar(250) NOT NULL,
   `allocated` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_allocations_2_idx` (`user`),
-  CONSTRAINT `fk_allocations_2` FOREIGN KEY (`user`) REFERENCES `user` (`id`)
+  KEY `fk_allocations_1_idx` (`course`),
+  CONSTRAINT `fk_allocations_1` FOREIGN KEY (`course`) REFERENCES `lectures` (`course`),
+  CONSTRAINT `fk_allocations_2` FOREIGN KEY (`user`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -56,8 +58,8 @@ CREATE TABLE `attendance` (
   KEY `fk_attendance_1_idx` (`user`),
   KEY `fk_attendance_2_idx` (`class`),
   KEY `fk_attendance_3_idx` (`challenge`),
-  CONSTRAINT `fk_attendance_1` FOREIGN KEY (`user`) REFERENCES `user` (`id`),
-  CONSTRAINT `fk_attendance_2` FOREIGN KEY (`class`) REFERENCES `class` (`id`),
+  CONSTRAINT `fk_attendance_1` FOREIGN KEY (`user`) REFERENCES `users` (`id`),
+  CONSTRAINT `fk_attendance_2` FOREIGN KEY (`class`) REFERENCES `lectures` (`id`),
   CONSTRAINT `fk_attendance_3` FOREIGN KEY (`challenge`) REFERENCES `challenge` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -100,22 +102,6 @@ CREATE TABLE `challenge` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `class`
---
-
-DROP TABLE IF EXISTS `class`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `class` (
-  `id` varchar(250) NOT NULL,
-  `course` text NOT NULL,
-  `datetime` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `devices`
 --
 
@@ -130,18 +116,35 @@ CREATE TABLE `devices` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_devices_1_idx` (`class`),
-  CONSTRAINT `fk_devices_1` FOREIGN KEY (`class`) REFERENCES `class` (`id`)
+  CONSTRAINT `fk_devices_1` FOREIGN KEY (`class`) REFERENCES `lectures` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `user`
+-- Table structure for table `lectures`
 --
 
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `lectures`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user` (
+CREATE TABLE `lectures` (
+  `id` varchar(250) NOT NULL,
+  `course` varchar(250) NOT NULL,
+  `datetime` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `course_IDX` (`course`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `users` (
   `id` varchar(250) NOT NULL,
   `name` text NOT NULL,
   `email` text NOT NULL,
@@ -164,4 +167,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-01-30 17:57:11
+-- Dump completed on 2020-03-03 19:44:54

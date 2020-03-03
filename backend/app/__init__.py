@@ -5,6 +5,7 @@ from flask_allows import Allows, Requirement
 
 from app.login.routes import login
 from app.student.routes import student
+from app.administrator.routes import administrator
 
 from app.libraries import user
 
@@ -23,6 +24,7 @@ def create_app():
     # Blueprints
     app.register_blueprint(login)
     app.register_blueprint(student)
+    app.register_blueprint(administrator)
     #app.register_blueprint(api, url_prefix='/api')
 
     return app
