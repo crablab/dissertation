@@ -24,6 +24,8 @@ def valid_datetime():
 def lower_valid_datetime():
     return datetime.strptime("Jun 1 2020  1:15PM", "%b %d %Y %I:%M%p")
 
+### TESTS ### 
+
 def test_load_all_lectures(lectures_class):
     assert lectures_class.load_lectures() == True
     assert len(lectures_class.lectures) > 0
