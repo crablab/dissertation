@@ -47,5 +47,5 @@ def signup():
     return render_template("signup.html", form = form)
 
 def failed_login():
-    flash("Epic fail.")
+    flash("Login failed")
     return redirect("/")
