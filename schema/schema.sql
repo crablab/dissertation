@@ -33,7 +33,7 @@ CREATE TABLE `allocations` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_allocations_2_idx` (`user`),
   KEY `fk_allocations_1_idx` (`course`),
-  CONSTRAINT `fk_allocations_1` FOREIGN KEY (`course`) REFERENCES `lectures` (`id`),
+  CONSTRAINT `fk_allocations_1` FOREIGN KEY (`course`) REFERENCES `lectures` (`course`),
   CONSTRAINT `fk_allocations_2` FOREIGN KEY (`user`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
