@@ -1,14 +1,14 @@
 import pytest, cuid
 from datetime import datetime
+from ..libraries import lectures
+from ..libraries import lecture
 
 @pytest.fixture(scope='session')
 def lectures_class():
-    from ..libraries import lectures
     return lectures.lectures()
 
 @pytest.fixture(scope='session')
 def lecture_class():
-    from ..libraries import lecture
     return lecture.lecture()
 
 @pytest.fixture(scope='session')
