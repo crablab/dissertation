@@ -14,8 +14,8 @@ class db():
 
     .. code-block:: python
 
-        self.__databaseClass = db()
-        self.__connectionObject = databaseClass.getInstance()
+        self.__database = instance = db.Instance()
+        self.__db = instance.db
     """
     def __init__(self):
         self.db = pymysql.connect("localhost","registration","mgcMcYJ5jnrArYex?","registration", cursorclass=pymysql.cursors.DictCursor, charset='utf8', autocommit=True)
