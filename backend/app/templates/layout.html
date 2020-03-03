@@ -1,0 +1,21 @@
+<!-- Based on https://flask.palletsprojects.com/en/1.1.x/patterns/flashing/#message-flashing-pattern-->
+{% extends "bootstrap/base.html" %} 
+
+{% block title %}Registration Application{% endblock %}
+
+{% block navbar %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="alert alert-info" role="alert">
+            <b>Alerts</b>
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{% endwith %}
+{% endblock %}
+
+{% block content %}{% endblock %}
