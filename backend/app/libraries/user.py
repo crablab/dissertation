@@ -55,13 +55,24 @@ class user():
     
     def get_id(self):
         """
-        Returns the current user ID. 
+        Returns the current user ID. Psudo property for flask_wtf
         """
         try:
             return self.__user['object']['id']
         except TypeError as e:
             return False
 
+    @property
+    def id(self):
+        return self.get_id()
+
+    @property
+    def name(self):
+        return self.__user['object']['enabled']
+
+    @property
+    def email(self):
+        return self.__user['object']['email']
 
     # METHODS
 
@@ -191,7 +202,7 @@ class user():
         else:
             return False
     
-    def get_user(self):
+    def __get_user(self):
         """
         Returns the current user object.
 
