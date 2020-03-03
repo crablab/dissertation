@@ -21,7 +21,7 @@ class SignupForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class AssignmentForm(FlaskForm):
-    user = SelectField('User', coerce=int, validators=[DataRequired()])
-    course = SelectField('Course', coerce=int, validators=[DataRequired()])
+    user = SelectField('User', coerce=str, validators=[DataRequired()])
+    course = SelectField('Course', coerce=str, validators=[DataRequired()])
 
     submit = SubmitField('Submit')
