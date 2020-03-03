@@ -72,3 +72,16 @@ class lectures():
         self.__lectures = cursor.fetchall()
 
         return True
+    
+    def load_distinct_courses(self):
+        """
+        Special snowflake method to return all distinct courses.
+
+        :returns: True/False depending on success
+        """
+        cursor = self.__db.cursor()
+        cursor.execute("SELECT DISTINCT `id`, `course` FROM `lectures`;")
+
+        self.__lectures = cursor.fetchall()
+
+        return True
