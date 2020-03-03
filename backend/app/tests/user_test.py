@@ -47,14 +47,14 @@ def test_authentication_value(user_class, email, password):
 
 def test_load_user(user_class, email):
     user_class.load_user(user_id=pytest.user_id)
-    assert user_class.get_user()['email'] == email
+    assert user_class.email == email
 
 def test_invalid_load_user(user_class):
     assert user_class.load_user("invalid_value") == False
 
 def test_invalid_and_continued_load_user(user_class):
     assert user_class.load_user(user_id="invalid_value") == False
-    assert user_class.get_user() == False
+    assert user_class.id == False
 
 def test_ambiguous_load(user_class):
     with pytest.raises(Exception):
@@ -62,7 +62,7 @@ def test_ambiguous_load(user_class):
 
 @pytest.mark.dependency(depends=['test_ambiguous_load'])
 def test_premature_load_user(user_class):
-    assert user_class.get_user() == False
+    assert user_class.id == False
 
 def test_is_active(user_class, email):
     assert user_class.load_user(email=email) == True
@@ -73,11 +73,11 @@ def test_is_annon(user_class):
 
 def test_user_id(user_class, email):
     assert user_class.load_user(email=email) == True
-    assert user_class.get_id == pytest.user_id
+    assert user_class.id == pytest.user_id
 
 def test_broken_user_id(user_class):
     assert user_class.load_user(email="adasd") == False
-    assert user_class.get_id == False
+    assert user_class.id == False
 
 def test_user_permissions(user_class, email, type):
     assert user_class.load_user(email=email) == True
