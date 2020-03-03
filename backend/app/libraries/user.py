@@ -68,7 +68,7 @@ class user():
 
     @property
     def name(self):
-        return self.__user['object']['enabled']
+        return self.__user['object']['name']
 
     @property
     def email(self):

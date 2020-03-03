@@ -41,9 +41,8 @@ def configure_assignment_form(form):
     usr_choices = []
 
     for key, value in users_class.users.items():
-        user = value.get_user()
-        usr_choices.append((key, user['name'] + " (" + user['email'] + ") - " + value.get_permissions))
-        # usr_choices.append((user.get_id, user.name + " (" + user.email + ") - " + user.get_permissions))
+
+        usr_choices.append((key, value.name + " (" + value.email + ") - " + value.get_permissions))
 
     form.user.choices = usr_choices
 
