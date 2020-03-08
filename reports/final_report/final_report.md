@@ -416,6 +416,11 @@ The Web Bluetooth API requires user interaction on the page before scanning can 
 Web Bluetooth is so experimental that it requires enabling a Chromium feature flag [@noauthor_web_nodate] and on Linux, enabling an experimental flag for Bluez [@acassis_how_2016]. 
 
 ![Web Bluetooth API issues with Linux Bluetooth drivers](assets/figure18.png)
+![Web Bluetooth Chrome Debugging tools showing the driver/adaptor issue](assets/figure19.png)
+
+As an alternative for the proof of concept, I looked into the Web NFC library. This allows you to read/write to NDEF tags from the Chrome browser. Low level protocols are not exposed so to "exchange" data in a challenge reponse a workaround would be required. For example, writing to the "tag" and then reading it straight after with the microcontroller responding with a signed version of the previously written data instead. The Web NFC library is however similarly unstable to the Web Bluetooth library and is not widely implemented beyond some limited alpha testing which was announced in March (@francois_beaufort_interact_2020).
+
+Instead, I propose to use the Web USB library to demonstrate the concept of students registering using a crytographic signature from a seperate device (@francois_beaufort_access_2016). 
 
 # Design and Software Engineering
 
