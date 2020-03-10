@@ -37,6 +37,16 @@ This work therefore will develop my skills in using hardware and building produc
 <!-- 6. A theory section. This might include a literature survey, sections on specific theory,
 or even an interesting discussion on what you have achieved in a more global context. -->
 
+## Literature Survey
+
+In the research for the Clicker section, it was noted that there is very little research on this area and the main citations are for blog posts and code written by others. Later references are also informal technical guides. This was expected and has been previously noted in the Project Plan. 
+
+The browser fingerprinting research has two important citations: "User Tracking on the Web via Cross-Browser Fingerprinting” and "Device Fingerprinting: Analysis of Chosen Fingerprinting Methods", the former of which presents the research related to the Fingerprint2 library also cited. These provide significant context, although other sources are cited for completeness and to give more practical examples (in the case of a newspaper article). This is also reflected in the research for the Professional Issues section, which shares topic and sources. 
+
+In the Communication report there are several areas. When investigating the MIFARE Classic attack, the Mayes and Cid article has an excellent overview and provides additional sources which are also cited to give further context. The Nohl and Plötz video (later paper) is the original research and cited extensively. The Bluetooth Low Energy section is essentially based on the Bluetooth Specification, with support from two textbooks "Getting Started with Bluetooth Low Energy: Tools and Techniques for Low-Power Networking" and "Bluetooth Low Energy the Developer’s Handbook.", the former is more theoretical and the latter more practical. A research paper is also cited but this refers to version 4.0 of the specification, and technology in 4.1 is current. The section on HM-10 investigations suffers from the same issue as the Clicker Report - as it is inherently practical, there are limited academic sources and indeed, the material out there at all is limited. Of particular interest will be the HM-10 specification (although in areas it is incorrect) plus the Web Bluetooth API specification. 
+
+As part of the design and research of the proof of concept solution, many sources of official documentation were consulted including those for Flask, PyMySQL and other Flask libraries. Alongside this textbooks such as "Flask in a Flask, I Mean, Book" by Perras added additional context and example code. A number of blogs talking about very specific technologies or concepts were used, but sparingly. 
+
 ## Clicker: reverse engineering 
 
 At Royal Holloway, for the 2018 intake of first year undergraduates it was decided that due to the class size, paper registers were unfeasible. The clicker systems was proposed and developed. This uses a Turning Technologies "Response Card" (Figure 1) typically used to respond to interactive questionnaires as part of a slideshow, or with other proprietary software. The device communicates with a base station connected to a computer via USB (Universal Serial Bus) when a key option is pressed (eg. "1/A") and transmits the unique ID of the device and the key press. The message is acknowledged by the base station and the user is given visual affirmation on the device that their response was counted. The results are then stored in a proprietary format attached to the slideshow which is decoded, processed and analysed by the department using a collection of scripts, Excel spreadsheets and custom software. 
@@ -94,45 +104,7 @@ The pinout I used is listed in Table {@tbl:table1}.
 Table: The chosen pinout. {#tbl:table1}
 
 With the addition of a mini USB cable to connect the Arduino to your computer, the hardware setup is complete. It is important to note that the hardware required for the base station emulator is identical to that required for the clicker emulator. 
- 
-### Installation 
-<!-- potentially should go in user manual? -->
 
-The setup of the software environment on the computer is relatively simple and is based around the Arduino IDE which is available from: https://www.arduino.cc/en/main/software. It appears there is now an online version, but this has not been tested with this project. 
-
-Once the Arduino IDE is installed you should try flashing the Arduino with the example "blink" code, available from File $\rightarrow$ Examples $\rightarrow$ Basic. 
-
-Assuming you have installed the IDE correctly and have specified the serial port and Arduino type a blinking status LED will be present.  
-
-You can also compile and upload code from within other IDEs using plugins. VSCode has various plugins for this, setup of which is beyond the scope of this document. However, unintuitively, it is important that you set up a VSCode Workspace so the Arduino Sketch file (containing running preferences such as the serial port, baud rate etc.) can be created and saved. Otherwise, you cannot upload any code. 
-
-To run the project code, two libraries are required - RF24 (a library to handle communication with the nRF24E1) and FastCRC (to calculate the CRC checksums). 
-For the former, Sparkfun have published a guide on installation the RF24 library into the correct folder in your filesystem: https://learn.sparkfun.com/tutorials/nrf24l01-transceiver-hookup-guide/arduino-code
-The FastCRC library is installed in a similar fashion.
-
-You should then be able to verify and upload the project code! If you get library errors, ensure the libraries have been imported correctly and the IDE shows them in the GUI. 
-
-The baud rate used in the project is 115200 - without that set correctly it will not be possible to communicate with the Arduino via the IDE's serial console. 
-
-The Python scripts to manage serial communication with the Arduinos are designed to be run in Python3. No libraries not available via Pip are used, but what is installed by default varies per system so it is advised to try running the code and install any missing libraries as required. 
-
-#### Frequent Issues
-
-Two issues encountered and which took significant effort to identify the root cause of are included with some basic debugging. 
-
-`avrdude: stk500_getsync() attempt 1 of 10: not in sync: resp=0x00` 
-
-This error occurs when either:
-
-- The Arduino is disconnected or cannot be connected to: check the USB
-- The wrong Arduino type is selected: check the board configuration and the type of CPU used 
-
-`Cannot upload: device/resource busy`
-
-This occurs when the serial connection to the serial port is already in use. Ensure you don't have any serial consoles open, or any of the Python scripts running. 
-If that doesn't work, you may be specifying the wrong serial port. 
-
-It is possible to identify a process using a serial port with `lsof` and then terminate this process using `pkill`. 
 
 ### Clicker Basestation
 
@@ -730,6 +702,10 @@ When comparing these issues to the original risk assessment (Appendix 7) the ris
 next? What did you do right/wrong? What have you learnt about doing a project? -->
 
 # Software Deliverables 
+
+Several deliverables are provided. Basic installation instructions are provided below, more detailed usuage can be found in the User Manual in Appendix X. 
+
+
 
 <!-- 4. A description of how to run any software that you have submitted, including any
 environmental requirements (Java version number, IOS version etc.,) 
