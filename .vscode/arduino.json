@@ -1,6 +1,6 @@
 {
     "board": "arduino:avr:nano",
     "configuration": "cpu=atmega328old",
-    "sketch": "proof_of_concept_programs/clicker_basestation/clicker_receive.ino",
+    "sketch": "proof_of_concept_programs/web-usb/test_web_usb.ino",
     "port": "/dev/ttyUSB0"
 }
