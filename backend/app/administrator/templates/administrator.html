@@ -7,6 +7,24 @@
             <h1>Welcome back, {{ current_user.name }}</h1>
         </div>
         <div class="panel panel-default">
+            
+            <div class="panel-heading">Courses</div>
+            <div class="panel-body">
+                <div class="container">
+                    <div class="col-md-6 col-md-offset-3">
+                        <table class="table table-condensed">
+                            <th>Course</th>
+                            <th>View</th>
+                            {% for course in data %}
+                                <tr>
+                                    <td>{{course}}</td>
+                                    <td><a href="administrator/course/{{course}}"><button type="button" class="btn btn-link">View</button></a></td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
 
             <div class="panel-heading">Assign Student</div>
             <div class="panel-body">

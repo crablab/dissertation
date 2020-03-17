@@ -26,7 +26,7 @@ def index():
             flash("Allocation failed")
         
 
-    return render_template("administrator.html", form = ass_form)
+    return render_template("administrator.html", form = ass_form, data = get_courses())
 
 def configure_assignment_form(form):
     """
@@ -47,13 +47,22 @@ def configure_assignment_form(form):
     form.user.choices = usr_choices
 
     # Courses 
-    lectures_class = lectures.lectures()
-    lectures_class.load_distinct_courses()
     course_choices = []
 
-    for key, value in lectures_class.lectures.items():
-        course_choices.append((value.course, value.course))
-    
+    # Tuplify for select HTML item
+    for course in get_courses():
+        course_choices.append((course, course))
+
     form.course.choices = course_choices
 
     return
+
+def get_courses():
+    lectures_class = lectures.lectures()
+    lectures_class.load_distinct_courses()
+    courses = []
+
+    for key, value in lectures_class.lectures.items():
+        courses.append(value.course)
+
+    return courses
