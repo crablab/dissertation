@@ -1,9 +1,7 @@
 from flask import render_template, url_for, redirect, abort, flash
 from flask_login import login_required, current_user
-from ..forms import AssignmentForm
-from ..libraries import users
-from ..libraries import lectures
-from ..libraries import allocation
+from ..forms import AssignmentForm, AddLecture
+from ..libraries import users, lectures, lecture, allocation
 
 from . import administrator 
 
@@ -24,9 +22,45 @@ def index():
             flash("Allocated successfully")
         else:
             flash("Allocation failed")
-        
+    
+
 
     return render_template("administrator.html", form = ass_form, data = get_courses())
+
+
+@administrator.route("/administrator/course/<path:text>", methods=["GET", "POST"])
+# @login_required
+def courses(text):
+    # if current_user.get_permissions != "administrator":
+    #     abort(403) 
+
+    # Initiate the form 
+    adl_form = AddLecture()
+
+    # If the form was submitted...
+    if adl_form.validate_on_submit():
+        lecture_class = lecture.lecture()
+        if lecture_class.create_lecture(adl_form.course.data, adl_form.datetime.data):
+            flash("Lecture created successfully")
+        else:
+            flash("Lecture creation failed")
+
+    # Generate the table data
+    lectures_class = lectures.lectures()
+    courses = lectures_class.load_lectures(course = text)
+
+    if courses == False:
+        abort(500)
+    
+    courses_dict = []
+
+    for key, course in lectures_class.lectures.items():
+        courses_dict.append({"id": course.id, "time": course.time.strftime("%c")})
+    
+    return render_template("course.html", form = adl_form, data = {"code": text, "lectures": courses_dict})
+
+
+# Helper methods
 
 def configure_assignment_form(form):
     """
@@ -58,6 +92,11 @@ def configure_assignment_form(form):
     return
 
 def get_courses():
+    """
+    Gets the distinct list of course objects.
+
+    :returns: List of distinct course objects.
+    """
     lectures_class = lectures.lectures()
     lectures_class.load_distinct_courses()
     courses = []
