@@ -49,6 +49,9 @@ class allocation():
         # Generate an ID
         id = "allocation_" + self.__id_gen.cuid()
 
+        if self.check_allocation(user, course):
+            return False
+
         # Insert into database
         cursor = self.__db.cursor()
         try:
@@ -84,3 +87,20 @@ class allocation():
             raise ValueError("Count of unexpected value", count)
 
         return True
+
+    def check_allocation(self, user, course):
+        """
+        Determine if a user is allocated on a course.
+
+        :param user: User's ID
+        :param course: Course code
+        :returns: Boolean True/False
+        """
+
+        cursor = self.__db.cursor()
+        cursor.execute("SELECT `id` FROM `allocations` WHERE `course` = %s AND `user` = %s;", (course, user))
+        
+        if cursor.rowcount == 1:
+            return True
+        else: 
+            return False

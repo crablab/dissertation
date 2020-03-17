@@ -16,7 +16,7 @@ def lecture_class():
 def user_class():
     return user.user()
 
-@pytest.fixture(scope='session')
+@pytest.fixture()
 def course():
     idgen = cuid.CuidGenerator()
     return idgen.cuid()
@@ -30,15 +30,20 @@ def random_value():
 def valid_datetime():
     return datetime.strptime("Jun 1 2020  2:15PM", "%b %d %Y %I:%M%p")
 
-@pytest.fixture(scope='session')
-def created_user(user_class, course):
-    return user_class.create_user("Test " + course, course + ".test@live.rhul.ac.uk", course, "student")
+@pytest.fixture()
+def created_user(user_class, random_value):
+    return user_class.create_user("Test " + random_value, random_value + ".test@live.rhul.ac.uk", random_value, "student")
 
 ### TESTS ### 
 
 def test_allocate_student_course(allocation_class, lecture_class, course, valid_datetime, created_user):
     lecture_class.create_lecture(course, valid_datetime)
     assert allocation_class.allocate(created_user, course) != False
+
+def test_allocate_student_course_multiple(allocation_class, lecture_class, course, valid_datetime, created_user):
+    lecture_class.create_lecture(course, valid_datetime)
+    assert allocation_class.allocate(created_user, course) != False
+    assert allocation_class.allocate(created_user, course) == False
 
 def test_allocate_student_missing_course(allocation_class, created_user, random_value):
     assert allocation_class.allocate(created_user, random_value) == False
@@ -60,3 +65,13 @@ def test_load_allocation_autoload(allocation_class, lecture_class, course, valid
     assert allocation_class.id == id
     assert allocation_class.course == course
     assert allocation_class.user == created_user
+
+def test_check_allocation(allocation_class, lecture_class, course, valid_datetime, created_user):
+    lecture = lecture_class.create_lecture(course, valid_datetime)
+    id = allocation_class.allocate(created_user, course)
+    assert allocation_class.check_allocation(created_user, course) == True
+
+def test_check_allocation_false(allocation_class, lecture_class, course, valid_datetime, created_user, random_value):
+    lecture = lecture_class.create_lecture(course, valid_datetime)
+    id = allocation_class.allocate(created_user, course)
+    assert allocation_class.check_allocation(random_value, course) == False
