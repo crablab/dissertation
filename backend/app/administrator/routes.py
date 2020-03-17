@@ -11,6 +11,18 @@ def index():
     if current_user.get_permissions != "administrator":
         abort(403) 
 
+    # Lecture creation form 
+    adl_form = AddLecture()
+
+    # If the form was submitted...
+    if adl_form.validate_on_submit():
+        lecture_class = lecture.lecture()
+        if lecture_class.create_lecture(adl_form.course.data, adl_form.datetime.data):
+            flash("Lecture created successfully")
+        else:
+            flash("Lecture creation failed")
+
+    # Assignment form 
     ass_form = AssignmentForm()
     configure_assignment_form(ass_form)
 
@@ -23,9 +35,7 @@ def index():
         else:
             flash("Allocation failed")
     
-
-
-    return render_template("administrator.html", form = ass_form, data = get_courses())
+    return render_template("administrator.html", ass_form = ass_form, adl_form = adl_form, data = get_courses())
 
 
 @administrator.route("/administrator/course/<path:text>", methods=["GET", "POST"])
