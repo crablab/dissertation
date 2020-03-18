@@ -40,10 +40,10 @@ def index():
 
 
 @administrator.route("/administrator/course/<path:text>", methods=["GET", "POST"])
-# @login_required
+@login_required
 def courses(text):
-    # if current_user.get_permissions != "administrator":
-    #     abort(403) 
+    if current_user.get_permissions != "administrator":
+        abort(403) 
 
     # Initiate the form 
     adl_form = AddLecture()
