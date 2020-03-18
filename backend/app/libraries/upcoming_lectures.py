@@ -27,6 +27,12 @@ class upcoming_lectures(lectures.lectures):
         sort = sorted(self.__upcoming, key=attrgetter('time'))
 
         return sort
+    
+    @property
+    def get_next(self):
+        upcoming = self.get_upcoming
+
+        return upcoming[0]
 
     # Methods
 

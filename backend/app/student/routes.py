@@ -20,4 +20,7 @@ def index():
     for key, course in enumerate(ucl.get_upcoming):
         lectures.append({"id": course.id, "time": course.time.strftime("%c"), "course": course.course})
 
-    return render_template('student.html', data = lectures)
+    next_lecture = ucl.get_next
+    next_lecture = {"id": next_lecture.id, "time": next_lecture.time.strftime("%c"), "course": next_lecture.course}
+    
+    return render_template('student.html', data = lectures, data_next = next_lecture)
