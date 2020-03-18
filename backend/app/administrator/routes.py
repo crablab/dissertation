@@ -15,7 +15,7 @@ def index():
     adl_form = AddLecture()
 
     # If the form was submitted...
-    if adl_form.validate_on_submit():
+    if adl_form.adl_submit.data and adl_form.validate_on_submit():
         lecture_class = lecture.lecture()
         if lecture_class.create_lecture(adl_form.course.data, adl_form.datetime.data):
             flash("Lecture created successfully")
@@ -27,7 +27,7 @@ def index():
     ass_form = AssignmentForm()
     configure_assignment_form(ass_form)
 
-    if ass_form.validate_on_submit():
+    if ass_form.ass_submit.data and ass_form.validate_on_submit():
         # Create the allocation 
         allocation_class = allocation.allocation()
 
