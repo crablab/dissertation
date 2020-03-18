@@ -11,7 +11,16 @@
             <div class="panel-heading">Courses</div>
             <div class="panel-body">
                 <div class="container">
-                    <div class="col-md-6 col-md-offset-3">
+                    <div class="col-md-6">
+                        <form class="form form-horizontal" method="post" role="form">
+                            {{ adl_form.hidden_tag() }} 
+                            {{ wtf.form_errors(adl_form, hiddens="only") }} 
+                            {{ wtf.form_field(adl_form.course) }} 
+                            {{ wtf.form_field(adl_form.datetime) }} 
+                            {{ wtf.form_field(adl_form.submit) }}
+                        </form>
+                    </div>
+                    <div class="col-md-6">
                         <table class="table table-condensed">
                             <th>Course</th>
                             <th>View</th>
@@ -31,11 +40,11 @@
                 <form class="form form-horizontal" method="post" role="form">
                     <div class="container">
                         <div class="col-md-6 col-md-offset-3">
-                            {{ form.hidden_tag() }} 
-                            {{ wtf.form_errors(form, hiddens="only") }} 
-                            {{ wtf.form_field(form.user) }} 
-                            {{ wtf.form_field(form.course) }} 
-                            {{ wtf.form_field(form.submit) }}
+                            {{ ass_form.hidden_tag() }} 
+                            {{ wtf.form_errors(ass_form, hiddens="only") }} 
+                            {{ wtf.form_field(ass_form.user) }} 
+                            {{ wtf.form_field(ass_form.course) }} 
+                            {{ wtf.form_field(ass_form.submit) }}
                         </div>
                     </div>
                 </form>

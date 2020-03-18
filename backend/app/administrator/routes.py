@@ -19,6 +19,7 @@ def index():
         lecture_class = lecture.lecture()
         if lecture_class.create_lecture(adl_form.course.data, adl_form.datetime.data):
             flash("Lecture created successfully")
+            return redirect("administrator/course/" + adl_form.course.data)
         else:
             flash("Lecture creation failed")
 
