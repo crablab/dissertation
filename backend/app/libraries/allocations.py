@@ -26,27 +26,46 @@ class allocations():
 
         for record in self.__allocations:
             aid = record['id']
+            print(record)
             try:
                 allocations[aid] = allocation.allocation()
                 allocations[aid].load_allocation(aid)
             except Exception as e:
                 return False
         
+        print(allocations)
         return allocations
 
-    def load_allocations(self):
+    def load_allocations(self, user=None):
         """
-        Loads allocations into the class. 
+        Loads all allocations
 
-        :returns: True/False depending on success.
+        :returns: True/False depending on success
         """
-
+        # Based on this StackOverflow: https://stackoverflow.com/a/49688389/3525352
+        # DECLARATIONS
         cursor = self.__db.cursor()
-        try:
-            cursor.execute("SELECT `id` FROM `allocations`")
-        except Exception as e:
-            return False
+        sql = ["SELECT `id` FROM `allocations`"]
+        args = []
+
+        def add_arg(name, value):
+            if value:
+                # Base case
+                if len(sql) == 1:
+                    sql.append("WHERE")
+                    sql.append('`{}` = %s'.format(name))
+                else:
+                    sql.append('AND `{}` = %s'.format(name))
+
+                args.append(value)
+
+        # PROCEDURE
+        if user != None:
+            add_arg('user', user)
         
+        string = ' '.join(sql)
+        
+        cursor.execute(string, args)
         self.__allocations = cursor.fetchall()
 
         return True

@@ -2,6 +2,7 @@ import pytest, cuid
 from datetime import datetime
 from ..libraries import lectures
 from ..libraries import lecture
+from ..libraries import allocation
 
 @pytest.fixture(scope='session')
 def lectures_class():
@@ -10,6 +11,10 @@ def lectures_class():
 @pytest.fixture(scope='session')
 def lecture_class():
     return lecture.lecture()
+
+@pytest.fixture(scope='session')
+def allocation_class():
+    return allocation.allocation()
 
 @pytest.fixture(scope='session')
 def course():
@@ -45,6 +50,19 @@ def test_load_course_lectures(lectures_class, lecture_class, course, valid_datet
     lecture_class.delete_lecture()
 
 def test_load_datetime_lectures(lectures_class, lecture_class, course, valid_datetime, lower_valid_datetime):
+    id1 = lecture_class.create_lecture(course, valid_datetime)
+    id2 = lecture_class.create_lecture(course, lower_valid_datetime)
+
+    assert lectures_class.load_lectures(course=course, time=valid_datetime) == True
+    assert len(lectures_class.lectures) == 1
+    assert lectures_class.lectures[id1].id == id1
+
+    lecture_class.load_lecture(id1)
+    lecture_class.delete_lecture()
+    lecture_class.load_lecture(id2)
+    lecture_class.delete_lecture()
+
+def test_load_user_lectures(lectures_class, lecture_class, course, valid_datetime, lower_valid_datetime):
     id1 = lecture_class.create_lecture(course, valid_datetime)
     id2 = lecture_class.create_lecture(course, lower_valid_datetime)
 
