@@ -13,7 +13,7 @@ class lectures():
         """
         self.__database = instance = db.Instance()
         self.__db = instance.db
-        self.__lectures = {}
+        self.__lectures = []
 
     # Properties
     @property
@@ -75,13 +75,27 @@ class lectures():
     
     def load_distinct_courses(self):
         """
-        Special snowflake method to return all distinct courses.
+        Special snowflake method to return distinct courses.
+
+        This returns single lecture IDs for each course, but the instance returned is not deterministic. 
 
         :returns: True/False depending on success
         """
         cursor = self.__db.cursor()
         cursor.execute("SELECT DISTINCT `id`, `course` FROM `lectures`;")
 
-        self.__lectures = cursor.fetchall()
+        lectures = cursor.fetchall()
+
+        # Iterate to remove duplicates (which doesn't matter for the callers of this)
+        dedupe = []
+
+        for key, record in enumerate(lectures):
+            if record['course'] in dedupe:
+                # Ignore, already deduplicated
+                pass
+            else:
+                # Push to the class variable and add to list of "seen" courses
+                self.__lectures.append(lectures[key])
+                dedupe.append(record['course'])
 
         return True
