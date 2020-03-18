@@ -26,10 +26,10 @@ class AssignmentForm(FlaskForm):
     user = SelectField('User', coerce=str, validators=[DataRequired()])
     course = SelectField('Course', coerce=str, validators=[DataRequired()])
 
-    submit = SubmitField('Submit')
+    ass_submit = SubmitField('Submit')
 
 class AddLecture(FlaskForm):
     course = StringField('Course', validators=[DataRequired()])
     datetime = DateTimeLocalField('Time', format='%d/%m/%Y %H:%M', default=datetime.today, validators=[DataRequired()])
 
-    submit = SubmitField('Submit')
+    adl_submit = SubmitField('Submit')
