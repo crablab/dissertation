@@ -26,14 +26,13 @@ class allocations():
 
         for record in self.__allocations:
             aid = record['id']
-            print(record)
+
             try:
                 allocations[aid] = allocation.allocation()
                 allocations[aid].load_allocation(aid)
             except Exception as e:
                 return False
         
-        print(allocations)
         return allocations
 
     def load_allocations(self, user=None):
