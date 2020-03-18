@@ -1,9 +1,7 @@
 from flask import render_template, url_for, redirect, abort, flash
 from flask_login import login_required, current_user
-from ..forms import AssignmentForm
-from ..libraries import users
-from ..libraries import lectures
-from ..libraries import allocation
+from ..forms import AssignmentForm, AddLecture
+from ..libraries import users, lectures, lecture, allocation
 
 from . import administrator 
 
@@ -13,10 +11,23 @@ def index():
     if current_user.get_permissions != "administrator":
         abort(403) 
 
+    # Lecture creation form 
+    adl_form = AddLecture()
+
+    # If the form was submitted...
+    if adl_form.adl_submit.data and adl_form.validate_on_submit():
+        lecture_class = lecture.lecture()
+        if lecture_class.create_lecture(adl_form.course.data, adl_form.datetime.data):
+            flash("Lecture created successfully")
+            return redirect("administrator/course/" + adl_form.course.data)
+        else:
+            flash("Lecture creation failed")
+
+    # Assignment form 
     ass_form = AssignmentForm()
     configure_assignment_form(ass_form)
 
-    if ass_form.validate_on_submit():
+    if ass_form.ass_submit.data and ass_form.validate_on_submit():
         # Create the allocation 
         allocation_class = allocation.allocation()
 
@@ -24,9 +35,43 @@ def index():
             flash("Allocated successfully")
         else:
             flash("Allocation failed")
-        
+    
+    return render_template("administrator.html", ass_form = ass_form, adl_form = adl_form, data = get_courses())
 
-    return render_template("administrator.html", form = ass_form)
+
+@administrator.route("/administrator/course/<path:text>", methods=["GET", "POST"])
+@login_required
+def courses(text):
+    if current_user.get_permissions != "administrator":
+        abort(403) 
+
+    # Initiate the form 
+    adl_form = AddLecture()
+
+    # If the form was submitted...
+    if adl_form.validate_on_submit():
+        lecture_class = lecture.lecture()
+        if lecture_class.create_lecture(adl_form.course.data, adl_form.datetime.data):
+            flash("Lecture created successfully")
+        else:
+            flash("Lecture creation failed")
+
+    # Generate the table data
+    lectures_class = lectures.lectures()
+    courses = lectures_class.load_lectures(course = text)
+
+    if courses == False:
+        abort(500)
+    
+    courses_dict = []
+
+    for key, course in lectures_class.lectures.items():
+        courses_dict.append({"id": course.id, "time": course.time.strftime("%c")})
+    
+    return render_template("course.html", form = adl_form, data = {"code": text, "lectures": courses_dict})
+
+
+# Helper methods
 
 def configure_assignment_form(form):
     """
@@ -47,13 +92,27 @@ def configure_assignment_form(form):
     form.user.choices = usr_choices
 
     # Courses 
-    lectures_class = lectures.lectures()
-    lectures_class.load_distinct_courses()
     course_choices = []
 
-    for key, value in lectures_class.lectures.items():
-        course_choices.append((value.course, value.course))
-    
+    # Tuplify for select HTML item
+    for course in get_courses():
+        course_choices.append((course, course))
+
     form.course.choices = course_choices
 
     return
+
+def get_courses():
+    """
+    Gets the distinct list of course objects.
+
+    :returns: List of distinct course objects.
+    """
+    lectures_class = lectures.lectures()
+    lectures_class.load_distinct_courses()
+    courses = []
+
+    for key, value in lectures_class.lectures.items():
+        courses.append(value.course)
+
+    return courses
