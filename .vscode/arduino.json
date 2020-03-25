@@ -1,6 +1,5 @@
 {
-    "board": "arduino:avr:nano",
-    "configuration": "cpu=atmega328old",
+    "board": "arduino:avr:micro",
     "sketch": "proof_of_concept_programs/web-usb/test_web_usb.ino",
-    "port": "/dev/ttyUSB0"
+    "port": "/dev/ttyACM1"
 }
