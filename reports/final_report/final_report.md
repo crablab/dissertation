@@ -714,14 +714,24 @@ When comparing these issues to the original risk assessment (Appendix 7) the ris
 
 ## Self-evaluation 
 
-- Research went well 
-- Issues with hardware - should have asked Dave sooner
-- Started the software deliverable later in the project, should have started a PoC sooner 
-- Issues with immature libraries could be resolved with more time and more focus on the project 
-- Pandoc! noauthor_better_2020
-
 <!-- 3. Some sort of self-evaluation in the assessment section: How did the project go? Where
 next? What did you do right/wrong? What have you learnt about doing a project? -->
+
+Overall this has been an interesting and engaging project which has given me the oppotunity to explore a wide range of topic within computer science, and even those with a wider focus such as the application of the GDPR and some of the electronic engineering elements. 
+
+The research areas have been very rewarding and provided siginificant context in carrying out the project. Whilst there has not been a large amount of literature on really any of the topics covered in depth, the material available has been of good quality and useful. I have enjoyed reading complex specifications and digging into documentation, and the research elements of my project have been amongst the most enjoyable aspects of the project. 
+
+It is very easy to generalise failures in time managment, so instead I will endevour to provide a more comprehensive explanation of some of the less successful areas of the project. 
+
+The first problems came with hardware issues. Overall, I think the use of so many hardware components was too ambitious in the time available and led to parts of the project being compressed and others expanded. For instance, the HM-10 issues took several weeks to resolve which had a knock on impact with the rest of the project. Had I consulted Dave Cohen earlier I might have resolved this particular issue more quickly, but it was far from the only problem! 
+
+The Web Bluetooth API turned out to be a very imature interface to work with, and I was ultimately unable to suceed in getting it working with several devices. To understand and fix these issues would involve learning how to develop parts of the Chromium Project which is not achiveable in the time period. I think had the scope been limited to building a simple application to work with the Web Bluetooth specification, it would have been possible to get this working. I later looked at the Web USB API as a replacement - a similar but crucially W3G specification. I got further with this endevour, but again did not succeed. One key learning is that whilst the documentation may look good, there is probably a reason why there aren't many (if any!) third party projects using some technology! 
+
+The delays with hardware problems led to knock on delays in working on the larger software deliverable. This is regrettable since it formed an interesting and large part of the overall project, however would never have been fully functional without the technologies explored in the earlier phases. Again, had the scope been more limited then this would have been more achievable. 
+
+Another interesting learning vector has been the combination of Pandoc and \LaTeX that has generated this document. Earlier reports and version of this report were in two column format; the reason for the switch is again in immature software - Pandoc does not easily support tables spanning columns although a partial implementation has been proposed as of late March! @noauthor_better_2020 
+
+It is impossible to ingore the elephants in the room: strikes and COVID-19. These have had a material impact on my project, affecting meetings with my supervisor before Christmas and in the Spring, and the ultimate delivery of the project after the United Kingdom entered lockdown in the final weeks of term. It is impossible to predict a global pandemic which has made elements of my project harder, notably the dissemination of hardware to markers. 
 
 # Software Deliverables 
 
