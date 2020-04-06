@@ -625,6 +625,10 @@ With login working, I needed to implement permisions for loading pages - you don
 
 Creating users is a relativly simple affair with the form being marshalled into the relevant methods of the user class to create the account. Errors such as a duplicate email are handled and provided to the frontend, but not yet displayed - as with login errors. This requires a default template and inclusion of the relevant HTML to display errors on any page. This is another feature provided by Flask out of the box and stores the error message in the session cookie to prevent XSS attacks.  
 
+### Adding additional functionality 
+
+Work continued using WTF and additional classes to add functionality to add students to a course and to add lectures to a course. This was supplemented with visual changes for an administrator and a student to display these new relations. 
+
 # Professional Issues
 
 Privacy and freedom of expression is becoming an increasingly debated issue, especially online and in the digital world. As computing power and storage capacity have increased over the last few decades, it has become feasible for companies to collect large amounts of data at an individual level for analysis and data mining. Whilst often the data is claimed to be anonymised, studies such as @rocher_estimating_2019 have shown that it is possible to use modern machine learning techniques on large datasets to identify individuals. 
@@ -712,6 +716,10 @@ Other issues stemmed from bad documentation. `flask_login` for example misrepren
 
 When comparing these issues to the original risk assessment (Appendix 7) the risks identified did all come into play, to various degrees. Of course the risk that ocurred with the largest impact relates to the Bluetooth device comunication which ultimately has not worked reliably. TODO: talk about alternatives that have been developed instead. Other risks such as with the clicker analysis and functional design have manifested, but not to the same degree. Having these risk in mind has helped in planning the rest of the project around the issues and avoided large blockages. 
 
+## Conclusion 
+
+The project has achieved it's broad goals. Work has been done to show the clickers are vulnrable to simple attacks, and a system using modern technologies has been designed and partially implemented. Ethical issues surrounding browser fingerprinting and privacy in general have been explored, as has the depths of the Web Bluetooth specification. Significant time has been spent develping the software deliverable - a Flask application. 
+
 ## Self-evaluation 
 
 <!-- 3. Some sort of self-evaluation in the assessment section: How did the project go? Where
@@ -737,6 +745,11 @@ It is impossible to ingore the elephants in the room: strikes and COVID-19. Thes
 
 Several deliverables are provided. Basic installation instructions are provided below, more detailed usuage can be found in the User Manual in Appendix X. 
 
+## Docker
+
+I originally experiemented in using Docker to package the Arduino dependencies and build environment. However issues with missing system libraries for timing within the container rendered this not possible. 
+
+TODO: Write about dockerising the Flask application... 
 
 
 <!-- 4. A description of how to run any software that you have submitted, including any
