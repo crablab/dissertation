@@ -26,25 +26,42 @@ def now_datetime():
 def course():
     return "CS1890"
 
+### TESTS ### 
+
 def test_create_lecture(lecture_class, course, valid_datetime):
+    """
+    Test that a lecture can be correctly created.
+    """
     id = lecture_class.create_lecture(course, valid_datetime)
     assert id != None
     assert lecture_class.course == course
     assert lecture_class.time == valid_datetime
 
 def test_create_invalid_datetime_lecture(lecture_class, course, invalid_datetime):
+    """
+    test that a lecture cannot be created in the past.
+    """
     with pytest.raises(ValueError, match="Lecture cannot be in the past"):
         lecture_class.create_lecture(course, invalid_datetime)
 
 def test_create_now_datetime_lecture(lecture_class, course, now_datetime):
+    """
+    Test that a lecture cannot be created at the current moment in time.
+    """
     with pytest.raises(ValueError, match="Lecture cannot be in the past"):
         lecture_class.create_lecture(course, now_datetime)
 
 def test_create_string_datetime(lecture_class, course, string_datetime):
+    """
+    Test that an invalid datetime causes lecture creation to fail.
+    """
     with pytest.raises(ValueError, match="Lecture datetime not a valid Datetime object"):
         lecture_class.create_lecture(course, string_datetime)
 
 def test_manual_load_lecture(lecture_class, course, valid_datetime):
+    """
+    Test that attributes are correctly set.
+    """
     id = lecture_class.create_lecture(course, valid_datetime)
     assert id != None
     assert lecture_class.load_lecture(id)
@@ -52,6 +69,9 @@ def test_manual_load_lecture(lecture_class, course, valid_datetime):
     assert lecture_class.time == valid_datetime
 
 def test_delete_lecture(lecture_class, course, valid_datetime):
+    """
+    Test that a lecture can be deleted.
+    """
     id = lecture_class.create_lecture(course, valid_datetime)
     assert id != None
     assert lecture_class.delete_lecture()

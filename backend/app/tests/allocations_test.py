@@ -6,9 +6,15 @@ def allocations_class():
     return allocations.allocations()
 
 def test_allocations_load(allocations_class):
+    """
+    Test that the allocations class is correctly loaded.
+    """
     assert allocations_class.load_allocations() == True
 
 def test_allocations_returns(allocations_class):
+    """
+    Test that allocations are correctly returned in a non-zero list.
+    """
     assert allocations_class.load_allocations() == True
     list = allocations_class.allocations
 

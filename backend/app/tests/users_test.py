@@ -6,9 +6,15 @@ def users_class():
     return users.users()
 
 def test_users_load(users_class):
+    """
+    Tests that the `users` class can be loaded. 
+    """
     assert users_class.load_users() == True
 
 def test_users_returns(users_class):
+    """
+    Tests that the users class returns results and a list greater than 0. 
+    """
     assert users_class.load_users() == True
     list = users_class.users
 
