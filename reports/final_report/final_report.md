@@ -726,7 +726,7 @@ In the project I looked at a wide range of topics within Computer Science, focus
 
 A key part of my project looked a potential solutions for the clickers. One idea explored was the student ID cards, based on MIFARE Classic technology. The known flaws in the technology were discussed and a practical attack against the student ID cards demonstrated. Focus then turned to Bluetooth technology and specifically working with Bluetooth Low Energy devices and getting to work with the Web Bluetooth APIs. This has then extended to the development of a basic and scoped MVP to demonstrate the practical benefits of a solution designed on the basis of research in this project. 
 
-The goal of the software MVP is to show a web based authentication system that allows students to securely register their attendance at a lecture. TODO: More to write here as I build said system... 
+The goal of the software MVP was to show a web based authentication system that allows students to securely register their attendance at a lecture. This ultimately did not materialise due to a combination of factors: time constraints, the impact of a worldwide pandemic and issues in getting the authentication step with Web Bluetooth (latterly Web USB) working. 
 
 ## Issues encountered
 
@@ -738,11 +738,13 @@ The Web Bluetooth API is another demonstration of the same. Although the documen
 
 Other issues stemmed from bad documentation. `flask_login` for example misrepresented a property which if not permanently set to `True` results in no user being able to log in. This seems to actually be a bug in the implementation, but as it is a breaking change, I have proposed a modification to the documentation [@crablab_change_2020]. I also experienced issues in using new technology with Flask. Whilst I wanted to make my Flask projects more scalable and use proper design patterns with Flask Blueprints, I did have issues introducing a hollistic set of unit tests including the ORM and database connection. The lesson learned here is to avoid using too much new and unfamilier technology - Flask Blueprints were already a steep learning curve and by trying to use a new style of unit testing and a new ORM with dynamic configuration in addition, the risk of nothing working at the end dramatically increases. 
 
-When comparing these issues to the original risk assessment (Appendix 7), the risks identified did all come into play, to various degrees. Of course the risk that ocurred with the largest impact relates to the Bluetooth device comunication, which ultimately has not worked reliably. TODO: talk about alternatives that have been developed instead. Other risks such as with the clicker analysis and functional design have manifested, but not to the same degree. Having these risk in mind has helped in planning the rest of the project around the issues and avoided large blockages. 
+When comparing these issues to the original risk assessment (Appendix 7), the risks identified did all come into play, to various degrees. Of course the risk that ocurred with the largest impact relates to the Bluetooth device comunication, which ultimately has not worked reliably. Alternatives, such as Web NFC were investigated and discarded, whereas Web USB was investigated and trialed but further technical issues and time constraints in investigating these meant it was not ultimately implemented.  
+
+Other risks, such as with the clicker analysis and functional design have manifested, but not to the same degree as the impact of the issues with the web APIs. Having all the assessed risks in mind has helped in planning the rest of the project, helping to avoid disproportionate amounts of time being given over to small areas of the project. This has meant no large blockages in work built up, but has had a material impact on deliverables to date. 
 
 ## Conclusion 
 
-The project has achieved it's broad goals. Work has been done to show the clickers are vulnrable to simple attacks, and a system using modern technologies has been designed and partially implemented. Ethical issues surrounding browser fingerprinting and privacy in general have been explored, as has the depths of the Web Bluetooth specification. Significant time has been spent develping the software deliverable - a Flask application. 
+The project has achieved it's broad goals. Work has been done to show the clickers are vulnrable to simple attacks, and a system using modern technologies has been designed and partially implemented. Ethical issues surrounding browser fingerprinting and privacy in general have been explored, as has the depths of the Web Bluetooth specification. Significant time has been spent develping the software deliverable - a Flask application - and whilst it did not meet the envisioned goals, it did go a way to demonstrate the holistic concept of the system.  
 
 ## Self-evaluation 
 
