@@ -6,3 +6,4 @@ flask_allows==0.7.1
 pymysql==0.9.3 
 argon2-cffi==19.2.0 
 cuid==0.3
+cryptography
