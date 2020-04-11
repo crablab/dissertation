@@ -1,10 +1,10 @@
-# User Guide
+## Appendix 8: User Guide
 
 This document provides a set of instructions for setting up, running and using the various software deliverables provided. 
 
 Some hardware is required. It will be listed in the respective sections and provisions have been made with Dave Cohen (d.cohen@rhul.ac.uk) for it to be available over the summer. 
 
-## Main software deliverable 
+### Main software deliverable 
 
 The main deliverable is a Python Flask application. This is provided with Dockerfiles to enable it to be run with ease on your machine. 
 
@@ -19,7 +19,7 @@ Requirements:
 
 To terminate `ctrl+c` and the containers will gracefully stop. The database is persisted. 
 
-### Using the website 
+#### Using the website 
 
 To create a new user you visit `/signup`. It is recommended to create a student and administrator account. 
 
@@ -29,7 +29,7 @@ It is then possible on `/administrator` to assign students to a course.
 
 Logging in as a student, you see all upcoming lectures for all courses, and the next lecture. 
 
-### Running tests
+#### Running tests
 
 As explained in the report, these are integration tests so in order to run them a local environment and database is required. 
 
@@ -46,11 +46,11 @@ Requirements:
 
 Alternatively, you can run both containers as described above and then enter the `web` container, kill the running Python process, install `pytest` and run the tests on that container. 
 
-### Common Issues
+#### Common Issues
 
 If you encounter any database connection issues then it's likely you just need to wait a little longer for the database to start. It is restarted several times when the container is being created and the website will be available long before it can connect to the database container. 
 
-## `clicker_emulator` 
+### `clicker_emulator` 
 
 This software is made up of two parts:
 
@@ -63,11 +63,11 @@ Requirements:
 - Arduino IDE 
 - POSIX-compliant Operating System
 
-### Hardware 
+#### Hardware 
 
 Any Arduino should be sufficient to run this code. The project was carried out on a Nano328, however. A nRF24E1 is required and the pinout to connect it to the Arduino is in {@tbl1:table1}. 
 
-### Installation: Arduino 
+#### Installation: Arduino 
 
 The setup of the software environment on the computer is relatively simple and is based around the Arduino IDE which is available from: https://www.arduino.cc/en/main/software. It appears there is now an online version, but this has not been tested with this project. 
 
@@ -90,7 +90,7 @@ You should then be able to verify and upload the project code! If you get librar
 
 The baud rate used in the project is 115200 - without that set correctly it will not be possible to communicate with the Arduino via the IDE's serial console. 
 
-#### Frequent Issues
+##### Frequent Issues
 
 Two issues encountered and which took significant effort to identify the root cause of are included with some basic debugging. 
 
@@ -125,7 +125,7 @@ If that doesn't work, you may be specifying the wrong serial port.
 
 It is possible to identify a process using a serial port with `lsof` and then terminate this process using `pkill`. 
 
-### Installation: Python
+#### Installation: Python
 
 The Python script is designed to work in Python 3, and not 2.7. 
 
@@ -133,7 +133,7 @@ The only library required and possibly not installed is PySerial, which is insta
 
 When running the script, if any issues are encountered with packages then installing these with Pip should resolve them. 
 
-### Running 
+#### Running 
 
 The Arduino requires nothing except the presence of a power source to run. The code is in a constant loop and to reset the device (on the Nano) there is a button on the top. When the serial bus is active a red LED will flash. 
 
@@ -155,7 +155,7 @@ When using a Turning Point Clicker in the vicinity on the default channel (41), 
 
 More options are described by running `python3 cli.py --help` 
 
-## `device_fingerprinting` 
+### `device_fingerprinting` 
 
 This is a basic demonstration page to show two different libraries used for browser fingerprinting. 
 
@@ -163,30 +163,30 @@ Requirements:
 
 - Modern (eg. latest stable version) browser 
 
-### Running
+#### Running
 
 Simply open the `index.html` file in your web browser. Two hashes which serve as the fingerprint will be displayed. 
 
 You can see how well the libraries work by opening the page across different tabs, in "incognito" modes and in other browsers. 
 
-## `crytographic_signing` 
+### `crytographic_signing` 
 
 This is a simple wrapper (an adaptor pattern) of a Ecliptic Curve signature algorithm. 
 
 Requirements:
 - Python 3
 
-### Installation 
+#### Installation 
 
 The only dependency is on the ECDSA library, which can be installed with Pip `pip3 install ecdsa`. 
 
 If you wish to run the tests you will need Pytest: `pip3 install pytest`. 
 
-### Running
+#### Running
 
 As this is intended as an adaptor, it is structured as a library. You can execute the tests by running `pytest` in the directory. 
 
-## `hm10-investigations` 
+### `hm10-investigations` 
 
 Originally, the HM-10 was intended to be connected to a Raspberry Pi but using a serial (RS232 TTL) to USB converter, you can connect it to a computer. 
 

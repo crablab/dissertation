@@ -49,6 +49,12 @@ As part of the design and research of the proof of concept solution, many source
 
 ## Clicker: reverse engineering 
 
+### Overview
+
+This section looks at the ways it is possible to attack the clicker system in use at Royal Holloway: the technology needed and the issues encountered when building upon existing research. 
+
+### Introduction
+
 At Royal Holloway, for the 2018 intake of first year undergraduates it was decided that due to the class size, paper registers were unfeasible. The clicker systems was proposed and developed. This uses a Turning Technologies "Response Card" (Figure 1) typically used to respond to interactive questionnaires as part of a slideshow, or with other proprietary software. The device communicates with a base station connected to a computer via USB (Universal Serial Bus) when a key option is pressed (eg. "1/A") and transmits the unique ID of the device and the key press. The message is acknowledged by the base station and the user is given visual affirmation on the device that their response was counted. The results are then stored in a proprietary format attached to the slideshow which is decoded, processed and analysed by the department using a collection of scripts, Excel spreadsheets and custom software. 
 
 The aim was to investigate the Turning Point clickers to learn more about how they work in practice and to see to what extent it is possible to reverse engineer, intercept and spoof communications between the clicker and the basestation. 
@@ -257,6 +263,10 @@ It is clear that Browser Fingerprinting is a controversial technology, with deep
 
 ### Overview 
 
+In this section methods of authenticating students are explored. Mifare technology and it's weaknesses are discussed and Web Bluetooth and Web USB proof of concepts are attempted. A detailed discussion of the Bluetooth Low Energy technology and it's security model is included. 
+
+### Introduction
+
 One of the key advantages that the clicker system had over the registers was that it utilised wireless communication such that students could 'click in' on a short range handheld device, rather than pass around a physical register sheet. The range of the clickers is advertised as being around a 200ft radius [@noauthor_c21_nodate] which in the context of a lecture theatre, is actually quite large! Based on practical experience (and given a definite answer would be out of scope), I postulate that for most lecture theatres that would include the entire room plus a short distance outside - taking into account the attenuation of the signal through the walls. 
 
 Considering the range of other wireless communication technologies: 
@@ -446,6 +456,10 @@ This allowed the Web USB device (the Arduino Micro) to be recognised by the brow
 It transpires that it is still reasonably difficult to connect to physical, external devices through a web browser. In the age of the Internet of Things this is perhaps surprising, but it is clear that further research into the wide range of APIs available (and how usuable they are in practice) is needed. For this project it is a real shame that it has not been possible to find a working solution in the time available, and this is explored further in the Self Evaluation sections. 
 
 # Design and Software Engineering
+
+## Overview
+
+The main software deliverable is an application to demonstrate a proof of concept registration system using technologies previously explored and researched in the report. This section goes through the design process and then provides insight into the build process, and the issues encountered. 
 
 <!-- 7. Sections describing the software engineering method that you used. If your project is
 based on a software product then this may even be most of your report. -->
@@ -653,6 +667,22 @@ Creating users is a relativly simple affair with the form being marshalled into 
 
 Work continued using WTF and additional classes to add functionality to add students to a course and to add lectures to a course. This was supplemented with visual changes for an administrator and a student to display these new relations. 
 
+### Delivery
+
+The delivered software was not envisioned. Several major items produced in the proof of concept were never implemented, as they weren't needed and couldn't be used without the main component: the Web Bluetooth API. More detailed conclusions are drawn from this in the reflective areas of the report. 
+
+Implemented: 
+
+- Boilerplate and Flask Blueprints
+- Login / Signup
+- Student/Administrator pages
+- Creation of courses and assignment of students to lectures
+
+Not implemented:
+
+- Registration 
+- Fingerprint tracking 
+
 # Professional Issues
 
 Privacy and freedom of expression is becoming an increasingly debated issue, especially online and in the digital world. As computing power and storage capacity have increased over the last few decades, it has become feasible for companies to collect large amounts of data at an individual level for analysis and data mining. Whilst often the data is claimed to be anonymised, studies such as @rocher_estimating_2019 have shown that it is possible to use modern machine learning techniques on large datasets to identify individuals. 
@@ -727,6 +757,8 @@ In the project I looked at a wide range of topics within Computer Science, focus
 A key part of my project looked a potential solutions for the clickers. One idea explored was the student ID cards, based on MIFARE Classic technology. The known flaws in the technology were discussed and a practical attack against the student ID cards demonstrated. Focus then turned to Bluetooth technology and specifically working with Bluetooth Low Energy devices and getting to work with the Web Bluetooth APIs. This has then extended to the development of a basic and scoped MVP to demonstrate the practical benefits of a solution designed on the basis of research in this project. 
 
 The goal of the software MVP was to show a web based authentication system that allows students to securely register their attendance at a lecture. This ultimately did not materialise due to a combination of factors: time constraints, the impact of a worldwide pandemic and issues in getting the authentication step with Web Bluetooth (latterly Web USB) working. 
+
+I did, however, build a very basic MVP in Flask using a number of new technologies to me, including Flask Blueprints, Flask Login, Flask Access and Docker, to name a few. Although this never was completed due to the issues in making the crucial part of the system work, it does lay the foundation for a more complete system if those issues can be overcome in time. 
 
 ## Issues encountered
 
