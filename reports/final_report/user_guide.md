@@ -4,6 +4,42 @@ This document provides a set of instructions for setting up, running and using t
 
 Some hardware is required. It will be listed in the respective sections and provisions have been made with Dave Cohen (d.cohen@rhul.ac.uk) for it to be available over the summer. 
 
+## Main software deliverable 
+
+The main deliverable is a Python Flask application. This is provided with Dockerfiles to enable it to be run with ease on your machine. 
+
+Requirements:
+
+- Docker installation: https://docs.docker.com/get-docker/
+- docker-compose: https://docs.docker.com/compose/install/
+
+1) In the project directory, go to the `backend` directory. 
+2) Execute `docker-compose up` and go and make a cup of tea!
+3) Visit http://localhost:5000 to get the login page
+
+### Using the website 
+
+### Running tests
+
+As explained in the report, these are integration tests so in order to run them a local environment and database is required. 
+
+One way to achieve this is to run just the MySQL container in Docker and then connect to that from your locally running tests. 
+
+Requirements:
+
+- Python3 
+- Local installation of `requirements.txt` with Pip
+- Installation of `pytest` using Pip 
+
+1) Modify the connection string `backend/app/libraries/database.py` to refer to your instance of MySQL
+2) Execute `pytest` in `backend/app/tests`
+
+Alternatively, you can run both containers as described above and then enter the `web` container, kill the running Python process, install `pytest` and run the tests on that container. 
+
+### Common Issues
+
+If you encounter any database connection issues then it's likely you just need to wait a little longer for the database to start. It is restarted several times when the container is being created and the website will be available long before it can connect to the database container. 
+
 ## `clicker_emulator` 
 
 This software is made up of two parts:
