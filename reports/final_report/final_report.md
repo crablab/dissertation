@@ -267,9 +267,9 @@ Considering the range of other wireless communication technologies:
 
 ### Student ID Cards
 
-![Screenshot of the tag read from the NXP "TagInfo" Android application](assets/figure9.png)
+![Screenshot of the tag read from the NXP "TagInfo" Android application](assets/figure5.png)
 
-At the beginning of the 2019 Winter Term, the College began issuing new student ID cards and reissuing older cards. The new cards were found to contain a MIFARE Classic chip (Figure 9). The MIFARE chip was originally released in 1994 by what became NXP [@mayes_mifare_2010] as a product primarily for mass transit cards, but also later for door key cards and the like. The MIFARE design was very proprietary with only the (48 bit) key length disclosed to the security community. For example, the chip used an undisclosed encryption algorithm developed by Phillips (who became NXP) that had not been researched or investigated by the wider security community [@mayes_mifare_2010]. As is well accepted in Kerckhoff's Principle [@kerckhoffs_cryptographie_nodate], we should always assume the attacker has the maximum knowledge of the system including details of the encryption algorithms used, nonce generation algorithms and other design features. The only item assumed not to be known by default are any private keys generated. This principle ensures that any tendency to default to "security by obscurity" is avoided as, as in the case of MIFARE, if your security model relies on design details being disclosed it is very vulnerable to espionage, reverse engineering or simply errors in parties disclosing too many details. 
+At the beginning of the 2019 Winter Term, the College began issuing new student ID cards and reissuing older cards. The new cards were found to contain a MIFARE Classic chip (Figure 5). The MIFARE chip was originally released in 1994 by what became NXP [@mayes_mifare_2010] as a product primarily for mass transit cards, but also later for door key cards and the like. The MIFARE design was very proprietary with only the (48 bit) key length disclosed to the security community. For example, the chip used an undisclosed encryption algorithm developed by Phillips (who became NXP) that had not been researched or investigated by the wider security community [@mayes_mifare_2010]. As is well accepted in Kerckhoff's Principle [@kerckhoffs_cryptographie_nodate], we should always assume the attacker has the maximum knowledge of the system including details of the encryption algorithms used, nonce generation algorithms and other design features. The only item assumed not to be known by default are any private keys generated. This principle ensures that any tendency to default to "security by obscurity" is avoided as, as in the case of MIFARE, if your security model relies on design details being disclosed it is very vulnerable to espionage, reverse engineering or simply errors in parties disclosing too many details. 
 
 In December 2007 at the Chaos Computer Conference [@nohl_mifare_nodate] [@nohl_reverse-engineering_nodate], a presentation was given where researchers showed analysis demonstrating it was possible to generate the nonces used in the chip (as the randomness is determined by the number of clock cycles since the chip is initialized). By analyzing 27 mutual authentication captures repetition of the challenge response was observed. It was also shown through trial by error in bit flipping the unique identifier transmitted by the card was linked to the keys used and such there exists for each session key as a result of the mutual authentication, for a given key and unique identifier. This allows recovery of the key used based on the unique identifier presented by the chip and the challenge response sent.  
 
@@ -346,13 +346,13 @@ It should be noted that in the proposed implementation, Just Works pairing will 
 
 Investigations into practical applications and small projects with Bluetooth Low Energy yielded several articles mentioning the HM-10 [@loginov_how_2019]. The HM-10 is based on a Texas Instruments BLE System On Chip mounted as a daughter board to breakout a serial UART connection. At this time, only BLE devices are officially supported via the Web Bluetooth APIs [@webbluetoothcg_web_2019].
 
-![A HM-10 module](assets/figure10.jpg)
+![A HM-10 module](assets/figure6.jpg)
 
 As this device provides a serial interface, an additional microprocessor is required to interface with the device and to receive, process and then respond to data sent to the device. A Raspbery Pi was chosen over an Arduino due to the increased processing power, onboard networking and full operating system. This also allows for higher level languages like Python to be used instead of C++, speeding up development. As no analogue inputs are required, there is no real advantage to using an Arduino here. A Rasperry Pi Zero was therefore configured to run in headless mode with a terminal over USB [@gbaman_simple_2016]. However it transpired that whilst the Raspberry Pi does have two UARTs available, one is used for the onboard Bluetooth and the UART used for the Linux console is shared with the UART exposed on the GPIO [@noauthor_raspberry_nodate]. It was therefore necessary to change approach and a Raspberry Pi 2B was provisioned with SSH enabled (add an empty file: `/boot/ssh`) such that direct a ethernet connection to the laptop was possible, with ethernet passthrough to the laptop's wireless connection. 
 
 The HM-10 was then attached with Dupont leads to the GPIO of the Raspberry Pi using pinouts for the Pi and the markings on the HM-10 breakout board. [@noauthor_pi4j_nodate]
 
-![Raspberry Pi 2B with an HM-1o breakout board attached](assets/figure12.jpg)
+![Raspberry Pi 2B with an HM-1o breakout board attached](assets/figure7.jpg)
 
 Initially, the device was detected on the serial port and a connection could be established. However, there was no data sent by the device and no acknowledgement of data sent down the serial port. The HM-10 uses AT commands which are commonly found in GSM modules and the like - the HM-10 likely uses these given the industry crossover. The manual for the HM-10 [@jnhuamao_technology_company_hm-10-datasheet.pdf_2014] lists a few basic AT commands which can be used to interrogate basic data such as the device status: 
 
@@ -380,9 +380,9 @@ Looking at the Raspberry Pi forums, I identified a small number of questions rel
 
 The script is provided in Appendix 5. 
 
-Running this script several times with different RX/TX pin configurations and baud rates did not yield any results and the only success was some null bytes, as in Figure 11. 
+Running this script several times with different RX/TX pin configurations and baud rates did not yield any results and the only success was some null bytes, as in Figure 8. 
 
-![Run one with null bytes, second run with nothing. The change between runs is swapping the TX/RX pins on the UART.](assets/figure11.png)
+![Run one with null bytes, second run with nothing. The change between runs is swapping the TX/RX pins on the UART.](assets/figure8.png)
 
 Reading around the UART protocol, it transpired that flow control is sometimes required for devices [@mark_duncombe_is_nodate]. Flow control is used to indicate to the other party when it is 'safe' to send data and when it is not. As UART is so ubiquitous it is likely there will be cases where the buffer size and the processing capabilities between devices are vastly different. To prevent more capable devices flooding low powered devices (either leading to lost data or exceptions) the crosscoupled `state` (RTS) and `enable` (CTS) supplement the data lines and when a device needs to inhibit further data it will bring the `state` line to Logic 0 (`enable` on the partner device) [@silicon_labs_an0059.0:_2017].
 
@@ -390,21 +390,21 @@ The Raspberry Pi does support hardware flow control, however enabling it is non-
 
 Upon speaking with Dave Cohen and investigating further, it was suggested that as the RX pin of the HM-10 was technically 3.3V, providing a 5V signal could cause issues. A potential divider was tried but this also failed to resolve the issues [@martyn_currey_hm-10_2017]. It also appeared that later versions of firmware used the higher 15200 baud rate - this was also tested. 
 
-It was also observed that using a BLE Scanner Android application (Figure 13), it was possible to connect to the HM-10 and read out the GATT data - no acknowledgement of the connection was observed on the serial port as expected and documented. This suggested the device was, in part, functioning as expected. 
+It was also observed that using a BLE Scanner Android application (Figure 9), it was possible to connect to the HM-10 and read out the GATT data - no acknowledgement of the connection was observed on the serial port as expected and documented. This suggested the device was, in part, functioning as expected. 
 
-![Using the BLE Scanner Android application to connect to the HM-10](assets/figure13.png)
+![Using the BLE Scanner Android application to connect to the HM-10](assets/figure9.png)
 
 Up until this point, two HM-10 devices from the same source had been used. Due to the issues encountered another was procured from an alternative supplier. Upon swapping it like for like with the other HM-10, it worked first time with the script provided in Appendix 5. This does validate that this was a hardware issue rather than "user error" however the exact issue is unknown. 
 
-![The two HM-10s side by side. The new (and working) device has the LED illuminated](assets/figure14.jpg)
+![The two HM-10s side by side. The new (and working) device has the LED illuminated](assets/figure10.jpg)
 
-![The expected output of the script in Appendix 5 with a working HM-10](assets/figure15.png)
+![The expected output of the script in Appendix 5 with a working HM-10](assets/figure11.png)
 
-Using a BLE Terminal app, it was then possible to send data via the HM-10 to a running screen session as in Figures 17 and 18:
+Using a BLE Terminal app, it was then possible to send data via the HM-10 to a running screen session as in Figures 12 and 13:
 
-![The BLE Terminal Android application connected to the HM-10 and transmitting and receiving text.](assets/figure16.png)
+![The BLE Terminal Android application connected to the HM-10 and transmitting and receiving text.](assets/figure12.png)
 
-![The equivalent end with a screen session attached, showing the text and the AT messages when GATT changes take place.](assets/figure17.png)
+![The equivalent end with a screen session attached, showing the text and the AT messages when GATT changes take place.](assets/figure13.png)
 
 The support for the Web Bluetooth APIs is rather more limited than I had believed and only Chromium and Opera offer any support for the APIs [@mozilla_web_nodate]. The officially updated development progress can be found [here](https://github.com/WebBluetoothCG/web-bluetooth/blob/master/implementation-status.md).
 
@@ -412,14 +412,38 @@ Based on a development guide from Google (written by a member of the Web Bluetoo
 
 The Web Bluetooth API requires user interaction on the page before scanning can even take place, and in any event the user needs to explicitly provide consent to pair with a device via a prompt. In the solution, an `onClick` event from a button is used to call the function. Once called, the function scans devices and looks for an explicit unique identifier for the specific HM-10 in use (transcribed from the BLE Scanner app): `0x484D536F6674`. It is possible to apply filters based on GATT characteristics, however, for simplicity this is avoided. The name of the device should then be logged, and the pairing sequence initiated (requiring user confirmation). 
 
+![Web Bluetooth API issues with Linux Bluetooth drivers](assets/figure14.png)
+![Web Bluetooth Chrome Debugging tools showing the driver/adaptor issue](assets/figure15.png)
+
 Web Bluetooth is so experimental that it requires enabling a Chromium feature flag [@noauthor_web_nodate] and on Linux, enabling an experimental flag for Bluez [@acassis_how_2016]. 
 
-As an alternative for the proof of concept, I looked into the Web NFC library. This allows you to read/write to NDEF tags from the Chrome browser. Low level protocols are not exposed so to "exchange" data in a challenge reponse a workaround would be required. For example, writing to the "tag" and then reading it straight after with the microcontroller responding with a signed version of the previously written data instead. The Web NFC library is however similarly unstable to the Web Bluetooth library and is not widely implemented beyond some limited alpha testing which was announced in March (@francois_beaufort_interact_2020).
+As an alternative for the proof of concept, I looked into the Web NFC library. This allows you to read/write to NDEF tags from the Chrome browser. Low level protocols are not exposed so to "exchange" data in a challenge reponse a workaround would be required. For example, writing to the "tag" and then reading it straight after with the microcontroller responding with a signed version of the previously written data instead. The Web NFC library is however similarly unstable to the Web Bluetooth library and is not widely implemented beyond some limited alpha testing which was announced in March [@francois_beaufort_interact_2020].
 
-Instead, I planned to use the Web USB library to demonstrate the concept of students registering using a crytographic signature from a seperate device (@francois_beaufort_access_2016). 
+Instead, I planned to use the Web USB library to demonstrate the concept of students registering using a crytographic signature from a seperate device [@francois_beaufort_access_2016]. 
 
-![Web Bluetooth API issues with Linux Bluetooth drivers](assets/figure18.png)
-![Web Bluetooth Chrome Debugging tools showing the driver/adaptor issue](assets/figure19.png)
+Web USB works with a more limited set of Arduino devices due to the way different Arduinos provide control over the USB interface @noauthor_webusbarduino_2019. I elected to use an Arduino Micro, one of the listed devices known to work with the specification. A basic sketch is provided using the Web USB Arduino library and an example console application at: https://webusb.github.io/arduino/demos/console/
+
+In Linux you also need to add a `udev` rule to allow the browser to communicate with the Web USB device and add your user to the `plugdev` group. 
+
+I ended up using a more specific version of the rule provided in the documentation [@francois_beaufort_access_2016] as the rule in the official documentation did not appear to work: 
+
+```
+SUBSYSTEM=="usb", ATTR{idVendor}=="2341", ATTR{idProduct}=="8037", MODE="0666", GROUP="plugdev"
+```
+
+Confirming my user is in the `plugdev` group: 
+
+```
+$ cat /etc/group | grep "plugdev"
+plugdev:x:46:crablab
+```
+
+This allowed the Web USB device (the Arduino Micro) to be recognised by the browser, however when trying to "connect" Chrome threw a security exception. Despite a lot of troubleshooting, modification of the `udev` rule and searching, I was unable to get this to work. 
+
+![Web USB detecting and prompting connection to the Arduino Micro](assets/figure16.png)
+![The Chrome exception when connecting to the Arduino Micro Web USB device](assets/figure17.png)
+
+It transpires that it is still reasonably difficult to connect to physical, external devices through a web browser. In the age of the Internet of Things this is perhaps surprising, but it is clear that further research into the wide range of APIs available (and how usuable they are in practice) is needed. For this project it is a real shame that it has not been possible to find a working solution in the time available, and this is explored further in the Self Evaluation sections. 
 
 # Design and Software Engineering
 
