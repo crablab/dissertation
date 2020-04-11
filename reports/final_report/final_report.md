@@ -761,7 +761,7 @@ The first problems came with hardware issues. Overall, I think the use of so man
 
 The Web Bluetooth API turned out to be a very imature interface to work with, and I was ultimately unable to suceed in getting it working with several devices. To understand and fix these issues would involve learning how to develop parts of the Chromium Project which is not achievable in the time period. I think had the scope been limited to building a simple application to work with the Web Bluetooth specification, it would have been possible to get this working. I later looked at the Web USB API as a replacement - a similar but crucially W3G specification. I got further with this endevour, but again did not succeed. One key learning is that whilst the documentation may look good, there is probably a reason why there aren't many (if any) third party projects using a technology! 
 
-The delays with hardware problems led to knock on delays in working on the larger software deliverable. This is regrettable since it formed an interesting and large part of the overall project. However, it would never have been fully functional without the technologies explored in the earlier phases. Again, had the scope been more limited then this would have been more achievable. 
+The delays with hardware problems led to knock on delays in working on the larger software deliverable. This is regrettable since it formed an interesting and large part of the overall project. However, it would never have been fully functional without the technologies explored in the earlier phases. Again, had the scope been more limited then this would have been more achievable. I did however learn more about using Docker and Docker Compose when preparing the project for submission, which was useful. 
 
 Another interesting learning vector has been the combination of Pandoc and \LaTeX  that has generated this document. Earlier reports and version of this report were in two column format; the reason for the switch is again in immature software - Pandoc does not easily support tables spanning columns although a partial implementation has been proposed as of late March! @noauthor_better_2020 
 
@@ -769,14 +769,13 @@ It is impossible to ingore the elephants in the room: strikes and COVID-19. Thes
 
 # Software Deliverables 
 
-Several deliverables are provided. Basic installation instructions are provided below, more detailed usuage can be found in the User Manual in Appendix X. 
+Several deliverables are provided. Basic installation instructions can be found in the User Manual in the final Appendicy. 
 
 ## Docker
 
 I originally experiemented in using Docker to package the Arduino dependencies and build environment. However issues with missing system libraries for timing within the container rendered this not possible. 
 
-TODO: Write about dockerising the Flask application... 
-
+The Flask application was Dockerised using a number of guides. Initially a Dockerfile for just the Flask application was made using @noauthor_how_nodate-3 and @noauthor_dockerize_2016 with only a few issues relating to binding the Flask development webserver to the correct host. In order to orcestrate the start of another container, the MySQL database, it was necassary to use `docker-compose`. Initially following @noauthor_get_2020 and @chuck_how_2019 there were issues in getting the application to connect to the database. I understand from the aforementioned official documentation it is important to refer to hostnames (eg. `web` and `mysql`) within containers so that the Docker DNS can dynamically provide IP addresses. There were also various credential issues and a strange InnoDB problem with the schema: when you start the containers you will see a log line `Tablespace '\`registration\`.\`browsers\`' exists..` which causes that table, but no other, to not be created. This wasn't resolvable in itself, but by rearanging the order of the schema file, an unused table was sacrificed instead of one that was required. 
 
 <!-- 4. A description of how to run any software that you have submitted, including any
 environmental requirements (Java version number, IOS version etc.,) 
@@ -793,7 +792,9 @@ the word limit.
 
 # Acknowledgements 
 
-Thanks to @tom_pollard_template_2016 for the front cover template which I have adapted and "corentin" for the Gantt chart example in \LaTeX [@noauthor_pgfgantt_nodate].
+Thanks to @tom_pollard_template_2016 for the front cover template which I have adapted, "corentin" for the Gantt chart example in \LaTeX [@noauthor_pgfgantt_nodate] and @cohen_third_2013 for the Final Year Project guide and suggested layouts. 
+
+I owe a debt of gratitude to my supervisor, Hugh Shanahan, who has been invaluable in providing advice even in the most difficult of situations, when it seemed nothing would work! 
 
 \pagebreak 
 \onecolumn 

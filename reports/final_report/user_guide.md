@@ -17,7 +17,17 @@ Requirements:
 2) Execute `docker-compose up` and go and make a cup of tea!
 3) Visit http://localhost:5000 to get the login page
 
+To terminate `ctrl+c` and the containers will gracefully stop. The database is persisted. 
+
 ### Using the website 
+
+To create a new user you visit `/signup`. It is recommended to create a student and administrator account. 
+
+You can then login as an administrator and create a new course with first lecture in the future. You can add further lectures if required. 
+
+It is then possible on `/administrator` to assign students to a course. 
+
+Logging in as a student, you see all upcoming lectures for all courses, and the next lecture. 
 
 ### Running tests
 
@@ -178,4 +188,13 @@ As this is intended as an adaptor, it is structured as a library. You can execut
 
 ## `hm10-investigations` 
 
-There are several parts to this 
+Originally, the HM-10 was intended to be connected to a Raspberry Pi but using a serial (RS232 TTL) to USB converter, you can connect it to a computer. 
+
+1) Install Python3 and pip (the package manager) for your operating system: `sudo apt install python3 python3-pip`
+2) Use pip to install the `pyserial` library: `pip3 install pyserial` 
+3) Modify the `initial_test.py` script to use whichever port you have the HM-10 connected to (identified with `lsusb`)
+4) Execute the script with `python3 initial_test.py`
+
+You can also connect directly to the HM-10's port with `screen`, `minicom` or any other similar utility. 
+
+Using one of the BLE apps described in the report, you can then connect to the BLE device and observe sending data to the BLE device and receiving it on the serial port. 
