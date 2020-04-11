@@ -1,0 +1,24 @@
+<!-- 
+    PoC based on the Google Developers guide: https://developers.google.com/web/updates/2016/03/access-usb-devices-on-the-web
+-->
+
+<html>
+
+<head>
+    <title>Web USB</title>
+</head>
+
+<!-- <body>
+    <button id="button" onclick="makeBLE()" type="button">Make USB</button>
+</body> -->
+
+<script>
+    navigator.usb.getDevices().then(devices => {
+        devices.map(device => {
+            console.log(device.productName);      
+            console.log(device.manufacturerName);
+        });
+    })
+</script>
+
+</html>
