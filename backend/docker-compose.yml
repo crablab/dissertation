@@ -1,0 +1,31 @@
+# Based on:
+# https://medium.com/@chrischuck35/how-to-create-a-mysql-instance-with-docker-compose-1598f3cc1bee
+# https://docs.docker.com/compose/gettingstarted/
+# https://stackoverflow.com/a/41871658/3525352
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+  mysql:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: registration
+      # So you don't have to use root, but you can if you like
+      MYSQL_USER: registration
+      # You can use whatever password you like
+      MYSQL_PASSWORD: mgcMcYJ5jnrArYex
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: mgcMcYJ5jnrArYex
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - '3306:3306'
+    expose:
+      # Opens port 3306 on the container
+      - '3306'
+      # Where our data will be persisted
+    volumes:
+      - ../schema:/tmp/database
+    command: mysqld --init-file="/tmp/database/schema.sql"

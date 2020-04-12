@@ -37,21 +37,36 @@ def created_user(user_class, random_value):
 ### TESTS ### 
 
 def test_allocate_student_course(allocation_class, lecture_class, course, valid_datetime, created_user):
+    """
+    Test that we can allocate a student to a course.
+    """
     lecture_class.create_lecture(course, valid_datetime)
     assert allocation_class.allocate(created_user, course) != False
 
 def test_allocate_student_course_multiple(allocation_class, lecture_class, course, valid_datetime, created_user):
+    """
+    Test that a student can be allocated to multiple courses.
+    """
     lecture_class.create_lecture(course, valid_datetime)
     assert allocation_class.allocate(created_user, course) != False
     assert allocation_class.allocate(created_user, course) == False
 
 def test_allocate_student_missing_course(allocation_class, created_user, random_value):
+    """
+    Test that a student cannot be allocated to a random course.
+    """
     assert allocation_class.allocate(created_user, random_value) == False
 
 def test_allocate_student_missing_user(allocation_class, random_value, course):
+    """
+    Test that a random user cannot be allocated to a course.
+    """
     assert allocation_class.allocate(random_value, course) == False
 
 def test_load_allocation_manual_load(allocation_class, lecture_class, course, valid_datetime, created_user):
+    """
+    Test that attributes are set when loading an allocation into the class. 
+    """
     lecture = lecture_class.create_lecture(course, valid_datetime)
     id = allocation_class.allocate(created_user, course)
     allocation_class.load_allocation(id)
@@ -60,6 +75,9 @@ def test_load_allocation_manual_load(allocation_class, lecture_class, course, va
     assert allocation_class.user == created_user
 
 def test_load_allocation_autoload(allocation_class, lecture_class, course, valid_datetime, created_user):
+    """
+    Test that attributes are automatically set when loading an allocation into the class. 
+    """
     lecture = lecture_class.create_lecture(course, valid_datetime)
     id = allocation_class.allocate(created_user, course)
     assert allocation_class.id == id
@@ -67,11 +85,17 @@ def test_load_allocation_autoload(allocation_class, lecture_class, course, valid
     assert allocation_class.user == created_user
 
 def test_check_allocation(allocation_class, lecture_class, course, valid_datetime, created_user):
+    """
+    Check that a student is correctly reported as allocated to a course.
+    """
     lecture = lecture_class.create_lecture(course, valid_datetime)
     id = allocation_class.allocate(created_user, course)
     assert allocation_class.check_allocation(created_user, course) == True
 
 def test_check_allocation_false(allocation_class, lecture_class, course, valid_datetime, created_user, random_value):
+    """
+    Check that a random student is correctly reported as not allocated to a course.
+    """
     lecture = lecture_class.create_lecture(course, valid_datetime)
     id = allocation_class.allocate(created_user, course)
     assert allocation_class.check_allocation(random_value, course) == False

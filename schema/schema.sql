@@ -18,53 +18,6 @@ USE `registration`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `allocations`
---
-
-DROP TABLE IF EXISTS `allocations`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `allocations` (
-  `id` varchar(250) NOT NULL,
-  `course` varchar(250) NOT NULL,
-  `user` varchar(250) NOT NULL,
-  `allocated` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `fk_allocations_2_idx` (`user`),
-  KEY `fk_allocations_1_idx` (`course`),
-  CONSTRAINT `fk_allocations_1` FOREIGN KEY (`course`) REFERENCES `lectures` (`course`),
-  CONSTRAINT `fk_allocations_2` FOREIGN KEY (`user`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `attendance`
---
-
-DROP TABLE IF EXISTS `attendance`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `attendance` (
-  `id` varchar(250) NOT NULL,
-  `user` varchar(250) NOT NULL,
-  `class` varchar(250) NOT NULL,
-  `challenge` varchar(250) NOT NULL,
-  `fingerprint` varchar(250) NOT NULL,
-  `start` datetime DEFAULT CURRENT_TIMESTAMP,
-  `complete` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `fk_attendance_1_idx` (`user`),
-  KEY `fk_attendance_2_idx` (`class`),
-  KEY `fk_attendance_3_idx` (`challenge`),
-  CONSTRAINT `fk_attendance_1` FOREIGN KEY (`user`) REFERENCES `users` (`id`),
-  CONSTRAINT `fk_attendance_2` FOREIGN KEY (`class`) REFERENCES `lectures` (`id`),
-  CONSTRAINT `fk_attendance_3` FOREIGN KEY (`challenge`) REFERENCES `challenge` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `browsers`
 --
 
@@ -158,6 +111,54 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+--
+-- Table structure for table `allocations`
+--
+
+DROP TABLE IF EXISTS `allocations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `allocations` (
+  `id` varchar(250) NOT NULL,
+  `course` varchar(250) NOT NULL,
+  `user` varchar(250) NOT NULL,
+  `allocated` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `fk_allocations_2_idx` (`user`),
+  KEY `fk_allocations_1_idx` (`course`),
+  CONSTRAINT `fk_allocations_1` FOREIGN KEY (`course`) REFERENCES `lectures` (`course`),
+  CONSTRAINT `fk_allocations_2` FOREIGN KEY (`user`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `attendance`
+--
+
+DROP TABLE IF EXISTS `attendance`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `attendance` (
+  `id` varchar(250) NOT NULL,
+  `user` varchar(250) NOT NULL,
+  `class` varchar(250) NOT NULL,
+  `challenge` varchar(250) NOT NULL,
+  `fingerprint` varchar(250) NOT NULL,
+  `start` datetime DEFAULT CURRENT_TIMESTAMP,
+  `complete` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `fk_attendance_1_idx` (`user`),
+  KEY `fk_attendance_2_idx` (`class`),
+  KEY `fk_attendance_3_idx` (`challenge`),
+  CONSTRAINT `fk_attendance_1` FOREIGN KEY (`user`) REFERENCES `users` (`id`),
+  CONSTRAINT `fk_attendance_2` FOREIGN KEY (`class`) REFERENCES `lectures` (`id`),
+  CONSTRAINT `fk_attendance_3` FOREIGN KEY (`challenge`) REFERENCES `challenge` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

@@ -18,7 +18,7 @@ class db():
         self.__db = instance.db
     """
     def __init__(self):
-        self.db = pymysql.connect("localhost","registration","mgcMcYJ5jnrArYex?","registration", cursorclass=pymysql.cursors.DictCursor, charset='utf8', autocommit=True)
+        self.db = pymysql.connect("mysql","registration","mgcMcYJ5jnrArYex","registration", cursorclass=pymysql.cursors.DictCursor, charset='utf8', autocommit=True)
 
     def __del__(self):
         # Close connection on destruction

@@ -32,7 +32,10 @@ class upcoming_lectures(lectures.lectures):
     def get_next(self):
         upcoming = self.get_upcoming
 
-        return upcoming[0]
+        if len(upcoming) != 0:
+            return upcoming[0]
+        else: 
+            return False
 
     # Methods
 
