@@ -485,3 +485,190 @@ This section will produce useful learnings either way, but as with all penetrati
 - **Impact:**: Low
 
 The milestones above call for the functional design to be broadly complete by the end of the first term, based on the research and proof of concept programs already developed. It is envisioned that much of the code developed during that term will be reworked and make it's way into the final release. This creates the danger that when integrating the system and building the wireframes out as a frontend panels that the architecture may need to change as the result of either changed requirements or oversights in the design process. The only mitigation to this is to ensure the code is well designed and documented, such that it can be modified as required to adapt to changing requirements. The design process should also be robust and based on the research, but it is not reasonable to expect no changes to be made further down the line. 
+
+## Appendix 8: User Stories
+
+### Student 
+
+1) "As a student I want to register my attendance so I can prove I was at a lecture"
+2) "As a student I want to register my attendance without distraction from the lecture content"
+3) "As a student I want to be able to know my attendance has been counted"
+4) "As a student I want to be able to see my attendance history" 
+4) "As a student I want to register with the minimum of additional hassle"
+5) "As a student I don't want to have to remember extra items to register" 
+
+### Lecturer 
+
+1) "As a lecturer I want to not have to think about lecture registration"
+2) "As a lecturer I want to have the minimum of distractions and the minimum of fuss, in registration"
+3) "As a lecturer I don't want to be involved in the registration process" 
+
+### Administrator
+
+1) "As an administrator I want to have all the registration data in a machine readable format"
+2) "As an administrator I want to be able to easily identify students who have not reached minimum attendance levels"
+3) "As an administrator I want to easily identify cases of fraud or forgery" 
+4) "As an administrator I want to generate reports on attendance and export raw data" 
+
+## Appendix 9: Project Diary 
+
+### October 21, 2019
+
+Monday:
+
+- Have spent the day debugging issues with serial communication
+- Have written a small Python script to try sending data which isn’t working
+- Discovered that I’m not actually broadcasting the hardcoded messages I thought I was (or at least they aren’t valid). I’m trying to determine why this is…
+
+### October 28, 2019
+
+- Finished writing up report on clicker emulation for now
+- Additionally, gave up on getting the final pieces of clicker emulation to work for the moment: I will come back to it over a period of time once I’ve had a chance to consult the internet and Nuno some more, to work out what is going wrong!
+- Begun researching communication methods for my proposed solution and preemptively ordered a HM-10 Bluetooth 4 module for further investigation
+
+### November 4, 2019
+
+- Wrote some more about clicker communication
+- Got a Raspberry Pi working over Serial with Ethernet passthrough
+- Determined that it’s not possible to connect to a Pi over Serial and utilize UART on the GPIO. Although the Broadcom chip support this, it is not connected in a way that allows both these Serial connections at once unless you use the Compute Module (the professional version of the Pi)
+- Going to look into other options here as I want to avoid using an Arduino as I would like the networking capabilities of the Pi and the additional processing capacity. It also allows me to work with more standard cryptography libraries.
+
+### November 4, 2019	 
+
+- Switched from a Pi Zero to a Pi 2 and now connecting via SSH with ethernet passthrough
+- UART is now working, testing to try and get communications working with the HM-10
+
+### November 5, 2019
+
+- I have a serial connection open, but I am not receiving data back. The board does have UART flow control pins and although I have tried the hacks (hold the enable pin low), I am still not getting any data back. Enabling hardware flow control on the Pi is possible, but involved. I have been testing with minicom and all of the Google solutions are still not enabling it.
+
+### November 13, 2019
+
+Yesterday:
+
+- Worked on more issues with the UART. I think I have found a solution but it seems it requires setting a config parameter on the board itself, so I have had to purchase some additional equipment to do this.
+
+Today:
+
+- Researched and wrote a PoC for fingerprinting web browsers and devices
+- Researched PKI and RSA vs ECDSA algorithms. Wrote a quick Adaptor class with tests to play around with a library for this. To be extended.
+
+Current blocker is getting the Bluetooth working. Once that is done it should be fairly easy to send data end to end (he says…) 
+
+### November 14, 2019	  
+
+- CeDAS workshop on report writing with very useful context and helpful information about how to structure the report. Have begun laying out interim report.
+- Meeting with supervisor. Discussed progress and where to concentrate work from now on. Discussed how reports are not final and feedback is really useful on work that isn’t quite complete. Structure of interim report clarified.
+- Started writing up investigations into browser fingerprinting. I shall probably provide an extra POC program here for illustrative purposes.
+
+### November 18, 2019
+
+- Discovered an article that suggested this might well be a logic level issue on the RX pin (3.3v vs 5v) and that there are two different baud rates depending on software.
+- Took notes on BLE specification stuff for a report on communication options
+- Discussed project in general with Dave – the various reports and the structure the project should take, plus the specific Bluetooth issues. Dave has suggested that as per another article there could be an issue with AT commands missing a line feed/carriage return, causing the null byte issue I’m seeing
+
+### November 20, 2019
+
+Yesterday:
+
+- Chatted with supervisor about clicker report. Feedback about general tone and structure of report.
+- Discussed general project outline and progress to date
+- Feedback on current report proposals. Agreed to add an additional report on general project ideas and outline, as without it the context of the project is somewhat confusing for an outsider.
+- Communication report to be written, cryptography report to be delayed in light on the additional outline report and browser fingerprinting work.
+
+Today:
+
+- Implemented changes suggested in clicker report ^[https://github.com/RHUL-CS-Projects/FullUnit_1920_HughWells/pull/5]
+- Working on outline report
+
+### November 28, 2019
+
+Earlier this week:
+
+- Finished writing up the Outline report covering the basic system design and user stories
+- Meeting with Supervisor to discuss this report, feedback and changes
+- Significant research and compilation of notes on BLE specifications
+
+Yesterday:
+
+- Progress on Communications report theory. MIFARE attack covered and Bluetooth section complete up to part way through security features
+
+Today:
+
+- Finally managed to get HM-10 devices working properly. This has been delayed by waiting for hardware to arrive in dribs and drabs. An HM-10 from a different supplier and manufacturer arrived and, with no changed settings, has “magically” started working.
+- I can now send data from a phone, through the HM-10 to a serial console and back again. My script to test AT commands works and various notifications are logged to the serial port when device changes take place (eg. disconnection). This is huge progress and I shall now be able to write a driver for the HM-10.
+- Started work on a Web Bluetooth implementation. Have discovered that browser support is *shocking*. I currently am running experimental versions of Chromium (with flags enabled) and bluez (flags enabled) and am still encountering errors. I shall need to look further into this but it may prove unfortunatly rather fatal if I cannot find some combination of hardware that has reasonable support. Will discuss with supervisor.
+
+### January 20, 2020
+
+Last week:
+
+- Wrote design report covering the proposed system design including system UML and software architecture decisions
+- Started implementing webservice codebase
+
+### January 25, 2020
+
+- Started using GitHub Kaban board ^[https://github.com/RHUL-CS-Projects/FullUnit_1920_HughWells/projects/1]
+- Setup database server (locally) and ORM
+- Added design patterns to the design
+- Started the final report
+
+### February 3, 2020
+
+Last week:
+
+- Wrote the professional issues section of the report
+- Designed database schema with constraints and dependencies
+
+### February 4, 2020
+
+Today:
+
+- Making my Flask application more scalable and better structured – Started using basic Blueprints and restructured the application – Read/learnt about building basic applications in this format with SQLAlchemy and various Flask packages to help abstract functionality – Looked at unit and functional testing – Looked into scaling issues and fan-out – how do you handle databases at scale?
+
+TODO:
+
+- Implement full Flask factory
+- Add the new ORM structure and a full class with unit tests (probably a user login page)
+
+### February 9, 2020
+
+- Transferred to using Blueprints and got it working!
+- Using Jinja, Boostrap and What the Form have made login and signup page templates, and started on other application modules
+
+### February 17, 2020 
+
+Added some more pages and tried to get unit testing working. Refactored the application again to make it more scaleable and get unit testing working with the database. Focus is now going to be on getting some working code, with more basic unit testing. 
+
+### February 18, 2020
+
+Got the login and signup pages working. This require implementing all the logic and debugging some painful issues with flask_login. 
+
+### March 3, 2020
+
+Last week:
+
+- Implemented users model with associated testing
+
+This week so far:
+
+- Implemented lectures and allocations to lectures
+- Administrators page
+- Hookins to allow allocations from the UI
+- Fixed some bugs/issues
+
+### March 10, 2020
+
+Today:
+
+- More report writing, including the manual
+- Tried to Dockerise Arduino build environments – very fragile and didn’t work
+- Looking further into WebUSB, Arduino Micro ordered
+
+### March 18, 2020
+
+Worked on adding more functionality for administrators and students. Merged today the functionality to allow administrators to add courses and lectures, plus students to view upcoming lectures and their next lecture.
+
+### April 12, 2020
+
+Finished writing up the project. Merged changes with Web USB experiments and the Dockerised Flask application 
