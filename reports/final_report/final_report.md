@@ -890,7 +890,7 @@ Other risks, such as with the clicker analysis and functional design have manife
 
 ## Conclusion 
 
-The project has achieved it's broad goals. Work has been done to show the clickers are vulnrable to simple attacks, and a system using modern technologies has been designed and partially implemented. Ethical issues surrounding browser fingerprinting and privacy in general have been explored, as has the depths of the Web Bluetooth specification. Significant time has been spent develping the software deliverable - a Flask application - and whilst it did not meet the envisioned goals, it did go a way to demonstrate the holistic concept of the system.  
+The project has achieved it's broad goals. Work has been done to show the clickers are vulnrable to simple attacks, and a system using modern technologies has been designed and partially implemented. Ethical issues surrounding browser fingerprinting and privacy in general have been explored, as has the depths of the Web Bluetooth specification. Research into the various proof of concenpt systems has been successful and lays the groundwork for further developments in this area. A significant amount of time has been spent develping the software deliverable - a Flask application - and whilst it did not meet the envisioned goals, it did go a way to demonstrate the holistic concept of the system.  
 
 ## Self-evaluation 
 
