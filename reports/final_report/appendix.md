@@ -1,4 +1,4 @@
-## Appendix 0
+## Appendix 0: Python script for base station emulation
 
 ```python
 #!/usr/bin/env python3
@@ -110,14 +110,16 @@ if __name__ == "__main__":
                     decoded.append(line_decoded)
 ```
 
-## Appendix 1
+## Appendix 1: HTML for Browser Fingerprinting test
 
 ```html
 <html>
 
 <head>
     <title>Device Fingerprinting</title>
+    <!-- Source: https://github.com/Valve/fingerprintjs2-->
     <script type="text/javascript" src="fingerprint2.js"></script>
+    <!-- Source: https://github.com/jackspirou/clientjs-->
     <script src="client.min.js"></script>
 </head>
 
@@ -129,7 +131,7 @@ if __name__ == "__main__":
 </html>
 ```
 
-## Appendix 2
+## Appendix 2: JavaScript for Browser Fingerprinting test
 
 ```javascript
 setTimeout(function() {
