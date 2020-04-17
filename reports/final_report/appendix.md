@@ -513,6 +513,20 @@ The milestones above call for the functional design to be broadly complete by th
 ## Appendix 9: Test framework output
 
 ```
+================================================= test session starts =================================================
+platform linux -- Python 3.7.5, pytest-5.1.1, py-1.8.0, pluggy-0.12.0
+rootdir: /home/crablab/Documents/RHUL/year_3/FullUnit_1920_HughWells/backend
+plugins: cov-2.8.1, flask-0.15.1
+collected 36 items                                                                                                    
+
+app/tests/allocation_test.py ........                                                                           [ 22%]
+app/tests/allocations_test.py ..                                                                                [ 27%]
+app/tests/lecture_test.py ......                                                                                [ 44%]
+app/tests/lectures_test.py ...                                                                                  [ 52%]
+app/tests/user_test.py ...............                                                                          [ 94%]
+app/tests/users_test.py ..                                                                                      [100%]
+
+================================================= 36 passed in 2.01s ==================================================
 ```
 
 ## Appendix 10: Project Diary 
