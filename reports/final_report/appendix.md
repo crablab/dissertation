@@ -510,7 +510,12 @@ The milestones above call for the functional design to be broadly complete by th
 3) "As an administrator I want to easily identify cases of fraud or forgery" 
 4) "As an administrator I want to generate reports on attendance and export raw data" 
 
-## Appendix 9: Project Diary 
+## Appendix 9: Test framework output
+
+```
+```
+
+## Appendix 10: Project Diary 
 
 ### October 21, 2019
 
