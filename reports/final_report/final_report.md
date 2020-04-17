@@ -775,6 +775,10 @@ Creating users is a relativly simple affair with the form being marshalled into 
 
 Work continued using WTF and additional classes to add functionality to add students to a course and to add lectures to a course. This was supplemented with visual changes for an administrator and a student to display these new relations. 
 
+### Unit vs Integration Tests
+
+Originally I intended to write full unit tests for the project. As mentioned in the "ORM and Testing" section above, originally the aim was to use the inbuilt Flask testing mechanisms but it was not possible to get this fully working. Instead, as mentioned, I decided to use `pytest` itself and write tests for the individual classess. Because these interacted with the database they tended to be more abstract, testing more functionality and doing so against a live database. I have subsequently realised I have written integration tests, as opposed to unit tests. In order to unit test the classes I would need to mock the database connection which was beyond the scope by this point. 
+
 ### Delivery
 
 The delivered software was not envisioned. Several major items produced in the proof of concept were never implemented, as they weren't needed and couldn't be used without the main component: the Web Bluetooth API. More detailed conclusions are drawn from this in the reflective areas of the report. 
@@ -878,6 +882,8 @@ The Web Bluetooth API is another demonstration of the same. Although the documen
 
 Other issues stemmed from bad documentation. `flask_login` for example misrepresented a property which if not permanently set to `True` results in no user being able to log in. This seems to actually be a bug in the implementation, but as it is a breaking change, I have proposed a modification to the documentation [@crablab_change_2020]. I also experienced issues in using new technology with Flask. Whilst I wanted to make my Flask projects more scalable and use proper design patterns with Flask Blueprints, I did have issues introducing a hollistic set of unit tests including the ORM and database connection. The lesson learned here is to avoid using too much new and unfamilier technology - Flask Blueprints were already a steep learning curve and by trying to use a new style of unit testing and a new ORM with dynamic configuration in addition, the risk of nothing working at the end dramatically increases. 
 
+Another problem related to the `pytest` integration tests. These were originally intended to be unit tests but they gradually morphed into integration tests run against the live database. As mentioned, in order to write full unit tests the connection to the database should have been mocked. Learning how to do proper Python unit testing with the Flask webserver and a database connection is something I would look into further before starting the project, as it would have made the code easier to verify and more robust. Having automated testing has been useful and this serves to reinforce the crucial nature of complete test environments.  
+
 When comparing these issues to the original risk assessment (Appendix 7), the risks identified did all come into play, to various degrees. Of course the risk that ocurred with the largest impact relates to the Bluetooth device comunication, which ultimately has not worked reliably. Alternatives, such as Web NFC were investigated and discarded, whereas Web USB was investigated and trialed but further technical issues and time constraints in investigating these meant it was not ultimately implemented.  
 
 Other risks, such as with the clicker analysis and functional design have manifested, but not to the same degree as the impact of the issues with the web APIs. Having all the assessed risks in mind has helped in planning the rest of the project, helping to avoid disproportionate amounts of time being given over to small areas of the project. This has meant no large blockages in work built up, but has had a material impact on deliverables to date. 
@@ -909,7 +915,7 @@ It is impossible to ingore the elephants in the room: strikes and COVID-19. Thes
 
 # Software Deliverables 
 
-Several deliverables are provided. Basic installation instructions can be found in the User Manual in the final Appendicy. 
+Several deliverables are provided. Basic installation instructions can be found in the User Manual in Appendix 11. Outputs from tests are found in Appendix 9.  
 
 ## Docker
 
