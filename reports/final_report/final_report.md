@@ -421,9 +421,10 @@ Based on a development guide from Google (written by a member of the Web Bluetoo
 The Web Bluetooth API requires user interaction on the page before scanning can even take place, and in any event the user needs to explicitly provide consent to pair with a device via a prompt. In the solution, an `onClick` event from a button is used to call the function. Once called, the function scans devices and looks for an explicit unique identifier for the specific HM-10 in use (transcribed from the BLE Scanner app): `0x484D536F6674`. It is possible to apply filters based on GATT characteristics, however, for simplicity this is avoided. The name of the device should then be logged, and the pairing sequence initiated (requiring user confirmation). 
 
 ![Web Bluetooth API issues with Linux Bluetooth drivers](assets/figure14.png)
+
 ![Web Bluetooth Chrome Debugging tools showing the driver/adaptor issue](assets/figure15.png)
 
-Web Bluetooth is so experimental that it requires enabling a Chromium feature flag [@noauthor_web_nodate] and on Linux, enabling an experimental flag for Bluez [@acassis_how_2016]. 
+Web Bluetooth is so experimental that it requires enabling a Chromium feature flag [@noauthor_web_nodate] and on Linux, enabling an experimental flag for Bluez [@acassis_how_2016]. As can be seen in Figure 14 and Figure 15, despite using a compatible Bluetooth adaptor recognised by Bluez, it was not possible get the Web Bluetooth API working on the hardware available to me. 
 
 As an alternative for the proof of concept, I looked into the Web NFC library. This allows you to read/write to NDEF tags from the Chrome browser. Low level protocols are not exposed so to "exchange" data in a challenge reponse a workaround would be required. For example, writing to the "tag" and then reading it straight after with the microcontroller responding with a signed version of the previously written data instead. The Web NFC library is however similarly unstable to the Web Bluetooth library and is not widely implemented beyond some limited alpha testing which was announced in March [@francois_beaufort_interact_2020].
 
@@ -446,14 +447,13 @@ $ cat /etc/group | grep "plugdev"
 plugdev:x:46:crablab
 ```
 
-This allowed the Web USB device (the Arduino Micro) to be recognised by the browser, however when trying to "connect" Chrome threw a security exception. Despite a lot of troubleshooting, modification of the `udev` rule and searching, I was unable to get this to work. 
+This allowed the Web USB device (the Arduino Micro) to be recognised by the browser (Figure 16), however when trying to "connect" Chrome threw a security exception (Figure 17). Despite a lot of troubleshooting, modification of the `udev` rule and searching, I was unable to get this to work. 
 
 ![Web USB detecting and prompting connection to the Arduino Micro](assets/figure16.png)
+
 ![The Chrome exception when connecting to the Arduino Micro Web USB device](assets/figure17.png)
 
 It transpires that it is still reasonably difficult to connect to physical, external devices through a web browser. In the age of the Internet of Things this is perhaps surprising, but it is clear that further research into the wide range of APIs available (and how usuable they are in practice) is needed. For this project it is a real shame that it has not been possible to find a working solution in the time available, and this is explored further in the Self Evaluation sections. 
-
-\pagebreak 
 
 ## Conclusion 
 
@@ -883,9 +883,9 @@ I did, however, build a very basic MVP in Flask using a number of new technologi
 
 ## Issues encountered
 
-Some of the earliest issues with the project have focused around the hardware. Working with hardware is always more challenging than with software - it introduces a level of complexity not limited to operating system drivers and hard to debug code running on microcontrollers. Some of the earliest issues I experienced were with the HM-10 devices and the correct pinout for the device - it is not just "plug and play". I later struggled with bugs in encoding in the interface between two languages and three devices. Ultimately, I did not succeed in getting this to work but I did learn a considerable amount about hexadecimal encoding in C++ and historical encoding problems in terminals and shells. 
+Some of the earliest issues with the project have focused around the hardware. Working with hardware is always more challenging than with software - it introduces a level of complexity not limited to operating system drivers and hard to debug code running on microcontrollers. Some of the earliest issues I experienced were with the nRF24E1 devices and the correct pinout for the device - it is not just "plug and play". I later struggled with bugs in encoding in the interface between two languages and three devices. Ultimately, I did not succeed in getting this to work but I did learn a considerable amount about hexadecimal encoding in C++ and historical encoding problems in terminals and shells. 
 
-Again, hardware issues were encountered with the Bluetooth Light devices which appeared not to follow the specification properly. Documentation was very limited and hampered troubleshooting for a number of weeks. It later transpired that the devices themselves did not follow the specification properly and by purchasing a new device from an alternative source, I very quickly got results. Orthagonally, I think this goes against much of the ingrained self-doubt around the quality of ones code and it is important to switch out all variables when debugging, instead of making the assumption that a commercially available black box is functioning as expected. 
+Again, hardware issues were encountered with the HM-10 devices which appeared not to follow the specification properly. Documentation was very limited and hampered troubleshooting for a number of weeks. It later transpired that the devices themselves did not follow the specification properly and by purchasing a new device from an alternative source, I very quickly got results. Orthagonally, I think this goes against much of the ingrained self-doubt around the quality of ones code and it is important to switch out all variables when debugging, instead of making the assumption that a commercially available black box is functioning as expected. 
 
 The Web Bluetooth API is another demonstration of the same. Although the documentation is well written and sets out a number of exciting features, it suffers from a lack of W3C support and only having three maintainers. As such, it only works in development mode in Google Chrome and not with any drivers I have tried. Although some of the contraints were known beforehand, the full extent of the limitation was not clear until actually tested. I believe with another few months working full time on the project, it would be possible to patch the library to a state where it is more usuable - this is an interesting future extension of the project as the wide applicability of the Web Bluetooth API is a compelling reason for future work on it. 
 
