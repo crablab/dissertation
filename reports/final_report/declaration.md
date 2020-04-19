@@ -5,19 +5,21 @@
 
         \vspace{3em}
 
-        Word Count: 
+        Word Count: 18,000 words
 
         \vspace{3em}
 
-        Student Name: Wells, Hugh
+        Student Name: Hugh Wells
 
         \vspace{3em}
 
-        Date of Submission: 13rd April 2020
+        Date of Submission: 23rd April 2020
 
         \vspace{3em}
 
-        Signature:
+        Signature: 
+        
+        \includegraphics[width=50mm]{assets/signature.png}
 
         \vfill
 
