@@ -1,6 +1,6 @@
 # Final Year Project - Hugh Wells
 
-This repository contains my Final Year Project, submitted as part of my  BSc Computer Science degree dissetation  at Royal Holloyway. 
+This repository contains my Final Year Project, submitted as part of my BSc Computer Science degree dissertation at Royal Holloway. 
 
 ## Licence
 
