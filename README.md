@@ -1,5 +1,15 @@
 # Final Year Project - Hugh Wells
 
+This repository contains my Final Year Project, submitted as part of my  BSc Computer Science degree dissetation  at Royal Holloyway. 
+
+## Licence
+
+All Rights Reserved. 
+
+The project is made publicly available, but no part may be reproduced, copied or otherwise re-used without express licence from the licensor. 
+
+## Project Structure 
+
 - backend: contains code for the Software Deliverable, see user manual in report appendix for running instructions
 - documents: final and interim reports 
 - proof_of_concept_programs: smaller demonstration programs; running instructions in relevant report sections and individual directories
